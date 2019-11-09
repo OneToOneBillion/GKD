@@ -2,6 +2,7 @@ package cn.edu.tongji.sse.twitch.gkd.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -85,6 +86,8 @@ public class UserLoginActivity extends AppCompatActivity implements IUserLoginVi
     @Override
     public void toMainActivity(){
         Toast.makeText(this,"Login success, to MainActivity",Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(UserLoginActivity.this, RunningActivity.class);
+        startActivity(intent);
     }
 
     @Override

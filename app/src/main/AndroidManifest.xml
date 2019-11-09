@@ -16,6 +16,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".view.PersonalActivity"></activity>
+        <activity android:name=".view.RunningActivity"></activity>
+        <activity android:name=".view.SocialActivity"></activity>
+        <activity android:name=".view.SettingActivity"></activity>
+        <activity android:name=".view.PostActivity"></activity>
     </application>
+
+    <uses-permission android:name="android.permission.VIBRATE" />
 
 </manifest>
