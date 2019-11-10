@@ -11,4 +11,6 @@ public interface IUserLoginView {
     void showFailedError();
     //记住账号
     void saveAccount();
+    //读取记住账号的内容
+    void readAccount();
 }

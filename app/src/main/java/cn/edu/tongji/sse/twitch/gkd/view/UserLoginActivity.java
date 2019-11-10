@@ -37,8 +37,8 @@ public class UserLoginActivity extends AppCompatActivity implements IUserLoginVi
     }
 
     private void initViews(){
-        sp=getSharedPreferences("userInfo", Context.MODE_WORLD_READABLE);
-
+        //userInfo存储记住账号的用户名和密码信息，只有本应用有读写的权限
+        sp=getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         mIUserLoginPresenter = new UserLoginPresenterImpl(this);
 
         mEdtUsername = findViewById(R.id.input_account);
@@ -111,8 +111,16 @@ public class UserLoginActivity extends AppCompatActivity implements IUserLoginVi
     @Override
     public void saveAccount(){
         Editor editor=sp.edit();
-        editor.putString("username", username);
-        editor.putString("password", password);
-        editor.commit();
+        username=getUserName();
+        password=getPassword();
+        editor.putString(username, username);
+        editor.putString(password, password);
+        editor.apply();
+    }
+
+    @Override
+    public void readAccount(){
+        username=sp.getString("username","");
+        password=sp.getString("password","");
     }
 }
