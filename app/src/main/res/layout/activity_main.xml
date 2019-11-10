@@ -31,6 +31,28 @@
         android:inputType="textEmailAddress"
         android:hint="Account"/>
     </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+
+        <!--记住密码勾选框-->
+        <CheckBox
+            android:id="@+id/rememberPasswordsBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remember Passwords" />
+
+        <!--自动登陆勾选框-->
+        <CheckBox
+            android:id="@+id/automaticLoginBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Automatic Login" />
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -62,6 +84,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="invisible"/>
+
 
 
 </LinearLayout>
