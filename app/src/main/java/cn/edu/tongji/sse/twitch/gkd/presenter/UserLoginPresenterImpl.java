@@ -53,4 +53,9 @@ public class UserLoginPresenterImpl implements IUserLoginPresenter, IUserModel.O
         mIUserLoginView.clearPassword();
     }
 
+    @Override
+    public void saveAccount(){
+
+    }
+
 }

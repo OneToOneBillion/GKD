@@ -7,5 +7,7 @@ public interface IUserModel {
     public interface OnLoginListener{
         void loginSuccess();
         void loginFailed();
+        //记住账号
+        void saveAccount();
     }
 }

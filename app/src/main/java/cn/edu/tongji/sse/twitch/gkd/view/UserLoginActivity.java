@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -21,8 +22,9 @@ public class UserLoginActivity extends AppCompatActivity implements IUserLoginVi
 
     private EditText mEdtUsername, mEdtPwd;
     private Button mBtnLogin, mBtnClear;
-    private CheckBox mCBRememberPasswords, mCBAutomaticLogin;
+    private CheckBox mCbRememberPasswords, mCbAutomaticLogin;
     private ProgressBar mPbLoading;
+    private String username,password;
     SharedPreferences sp;
 
     private IUserLoginPresenter mIUserLoginPresenter;
@@ -41,8 +43,8 @@ public class UserLoginActivity extends AppCompatActivity implements IUserLoginVi
 
         mEdtUsername = findViewById(R.id.input_account);
         mEdtPwd = findViewById(R.id.input_password);
-        mCBRememberPasswords = findViewById(R.id.rememberPasswordsBox);
-        mCBAutomaticLogin = findViewById(R.id.automaticLoginBox);
+        mCbRememberPasswords = findViewById(R.id.rememberPasswordsBox);
+        mCbAutomaticLogin = findViewById(R.id.automaticLoginBox);
         mBtnClear = findViewById(R.id.btn_clear);
         mBtnLogin = findViewById(R.id.btn_login);
         mPbLoading = findViewById(R.id.pb_loading);
@@ -50,7 +52,9 @@ public class UserLoginActivity extends AppCompatActivity implements IUserLoginVi
         mBtnLogin.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+
                 mIUserLoginPresenter.doLogin();
+
             }
         });
 
@@ -104,4 +108,11 @@ public class UserLoginActivity extends AppCompatActivity implements IUserLoginVi
         Toast.makeText(this,"Login failed", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void saveAccount(){
+        Editor editor=sp.edit();
+        editor.putString("username", username);
+        editor.putString("password", password);
+        editor.commit();
+    }
 }

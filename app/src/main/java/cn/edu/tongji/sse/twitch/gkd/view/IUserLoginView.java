@@ -9,4 +9,6 @@ public interface IUserLoginView {
     void hideLoading();
     void toMainActivity();
     void showFailedError();
+    //记住账号
+    void saveAccount();
 }
