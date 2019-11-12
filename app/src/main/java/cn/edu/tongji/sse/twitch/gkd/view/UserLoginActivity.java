@@ -25,6 +25,7 @@ public class UserLoginActivity extends AppCompatActivity implements IUserLoginVi
     private CheckBox mCbRememberPasswords, mCbAutomaticLogin;
     private ProgressBar mPbLoading;
     private String username,password;
+
     SharedPreferences sp;
 
     private IUserLoginPresenter mIUserLoginPresenter;
@@ -54,6 +55,10 @@ public class UserLoginActivity extends AppCompatActivity implements IUserLoginVi
             public void onClick(View v){
 
                 mIUserLoginPresenter.doLogin();
+                //如果记住账号勾选框被勾选，则将账号信息保存到本地
+                if (mCbRememberPasswords.isChecked()){
+
+                }
 
             }
         });
