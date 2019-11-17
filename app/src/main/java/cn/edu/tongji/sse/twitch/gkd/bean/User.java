@@ -1,6 +1,8 @@
 package cn.edu.tongji.sse.twitch.gkd.bean;
 
-public class User {
+import cn.bmob.v3.BmobObject;
+
+public class User extends BmobObject {
     private String username;
     private String password;
 

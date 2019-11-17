@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import cn.edu.tongji.sse.twitch.gkd.R;
 import cn.edu.tongji.sse.twitch.gkd.presenter.SettingPresenter.ISystemSettingPresenter;
-import cn.edu.tongji.sse.twitch.gkd.view.PersonalActivity;
+import cn.edu.tongji.sse.twitch.gkd.view.PersonalView.PersonalActivity;
 
 public class SystemSettingActivity<T extends ISystemSettingPresenter> extends AppCompatActivity implements ISystemSettingView {
 

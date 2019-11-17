@@ -1,9 +1,10 @@
-package cn.edu.tongji.sse.twitch.gkd.presenter;
+package cn.edu.tongji.sse.twitch.gkd.presenter.UserLoginPresenter;
 
 import android.os.Handler;
 
 import cn.edu.tongji.sse.twitch.gkd.model.UserModel.IUserModel;
 import cn.edu.tongji.sse.twitch.gkd.model.UserModel.UserModelImpl;
+import cn.edu.tongji.sse.twitch.gkd.presenter.UserLoginPresenter.IUserLoginPresenter;
 import cn.edu.tongji.sse.twitch.gkd.view.UserLoginView.IUserLoginView;
 
 public class UserLoginPresenterImpl implements IUserLoginPresenter, IUserModel.OnLoginListener {

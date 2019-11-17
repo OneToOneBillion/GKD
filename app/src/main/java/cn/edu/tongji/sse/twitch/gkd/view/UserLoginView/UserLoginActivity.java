@@ -14,15 +14,17 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import cn.bmob.v3.Bmob;
 import cn.edu.tongji.sse.twitch.gkd.R;
-import cn.edu.tongji.sse.twitch.gkd.presenter.IUserLoginPresenter;
-import cn.edu.tongji.sse.twitch.gkd.presenter.UserLoginPresenterImpl;
-import cn.edu.tongji.sse.twitch.gkd.view.RunningActivity;
+import cn.edu.tongji.sse.twitch.gkd.presenter.UserLoginPresenter.IUserLoginPresenter;
+import cn.edu.tongji.sse.twitch.gkd.presenter.UserLoginPresenter.UserLoginPresenterImpl;
+import cn.edu.tongji.sse.twitch.gkd.view.RunningView.RunningActivity;
+import cn.edu.tongji.sse.twitch.gkd.view.SignUpView.SignUpActivity;
 
 public class UserLoginActivity extends AppCompatActivity implements IUserLoginView {
 
     private EditText mEdtUsername, mEdtPwd;
-    private Button mBtnLogin, mBtnClear;
+    private Button mBtnLogin, mBtnClear,mBtnSignUp;
     private CheckBox mCbRememberPasswords, mCbAutomaticLogin;
     private ProgressBar mPbLoading;
     private String mUsername, mPassword;
@@ -37,6 +39,7 @@ public class UserLoginActivity extends AppCompatActivity implements IUserLoginVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
+        Bmob.initialize(this, "e64de29218093006207f425439317230");
     }
 
     private void initViews(){
@@ -53,6 +56,7 @@ public class UserLoginActivity extends AppCompatActivity implements IUserLoginVi
         mCbAutomaticLogin = findViewById(R.id.automaticLoginBox);
         mBtnClear = findViewById(R.id.btn_clear);
         mBtnLogin = findViewById(R.id.btn_login);
+        mBtnSignUp=findViewById(R.id.btn_signup);
         mPbLoading = findViewById(R.id.pb_loading);
 
         //设置两个勾选框初态
@@ -94,6 +98,14 @@ public class UserLoginActivity extends AppCompatActivity implements IUserLoginVi
             @Override
             public void onClick(View v) {
                 mIUserLoginPresenter.clear();
+            }
+        });
+
+        mBtnSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserLoginActivity.this, SignUpActivity.class);
+                startActivity(intent);
             }
         });
     }

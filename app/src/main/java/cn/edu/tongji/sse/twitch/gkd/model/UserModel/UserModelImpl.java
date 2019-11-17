@@ -1,10 +1,21 @@
 package cn.edu.tongji.sse.twitch.gkd.model.UserModel;
 
+import android.widget.Toast;
+
+import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.edu.tongji.sse.twitch.gkd.bean.User;
-import cn.edu.tongji.sse.twitch.gkd.presenter.IUserLoginPresenter;
+import cn.edu.tongji.sse.twitch.gkd.presenter.UserLoginPresenter.IUserLoginPresenter;
+import cn.edu.tongji.sse.twitch.gkd.view.UserLoginView.IUserLoginView;
+
+import static cn.bmob.v3.Bmob.getApplicationContext;
 
 public class UserModelImpl implements IUserModel {
     private IUserLoginPresenter mIUserLoginPresenter;
+    private IUserLoginView mIUserLoginView;
 
     public UserModelImpl(IUserLoginPresenter IUserLoginPresenter){
         mIUserLoginPresenter = IUserLoginPresenter;
@@ -20,14 +31,29 @@ public class UserModelImpl implements IUserModel {
                 }catch (InterruptedException e){
                     e.printStackTrace();
                 }
-                if("twitch".equals(username)&&"123..".equals(password)){
-                    User user=new User();
-                    user.setUsername(username);
-                    user.setPassword(password);
-                    listener.loginSuccess();
-                }else{
-                    listener.loginFailed();
-                }
+                BmobQuery<User> query =new BmobQuery<>();
+                query.addWhereEqualTo("username",username);
+                query.addWhereEqualTo("password",password);
+                query.findObjects(new FindListener<User>() {
+                    @Override
+                    public void done(List<User> list, BmobException e) {
+                        if(e==null){
+                            Toast.makeText(getApplicationContext(),"查询成功："+list.size(),Toast.LENGTH_SHORT).show();
+                            User user=new User();
+                            user.setUsername(username);
+                            user.setPassword(password);
+                            if(list.size()>0){
+                                listener.loginSuccess();
+                            }
+                            else {
+                                listener.loginFailed();
+                            }
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(),"查询失败："+e.getMessage(),Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         }.start();
     }

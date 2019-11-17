@@ -1,4 +1,4 @@
-package cn.edu.tongji.sse.twitch.gkd.view;
+package cn.edu.tongji.sse.twitch.gkd.view.RunningView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,13 +9,14 @@ import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.ToggleButton;
 import android.widget.Toast;
-import android.app.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import cn.edu.tongji.sse.twitch.gkd.R;
+import cn.edu.tongji.sse.twitch.gkd.view.PersonalView.PersonalActivity;
+import cn.edu.tongji.sse.twitch.gkd.view.SocialView.SocialActivity;
 
-public class RunningActivity extends AppCompatActivity {
+public class RunningActivity extends AppCompatActivity implements IRunningView{
     private ImageButton personal,running,create_post;
     private Chronometer chronometer;
     private ToggleButton run_stop;

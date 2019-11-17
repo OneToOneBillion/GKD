@@ -1,59 +1,58 @@
-package cn.edu.tongji.sse.twitch.gkd.view;
+package cn.edu.tongji.sse.twitch.gkd.view.PersonalView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.content.Intent;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import cn.edu.tongji.sse.twitch.gkd.R;
+import cn.edu.tongji.sse.twitch.gkd.view.RunningView.RunningActivity;
+import cn.edu.tongji.sse.twitch.gkd.view.SettingView.SystemSettingActivity;
+import cn.edu.tongji.sse.twitch.gkd.view.SocialView.SocialActivity;
 
-public class SocialActivity extends AppCompatActivity {
-    private ImageButton personal,running,create_post,new_post;
+public class PersonalActivity extends AppCompatActivity implements IPersonalView{
+    private ImageButton personal,running,create_post,setting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.social_ui);
+        setContentView(R.layout.personal_ui);
 
         personal=findViewById(R.id.personnal);
         running=findViewById(R.id.running);
         create_post=findViewById(R.id.create_post);
-        new_post=findViewById(R.id.new_post);
+        setting=findViewById(R.id.setting);
 
-        //跳转到个人界面
         personal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SocialActivity.this, PersonalActivity.class);
+                Intent intent = new Intent(PersonalActivity.this, PersonalActivity.class);
                 startActivity(intent);
             }
         });
 
-        //跳转到运动界面
         running.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SocialActivity.this, RunningActivity.class);
+                Intent intent = new Intent(PersonalActivity.this, RunningActivity.class);
                 startActivity(intent);
             }
         });
 
-        //跳转到动态界面
         create_post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SocialActivity.this, SocialActivity.class);
+                Intent intent = new Intent(PersonalActivity.this, SocialActivity.class);
                 startActivity(intent);
             }
         });
 
-        //发布新动态
-        new_post.setOnClickListener(new View.OnClickListener() {
+        setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SocialActivity.this, PostActivity.class);
+                Intent intent = new Intent(PersonalActivity.this, SystemSettingActivity.class);
                 startActivity(intent);
             }
         });
