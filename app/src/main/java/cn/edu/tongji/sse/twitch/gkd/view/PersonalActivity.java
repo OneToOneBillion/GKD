@@ -2,13 +2,13 @@ package cn.edu.tongji.sse.twitch.gkd.view;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.content.Intent;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import cn.edu.tongji.sse.twitch.gkd.R;
+import cn.edu.tongji.sse.twitch.gkd.view.SettingView.SystemSettingActivity;
 
 public class PersonalActivity extends AppCompatActivity {
     private ImageButton personal,running,create_post,setting;
@@ -50,7 +50,7 @@ public class PersonalActivity extends AppCompatActivity {
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PersonalActivity.this, SettingActivity.class);
+                Intent intent = new Intent(PersonalActivity.this, SystemSettingActivity.class);
                 startActivity(intent);
             }
         });

@@ -1,4 +1,4 @@
-package cn.edu.tongji.sse.twitch.gkd.model;
+package cn.edu.tongji.sse.twitch.gkd.model.UserModel;
 
 public interface IUserModel {
     void login(String username,String password,OnLoginListener listener);
@@ -7,7 +7,5 @@ public interface IUserModel {
     public interface OnLoginListener{
         void loginSuccess();
         void loginFailed();
-        //记住账号
-        void saveAccount();
     }
 }

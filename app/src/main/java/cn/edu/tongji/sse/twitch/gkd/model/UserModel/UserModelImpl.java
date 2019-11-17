@@ -1,4 +1,4 @@
-package cn.edu.tongji.sse.twitch.gkd.model;
+package cn.edu.tongji.sse.twitch.gkd.model.UserModel;
 
 import cn.edu.tongji.sse.twitch.gkd.bean.User;
 import cn.edu.tongji.sse.twitch.gkd.presenter.IUserLoginPresenter;

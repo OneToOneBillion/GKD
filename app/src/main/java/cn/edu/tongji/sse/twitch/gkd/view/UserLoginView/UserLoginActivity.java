@@ -1,6 +1,4 @@
-package cn.edu.tongji.sse.twitch.gkd.view;
-
-import androidx.appcompat.app.AppCompatActivity;
+package cn.edu.tongji.sse.twitch.gkd.view.UserLoginView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,9 +12,12 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import cn.edu.tongji.sse.twitch.gkd.R;
 import cn.edu.tongji.sse.twitch.gkd.presenter.IUserLoginPresenter;
 import cn.edu.tongji.sse.twitch.gkd.presenter.UserLoginPresenterImpl;
+import cn.edu.tongji.sse.twitch.gkd.view.RunningActivity;
 
 public class UserLoginActivity extends AppCompatActivity implements IUserLoginView {
 
@@ -24,9 +25,10 @@ public class UserLoginActivity extends AppCompatActivity implements IUserLoginVi
     private Button mBtnLogin, mBtnClear;
     private CheckBox mCbRememberPasswords, mCbAutomaticLogin;
     private ProgressBar mPbLoading;
-    private String username,password;
+    private String mUsername, mPassword;
 
-    SharedPreferences sp;
+    SharedPreferences accountSp;
+    SharedPreferences cbSp;
 
     private IUserLoginPresenter mIUserLoginPresenter;
 
@@ -39,7 +41,10 @@ public class UserLoginActivity extends AppCompatActivity implements IUserLoginVi
 
     private void initViews(){
         //userInfo存储记住账号的用户名和密码信息，只有本应用有读写的权限
-        sp=getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        accountSp=this.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        //cb存储两个CheckBox的勾选状态
+        cbSp=this.getSharedPreferences("cb", Context.MODE_PRIVATE);
+
         mIUserLoginPresenter = new UserLoginPresenterImpl(this);
 
         mEdtUsername = findViewById(R.id.input_account);
@@ -50,16 +55,38 @@ public class UserLoginActivity extends AppCompatActivity implements IUserLoginVi
         mBtnLogin = findViewById(R.id.btn_login);
         mPbLoading = findViewById(R.id.pb_loading);
 
+        //设置两个勾选框初态
+        mCbRememberPasswords.setChecked(cbSp.getBoolean("CbRememberPassword", false));
+        mCbAutomaticLogin.setChecked(cbSp.getBoolean("CbAutomaticLogin",false));
+
+        //自动登陆功能
+        //如果上次登陆时勾选了自动登陆，则读取记住的账号信息，自动登陆
+        if(mCbAutomaticLogin.isChecked()){
+            readAccount();
+            mIUserLoginPresenter.doLogin(mUsername, mPassword);
+        }
+
+        //如果上次登陆时只勾选了记住账号，则下次登陆时将账号信息放入输入框
+        if(mCbRememberPasswords.isChecked()){
+            readAccount();
+            mEdtUsername.setText(mUsername);
+            mEdtPwd.setText(mPassword);
+        }
+
+        //登录按钮响应
         mBtnLogin.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-
-                mIUserLoginPresenter.doLogin();
+                mUsername=getUserName();
+                mPassword=getPassword();
+                mIUserLoginPresenter.doLogin(mUsername, mPassword);
                 //如果记住账号勾选框被勾选，则将账号信息保存到本地
                 if (mCbRememberPasswords.isChecked()){
+                    saveAccount(mUsername, mPassword);
 
+                    mIUserLoginPresenter.safeAccount(mUsername, mPassword);
                 }
-
+                saveCbState();
             }
         });
 
@@ -114,18 +141,24 @@ public class UserLoginActivity extends AppCompatActivity implements IUserLoginVi
     }
 
     @Override
-    public void saveAccount(){
-        Editor editor=sp.edit();
-        username=getUserName();
-        password=getPassword();
-        editor.putString(username, username);
-        editor.putString(password, password);
+    public void saveAccount(String un, String pwd){
+        Editor editor=accountSp.edit();
+        editor.putString("username", un);
+        editor.putString("password", pwd);
         editor.apply();
     }
 
     @Override
     public void readAccount(){
-        username=sp.getString("username","");
-        password=sp.getString("password","");
+        mUsername=accountSp.getString("username","");
+        mPassword=accountSp.getString("password","");
+    }
+
+    @Override
+    public void saveCbState(){
+        Editor e=cbSp.edit();
+        e.putBoolean("CbRememberPassword", mCbRememberPasswords.isChecked());
+        e.putBoolean("CbAutomaticLogin", mCbAutomaticLogin.isChecked());
+        e.apply();
     }
 }

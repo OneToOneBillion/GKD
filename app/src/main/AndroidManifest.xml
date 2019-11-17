@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.UserLoginActivity">
+        <activity android:name=".view.UserLoginView.UserLoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,7 +19,7 @@
         <activity android:name=".view.PersonalActivity"></activity>
         <activity android:name=".view.RunningActivity"></activity>
         <activity android:name=".view.SocialActivity"></activity>
-        <activity android:name=".view.SettingActivity"></activity>
+        <activity android:name=".view.SettingView.SystemSettingActivity"></activity>
         <activity android:name=".view.PostActivity"></activity>
     </application>
 

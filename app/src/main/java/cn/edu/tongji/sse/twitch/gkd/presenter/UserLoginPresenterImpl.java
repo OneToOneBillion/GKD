@@ -2,9 +2,9 @@ package cn.edu.tongji.sse.twitch.gkd.presenter;
 
 import android.os.Handler;
 
-import cn.edu.tongji.sse.twitch.gkd.model.IUserModel;
-import cn.edu.tongji.sse.twitch.gkd.model.UserModelImpl;
-import cn.edu.tongji.sse.twitch.gkd.view.IUserLoginView;
+import cn.edu.tongji.sse.twitch.gkd.model.UserModel.IUserModel;
+import cn.edu.tongji.sse.twitch.gkd.model.UserModel.UserModelImpl;
+import cn.edu.tongji.sse.twitch.gkd.view.UserLoginView.IUserLoginView;
 
 public class UserLoginPresenterImpl implements IUserLoginPresenter, IUserModel.OnLoginListener {
     private IUserLoginView mIUserLoginView;
@@ -18,11 +18,9 @@ public class UserLoginPresenterImpl implements IUserLoginPresenter, IUserModel.O
     }
 
     @Override
-    public void doLogin(){
-        String username=mIUserLoginView.getUserName();
-        String password = mIUserLoginView.getPassword();
+    public void doLogin(String un, String pwd){
         mIUserLoginView.showLoading();
-        mIUserModel.login(username,password,this);
+        mIUserModel.login(un, pwd,this);
     }
 
     @Override
@@ -54,8 +52,8 @@ public class UserLoginPresenterImpl implements IUserLoginPresenter, IUserModel.O
     }
 
     @Override
-    public void saveAccount(){
-
+    public void safeAccount(String un, String pwd){
+        ;
     }
 
 }
