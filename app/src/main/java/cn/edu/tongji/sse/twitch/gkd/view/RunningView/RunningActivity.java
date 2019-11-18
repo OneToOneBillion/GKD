@@ -21,6 +21,7 @@ public class RunningActivity extends AppCompatActivity implements IRunningView{
     private Chronometer chronometer;
     private ToggleButton run_stop;
     private Button stop;
+    private long run_time=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -76,9 +77,11 @@ public class RunningActivity extends AppCompatActivity implements IRunningView{
             public void onClick(View v) {
                 //计时
                 if(run_stop.isChecked()){
+                    chronometer.setBase(SystemClock.elapsedRealtime()-run_time);
                     chronometer.start();
                 }
                 else {
+                    run_time=SystemClock.elapsedRealtime()-chronometer.getBase();
                     chronometer.stop();//显示的计时会停止，但再点开始不会真正的停止，系统初始时间不会改变
                 }
             }
@@ -86,6 +89,7 @@ public class RunningActivity extends AppCompatActivity implements IRunningView{
         stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                run_time=0;
                 chronometer.setBase(SystemClock.elapsedRealtime());
             }
         });

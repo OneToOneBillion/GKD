@@ -24,6 +24,7 @@ import cn.edu.tongji.sse.twitch.gkd.view.PersonalView.PersonalActivity;
 import cn.edu.tongji.sse.twitch.gkd.view.PostView.PostActivity;
 import cn.edu.tongji.sse.twitch.gkd.view.RecyclerViewAdapter;
 import cn.edu.tongji.sse.twitch.gkd.view.RunningView.RunningActivity;
+import cn.edu.tongji.sse.twitch.gkd.view.UserLoginView.IUserLoginView;
 
 public class SocialActivity extends AppCompatActivity {
     private ImageButton personal,running,create_post,new_post;
@@ -32,6 +33,7 @@ public class SocialActivity extends AppCompatActivity {
     private RecyclerViewAdapter adapterDome;//声明适配器
     private Context context;
     private List<String> show_post_list;
+    private IUserLoginView iUserLoginView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -46,35 +48,9 @@ public class SocialActivity extends AppCompatActivity {
         recyclerView=findViewById(R.id.post_list);
 
         show_post_list = new ArrayList<>();
-        BmobQuery<Post> query=new BmobQuery<>();
-        query.addWhereEqualTo("user_id","twitch");
-        query.count(Post.class, new CountListener() {
-            @Override
-            public void done(Integer integer, BmobException e) {
-                if(e==null){
-                    Toast.makeText(getApplicationContext(), integer+"条动态" , Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "查询失败："+e.getMessage() , Toast.LENGTH_SHORT).show();
-                }
-                int post_num=integer;
-            }
-        });
         for (int i=0;i<8;i++){
             show_post_list.add("这是第"+i+"个动态");
         }
-        query.findObjects(new FindListener<Post>() {
-            @Override
-            public void done(List<Post> list, BmobException e) {
-                if(e==null){
-                    Toast.makeText(getApplicationContext(), "查询成功："+list.size() , Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "查询失败："+e.getMessage() , Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
 
         //
         adapterDome = new RecyclerViewAdapter(context,show_post_list);
