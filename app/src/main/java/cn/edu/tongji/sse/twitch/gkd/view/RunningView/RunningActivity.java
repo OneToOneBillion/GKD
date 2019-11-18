@@ -3,6 +3,7 @@ package cn.edu.tongji.sse.twitch.gkd.view.RunningView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
@@ -67,8 +68,10 @@ public class RunningActivity extends AppCompatActivity implements IRunningView{
             @Override
             public void onChronometerTick(Chronometer chronometer) {
                 //提醒
-                if (SystemClock.elapsedRealtime()-chronometer.getBase()>=600000){
-                    Toast.makeText(getApplicationContext(),"已经运动十分钟了，加油哦",Toast.LENGTH_LONG).show();
+                if (SystemClock.elapsedRealtime()-chronometer.getBase()>5000&&SystemClock.elapsedRealtime()-chronometer.getBase()<6000){
+                    Vibrator vibrator = (Vibrator)getApplicationContext().getSystemService(getApplicationContext().VIBRATOR_SERVICE);
+                    vibrator.vibrate(2000);
+                    Toast.makeText(getApplicationContext(),"已经运动五秒钟了，加油哦",Toast.LENGTH_LONG).show();
                 }
             }
         });
