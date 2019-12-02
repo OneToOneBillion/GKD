@@ -16,7 +16,7 @@ import java.util.List;
 import cn.edu.tongji.sse.twitch.gkd.R;
 import cn.edu.tongji.sse.twitch.gkd.view.RecyclerViewAdapter;
 import cn.edu.tongji.sse.twitch.gkd.view.RunningView.RunningActivity;
-import cn.edu.tongji.sse.twitch.gkd.view.SystemSettingView.SystemSettingActivity;
+import cn.edu.tongji.sse.twitch.gkd.view.SettingView.SystemSettingActivity;
 import cn.edu.tongji.sse.twitch.gkd.view.SocialView.SocialActivity;
 
 public class PersonalActivity extends AppCompatActivity implements IPersonalView{
@@ -66,7 +66,6 @@ public class PersonalActivity extends AppCompatActivity implements IPersonalView
             public void onClick(View v) {
                 Intent intent = new Intent(PersonalActivity.this, PersonalActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
 

@@ -4,4 +4,15 @@
         <item>English</item>
         <item>简体中文</item>
     </string-array>
+
+    <string-array name="fontSizeSetting_en">
+        <item>Small</item>
+        <item>Middle</item>
+        <item>Large</item>
+    </string-array>
+    <string-array name="fontSizeSetting_cn">
+        <item>小号</item>
+        <item>中号</item>
+        <item>大号</item>
+    </string-array>
 </resources>
