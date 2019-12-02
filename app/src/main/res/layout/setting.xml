@@ -38,23 +38,6 @@
         android:entries="@array/languageSetting"
         android:spinnerMode="dropdown" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="75dp"
-        android:layout_y="185dp"
-        android:text="Font Size:" />
-
-    <Spinner
-        android:id="@+id/spinner2"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_x="215dp"
-        android:layout_y="185dp"
-        android:entries="@array/fontSizeSetting_en"
-        android:spinnerMode="dropdown" />
-
     <Button
         android:id="@+id/submitButton"
         android:layout_width="wrap_content"
