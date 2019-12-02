@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ProgressBar;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,60 +24,67 @@ import cn.edu.tongji.sse.twitch.gkd.view.SignUpView.SignUpActivity;
 public class UserLoginActivity extends AppCompatActivity implements IUserLoginView {
 
     private EditText mEdtUsername, mEdtPwd;
-    private Button mBtnLogin, mBtnClear,mBtnSignUp;
+    private Button mBtnLogin, mBtnSignUp;
     private CheckBox mCbRememberPasswords, mCbAutomaticLogin;
-    private ProgressBar mPbLoading;
     private String mUsername, mPassword;
+    private ImageView mHeadPortrait;
 
     SharedPreferences accountSp;
     SharedPreferences cbSp;
+    SharedPreferences sysSettingSp;
 
     private IUserLoginPresenter mIUserLoginPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.sign_in);
         initViews();
-        Bmob.initialize(this, "e64de29218093006207f425439317230");
     }
 
     private void initViews(){
+        //初始化Bmob数据库
+        Bmob.initialize(this, "e64de29218093006207f425439317230");
+
         //userInfo存储记住账号的用户名和密码信息，只有本应用有读写的权限
         accountSp=this.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-        //cb存储两个CheckBox的勾选状态
+        //cb存储两个CheckBox的勾选状态，只有本应用有读写的权限
         cbSp=this.getSharedPreferences("cb", Context.MODE_PRIVATE);
+        //读取系统设置的SharedPreferences
+        sysSettingSp=this.getSharedPreferences("sysSetting",Context.MODE_PRIVATE);
 
         mIUserLoginPresenter = new UserLoginPresenterImpl(this);
 
+        //头像框
+        mHeadPortrait=findViewById(R.id.head_portrait_img);
+        mHeadPortrait.setImageResource(R.drawable.default_head_portrait);
+
         mEdtUsername = findViewById(R.id.input_account);
         mEdtPwd = findViewById(R.id.input_password);
+
         mCbRememberPasswords = findViewById(R.id.rememberPasswordsBox);
         mCbAutomaticLogin = findViewById(R.id.automaticLoginBox);
-        mBtnClear = findViewById(R.id.btn_clear);
-        mBtnLogin = findViewById(R.id.btn_login);
-        mBtnSignUp=findViewById(R.id.btn_signup);
-        mPbLoading = findViewById(R.id.pb_loading);
-
         //设置两个勾选框初态
         mCbRememberPasswords.setChecked(cbSp.getBoolean("CbRememberPassword", false));
         mCbAutomaticLogin.setChecked(cbSp.getBoolean("CbAutomaticLogin",false));
-
         //自动登陆功能
         //如果上次登陆时勾选了自动登陆，则读取记住的账号信息，自动登陆
         if(mCbAutomaticLogin.isChecked()){
-            readAccount();
+            mUsername=readSaveUn();
+            mPassword=readSavePwd();
             mIUserLoginPresenter.doLogin(mUsername, mPassword);
         }
-
         //如果上次登陆时只勾选了记住账号，则下次登陆时将账号信息放入输入框
         if(mCbRememberPasswords.isChecked()){
-            readAccount();
+            mUsername=readSaveUn();
+            mPassword=readSavePwd();
             mEdtUsername.setText(mUsername);
             mEdtPwd.setText(mPassword);
         }
 
-        //登录按钮响应
+        //登录按钮
+        mBtnLogin = findViewById(R.id.btn_login);
+        //设置登录按钮响应事件
         mBtnLogin.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -87,27 +94,39 @@ public class UserLoginActivity extends AppCompatActivity implements IUserLoginVi
                 //如果记住账号勾选框被勾选，则将账号信息保存到本地
                 if (mCbRememberPasswords.isChecked()){
                     saveAccount(mUsername, mPassword);
-
-                    mIUserLoginPresenter.safeAccount(mUsername, mPassword);
                 }
                 saveCbState();
             }
         });
 
-        mBtnClear.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                mIUserLoginPresenter.clear();
-            }
-        });
-
+        //注册按钮
+        mBtnSignUp=findViewById(R.id.btn_signup);
         mBtnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(UserLoginActivity.this, SignUpActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
+
+        //语言设置
+        if(sysSettingSp.getString("language","").equals("English")) {
+            mBtnLogin.setText(R.string.login_en);
+            mBtnSignUp.setText(R.string.sign_up_en);
+            mCbRememberPasswords.setText(R.string.remember_password_en);
+            mCbAutomaticLogin.setText(R.string.auto_login_en);
+            mEdtUsername.setHint(R.string.account_en);
+            mEdtPwd.setHint(R.string.password_en);
+        }
+        else{
+            mBtnLogin.setText(R.string.login_cn);
+            mBtnSignUp.setText(R.string.sign_up_cn);
+            mCbRememberPasswords.setText(R.string.remember_password_cn);
+            mCbAutomaticLogin.setText(R.string.auto_login_cn);
+            mEdtUsername.setHint(R.string.account_cn);
+            mEdtPwd.setHint(R.string.password_cn);
+        }
     }
 
     @Override
@@ -131,16 +150,6 @@ public class UserLoginActivity extends AppCompatActivity implements IUserLoginVi
     }
 
     @Override
-    public void showLoading(){
-        mPbLoading.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideLoading(){
-        mPbLoading.setVisibility(View.GONE);
-    }
-
-    @Override
     public void toMainActivity(){
         Toast.makeText(this,"Login success, to MainActivity",Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(UserLoginActivity.this, RunningActivity.class);
@@ -161,9 +170,12 @@ public class UserLoginActivity extends AppCompatActivity implements IUserLoginVi
     }
 
     @Override
-    public void readAccount(){
-        mUsername=accountSp.getString("username","");
-        mPassword=accountSp.getString("password","");
+    public String readSaveUn(){
+        return accountSp.getString("username","");
+    }
+
+    public String readSavePwd(){
+        return accountSp.getString("password","");
     }
 
     @Override

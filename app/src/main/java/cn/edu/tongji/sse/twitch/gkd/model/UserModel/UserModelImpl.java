@@ -15,7 +15,6 @@ import static cn.bmob.v3.Bmob.getApplicationContext;
 
 public class UserModelImpl implements IUserModel {
     private IUserLoginPresenter mIUserLoginPresenter;
-    private IUserLoginView mIUserLoginView;
 
     public UserModelImpl(IUserLoginPresenter IUserLoginPresenter){
         mIUserLoginPresenter = IUserLoginPresenter;

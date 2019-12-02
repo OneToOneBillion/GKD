@@ -1,41 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_background"
+    tools:context=".view.SignUpView.SignUpActivity">
 
+    <!--注册logo图片-->
     <EditText
-        android:id="@+id/input_signup_username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="input signup username" />
+        android:id="@+id/input_sign_up_username"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="50dp"
+        android:alpha="0.6"
+        android:background="@drawable/input"
+        android:gravity="center"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sign_up_logo" />
 
+    <!--账号输入框-->
     <EditText
-        android:id="@+id/input_signup_password"
+        android:id="@+id/input_sign_up_password"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="input signup password" />
+        android:layout_height="60dp"
+        android:layout_marginTop="50dp"
+        android:alpha="0.6"
+        android:background="@drawable/input"
+        android:gravity="center"
+        android:inputType="textPassword"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/input_sign_up_username" />
 
+    <!--密码输入框-->
     <EditText
-        android:id="@+id/input_signup_password_again"
+        android:id="@+id/input_sign_up_password_again"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="input signup password again" />
+        android:layout_height="60dp"
+        android:layout_marginTop="50dp"
+        android:alpha="0.6"
+        android:background="@drawable/input"
+        android:gravity="center"
+        android:inputType="textPassword"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/input_sign_up_password" />
 
+    <!--确认密码输入框-->
     <LinearLayout
+        android:id="@+id/btn_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/input_sign_up_password_again">
+
+        <!--注册按钮-->
         <Button
             android:id="@+id/sign_up"
-            android:layout_width="wrap_content"
+            android:layout_width="240dp"
             android:layout_height="wrap_content"
-            android:text="Sign Up" />
+            android:layout_marginBottom="10dp"
+            android:alpha="0.6"
+            android:background="@drawable/button_circle_shape" />
 
+        <!--取消注册按钮-->
         <Button
             android:id="@+id/cancel_sign_up"
-            android:layout_width="wrap_content"
+            android:layout_width="240dp"
             android:layout_height="wrap_content"
-            android:text="Cancel"/>
+            android:layout_marginTop="10dp"
+            android:alpha="0.6"
+            android:background="@drawable/button_circle_shape" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/sign_up_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="75dp"
+        android:textColor="@android:color/black"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/un_exist_warning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:textColor="@android:color/holo_red_light"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_sign_up_username" />
+
+    <TextView
+        android:id="@+id/pwd_inconsisitent_warning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:textColor="@android:color/holo_red_light"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_sign_up_password" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

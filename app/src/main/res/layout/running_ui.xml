@@ -1,126 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/darker_gray"
+    tools:context=".view.RunningView.RunningActivity">
 
-    <TextView
-        android:id="@+id/text_run"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_x="0px"
-        android:layout_y="0px"
-        android:text="跑步"
-        android:textSize="30sp" />
-
-    <EditText
-        android:id="@+id/run_distance"
-        android:layout_width="220dp"
-        android:layout_height="80dp"
-        android:layout_x="105dp"
-        android:layout_y="70dp"
-        android:ems="10"/>
-
-    <ToggleButton
-        android:id="@+id/play_pause"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="160dp"
-        android:layout_y="285dp"
-        android:text="ToggleButton"
-        android:textOff="播放"
-        android:textOn="暂停" />
-
-    <Button
-        android:id="@+id/next"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="270dp"
-        android:layout_y="285dp"
-        android:text="下一首" />
-
-    <Button
-        android:id="@+id/last"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="50dp"
-        android:layout_y="285dp"
-        android:text="上一首" />
-
-    <ToggleButton
-        android:id="@+id/run_stop"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_x="70dp"
-        android:layout_y="380dp"
-        android:textOff="开始跑步"
-        android:textOn="暂停跑步" />
-
-    <Button
-        android:id="@+id/stop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="265dp"
-        android:layout_y="430dp"
-        android:text="结束" />
-
-    <TextView
-        android:id="@+id/lyric"
+    <!--页面标题-->
+    <LinearLayout
+        android:id="@+id/bottomLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_x="0dp"
-        android:layout_y="340dp"
-        android:text="歌词" />
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_weight="1">
 
+        <ImageButton
+            android:id="@+id/running"
+            android:layout_width="136dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/ic_menu_myplaces" />
 
-    <Chronometer
-        android:id="@+id/chronometer"
-        android:layout_width="180dp"
-        android:layout_height="50dp"
-        android:layout_x="125dp"
-        android:layout_y="160dp"
-        android:format="%s"
-        android:gravity="center"
-        android:textSize="80px" />
+        <ImageButton
+            android:id="@+id/create_post"
+            android:layout_width="136dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/ic_menu_send" />
 
-    <ImageButton
-        android:id="@+id/create_post"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_x="65dp"
-        android:layout_y="560dp"
-        app:srcCompat="@android:drawable/ic_menu_send" />
+        <ImageButton
+            android:id="@+id/personnal"
+            android:layout_width="136dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/ic_menu_my_calendar" />
+    </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/running"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_x="170dp"
-        android:layout_y="560dp"
-        app:srcCompat="@android:drawable/ic_menu_myplaces" />
-
-    <ImageButton
-        android:id="@+id/personnal"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_x="270dp"
-        android:layout_y="560dp"
-        app:srcCompat="@android:drawable/ic_menu_my_calendar" />
-
+    <!--音乐播放栏-->
     <TextView
-        android:id="@+id/song_name"
-        android:layout_width="150dp"
-        android:layout_height="35dp"
-        android:layout_x="40dp"
-        android:layout_y="230dp"
-        android:text="歌曲名" />
+        android:id="@+id/sportsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:textColor="@android:color/black"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/singer_name"
-        android:layout_width="135dp"
-        android:layout_height="35dp"
-        android:layout_x="240dp"
-        android:layout_y="230dp"
-        android:text="歌手名" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/musicLayout"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/music_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sportsTextView"
+        app:layout_constraintVertical_weight="3">
 
-</AbsoluteLayout>
+        <ImageButton
+            android:id="@+id/btn_last"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_play_pause"
+            app:srcCompat="@drawable/last_button" />
+
+        <ImageButton
+            android:id="@+id/btn_next"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_play_pause"
+            app:srcCompat="@drawable/next_button" />
+
+        <TextView
+            android:id="@+id/song_name"
+            android:layout_width="150dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ToggleButton
+            android:id="@+id/btn_play_pause"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/selector"
+            android:textAllCaps="false"
+            android:textOff=""
+            android:textOn=""
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/runningLayout"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:background="@drawable/running_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="70dp"
+        app:layout_constraintTop_toBottomOf="@id/musicLayout"
+        app:layout_constraintVertical_weight="3">
+
+        <Button
+            android:id="@+id/stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_x="265dp"
+            android:layout_y="430dp"
+            android:text="结束"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Chronometer
+            android:id="@+id/chronometer"
+            android:layout_width="180dp"
+            android:layout_height="50dp"
+            android:format="%s"
+            android:gravity="center"
+            android:textSize="80px"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/run_distance"
+            android:layout_width="180dp"
+            android:layout_height="50dp"
+            android:ems="10"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ToggleButton
+            android:id="@+id/run_stop"
+            android:layout_width="180dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="25dp"
+            android:textOff="开始跑步"
+            android:textOn="暂停跑步"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/chronometer" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

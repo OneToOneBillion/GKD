@@ -5,14 +5,14 @@ public interface IUserLoginView {
     String getPassword();
     void clearUserName();
     void clearPassword();
-    void showLoading();
-    void hideLoading();
     void toMainActivity();
     void showFailedError();
     //记住账号信息
     void saveAccount(String un, String pwd);
-    //读取记住账号的内容
-    void readAccount();
+    //读取记住账号的用户名信息
+    String readSaveUn();
+    //读取记住账号的密码信息
+    String readSavePwd();
     //存储两个勾选框状态
     void saveCbState();
 }
