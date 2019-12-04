@@ -1,6 +1,13 @@
 package cn.edu.tongji.sse.twitch.gkd.view.RunningView;
 
+import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.os.Vibrator;
@@ -12,6 +19,8 @@ import android.widget.ToggleButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.amap.api.maps.AMap;
 
 import cn.edu.tongji.sse.twitch.gkd.R;
 import cn.edu.tongji.sse.twitch.gkd.view.PersonalView.PersonalActivity;
@@ -96,6 +105,41 @@ public class RunningActivity extends AppCompatActivity implements IRunningView{
                 chronometer.setBase(SystemClock.elapsedRealtime());
             }
         });
+    }
+    @Override
+    public Context getMyContext(){
+        return this.getApplicationContext();
+    }
+
+    @Override
+    public Notification getMyNotification(){
+        return createNotification();
+    }
+
+
+    /**
+     * 在8.0以上手机，如果app切到后台，系统会限制定位相关接口调用频率
+     * 可以在启动轨迹上报服务时提供一个通知，这样Service启动时会使用该通知成为前台Service，可以避免此限制
+     */
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    private Notification createNotification() {
+        Notification.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            NotificationChannel channel = new NotificationChannel("CHANNEL_ID_SERVICE_RUNNING", "app service", NotificationManager.IMPORTANCE_LOW);
+            nm.createNotificationChannel(channel);
+            builder = new Notification.Builder(getApplicationContext(), "CHANNEL_ID_SERVICE_RUNNING");
+        } else {
+            builder = new Notification.Builder(getApplicationContext());
+        }
+        Intent nfIntent = new Intent(RunningActivity.this, RunningActivity.class);
+        nfIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        builder.setContentIntent(PendingIntent.getActivity(RunningActivity.this, 0, nfIntent, 0))
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("猎鹰sdk运行中")
+                .setContentText("猎鹰sdk运行中");
+        Notification notification = builder.build();
+        return notification;
     }
 }
 
