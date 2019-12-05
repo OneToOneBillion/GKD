@@ -35,8 +35,8 @@
     <!--SystemSettingView-->
     <string name="submit_cn">提交</string>
     <string name="submit_en">Submit</string>
-    <string name="language_en">Language</string>
-    <string name="language_cn">语言</string>
+    <string name="language_en">Language:</string>
+    <string name="language_cn">语言:</string>
     <string name="sys_setting_en">System Setting</string>
     <string name="sys_setting_cn">系统设置</string>
 

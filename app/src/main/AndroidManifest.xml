@@ -22,7 +22,7 @@
         <activity android:name=".view.PersonalView.PersonalActivity"></activity>
         <activity android:name=".view.RunningView.RunningActivity"></activity>
         <activity android:name=".view.SocialView.SocialActivity"></activity>
-        <activity android:name=".view.SettingView.SystemSettingActivity"></activity>
+        <activity android:name=".view.SystemSettingView.SystemSettingActivity"></activity>
         <activity android:name=".view.PostView.PostActivity"></activity>
         <activity android:name=".view.SignUpView.SignUpActivity"></activity>
         <provider
