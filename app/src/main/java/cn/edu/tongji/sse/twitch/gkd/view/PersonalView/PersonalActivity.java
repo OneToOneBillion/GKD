@@ -90,6 +90,8 @@ public class PersonalActivity extends AppCompatActivity implements IPersonalView
             public void onClick(View v) {
                 Intent intent = new Intent(PersonalActivity.this, SystemSettingActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.in_from_right,R.anim.out_to_left);
+                finish();
             }
         });
     }

@@ -89,6 +89,7 @@ public class SystemSettingActivity extends AppCompatActivity implements ISystemS
     public void toPersonalView(){
         Intent intent = new Intent(SystemSettingActivity.this, PersonalActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
         finish();
     }
 
