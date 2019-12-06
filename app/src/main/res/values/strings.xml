@@ -43,5 +43,9 @@
     <!--RunningView-->
     <string name="sports_en">Sports</string>
     <string name="sports_cn">运动</string>
+
+    <!--SocialView-->
+    <string name="moments_en">Moments</string>
+    <string name="moments_cn">朋友圈</string>
 </resources>
 
