@@ -51,5 +51,11 @@
     <!--PersonalView-->
     <string name="person_en">Personal Information</string>
     <string name="person_cn">我</string>
+
+    <!--PostView-->
+    <string name="create_post_en">Create Post</string>
+    <string name="create_post_cn">发布动态</string>
+    <string name="create_en">Create</string>
+    <string name="create_cn">发表</string>
 </resources>
 
