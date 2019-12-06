@@ -41,9 +41,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:textSize="36sp"
-            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/revert"
             app:layout_constraintTop_toTopOf="parent" />
     </LinearLayout>

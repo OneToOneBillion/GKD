@@ -47,5 +47,9 @@
     <!--SocialView-->
     <string name="moments_en">Moments</string>
     <string name="moments_cn">朋友圈</string>
+
+    <!--PersonalView-->
+    <string name="person_en">Personal Information</string>
+    <string name="person_cn">我</string>
 </resources>
 

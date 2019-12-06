@@ -1,10 +1,12 @@
 package cn.edu.tongji.sse.twitch.gkd.view.PersonalView;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.content.Intent;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,6 +27,9 @@ public class PersonalActivity extends AppCompatActivity implements IPersonalView
     private RecyclerViewAdapter running_data_adapter,ranking_list_adapter;//声明适配器
     private Context context;
     private List<String> show_running_data_list,show_ranking_list;
+    private TextView tPerson;
+
+    SharedPreferences sysSettingSp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -32,12 +37,15 @@ public class PersonalActivity extends AppCompatActivity implements IPersonalView
         context = this;
         setContentView(R.layout.personal_ui);
 
+        sysSettingSp=this.getSharedPreferences("sysSetting",MODE_PRIVATE);
+
         personal=findViewById(R.id.personnal);
         running=findViewById(R.id.running);
         create_post=findViewById(R.id.create_post);
         setting=findViewById(R.id.setting);
         running_data=findViewById(R.id.running_data);
         ranking_list=findViewById(R.id.ranking_list);
+        tPerson=findViewById(R.id.personText);
 
         show_running_data_list = new ArrayList<>();
         show_running_data_list.add("运动记录：");
@@ -60,14 +68,6 @@ public class PersonalActivity extends AppCompatActivity implements IPersonalView
         rank_manager.setOrientation(LinearLayoutManager.VERTICAL);
         ranking_list.setLayoutManager(rank_manager);
         ranking_list.setAdapter(ranking_list_adapter);
-
-        personal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PersonalActivity.this, PersonalActivity.class);
-                startActivity(intent);
-            }
-        });
 
         running.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,5 +94,13 @@ public class PersonalActivity extends AppCompatActivity implements IPersonalView
                 finish();
             }
         });
+
+        //语言设置
+        if(sysSettingSp.getString("language","").equals("English")) {
+            tPerson.setText(R.string.person_en);
+        }
+        else{
+            tPerson.setText(R.string.person_cn);
+        }
     }
 }
