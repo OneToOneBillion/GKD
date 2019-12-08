@@ -1,4 +1,4 @@
-package cn.edu.tongji.sse.twitch.gkd.view.BlackView;
+package cn.edu.tongji.sse.twitch.gkd.view.BlankView;
 
 import android.content.Intent;
 import android.os.Bundle;
