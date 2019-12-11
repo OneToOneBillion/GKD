@@ -162,6 +162,7 @@ public class UserLoginActivity extends AppCompatActivity implements IUserLoginVi
     public void toRunningActivity(){
         Toast.makeText(this,"Login success, to RunningActivity",Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(UserLoginActivity.this, RunningActivity.class);
+        intent.putExtra("data",getUserName());
         startActivity(intent);
         finish();
     }

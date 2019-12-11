@@ -32,6 +32,14 @@
             android:textSize="36sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/addNewFriend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/ic_input_add"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/setting"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -55,7 +63,7 @@
 
         <TextView
             android:id="@+id/target"
-            android:layout_width="200dp"
+            android:layout_width="150dp"
             android:layout_height="20dp"
             android:layout_marginStart="30dp"
             android:layout_marginLeft="30dp"
@@ -66,13 +74,24 @@
 
         <TextView
             android:id="@+id/neckname"
-            android:layout_width="200dp"
+            android:layout_width="150dp"
             android:layout_height="20dp"
             android:layout_marginStart="30dp"
             android:layout_marginLeft="30dp"
             android:text="昵称"
             app:layout_constraintStart_toEndOf="@+id/avatar"
             app:layout_constraintTop_toTopOf="@+id/avatar" />
+
+        <ImageButton
+            android:id="@+id/changeInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/ic_menu_edit"
+            android:layout_marginStart="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="30dp"
+            app:layout_constraintStart_toEndOf="@+id/neckname"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <LinearLayout
             android:layout_width="match_parent"
