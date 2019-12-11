@@ -21,7 +21,7 @@ public class UserModelImpl implements IUserModel {
     }
 
     @Override
-    public void login(final String username, final String password,final IUserModel.OnLoginListener listener){
+    public void login(String username, String password,IUserModel.OnLoginListener listener){
         new Thread(){
             @Override
             public void run(){
