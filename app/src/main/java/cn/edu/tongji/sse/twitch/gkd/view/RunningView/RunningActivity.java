@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
@@ -23,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.amap.api.maps.AMap;
 
 import cn.edu.tongji.sse.twitch.gkd.R;
+import cn.edu.tongji.sse.twitch.gkd.presenter.TrackPresenter.TrackPresenterImpl;
 import cn.edu.tongji.sse.twitch.gkd.view.PersonalView.PersonalActivity;
 import cn.edu.tongji.sse.twitch.gkd.view.SocialView.SocialActivity;
 
@@ -32,6 +34,8 @@ public class RunningActivity extends AppCompatActivity implements IRunningView{
     private ToggleButton run_stop;
     private Button stop;
     private long run_time=0;
+
+    private TrackPresenterImpl mTrackPresenterImpl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -44,6 +48,9 @@ public class RunningActivity extends AppCompatActivity implements IRunningView{
         chronometer=findViewById(R.id.chronometer);
         run_stop=findViewById(R.id.run_stop);
         stop=findViewById(R.id.stop);
+        mTrackPresenterImpl=new TrackPresenterImpl(this);
+
+        mTrackPresenterImpl.startService();
 
         //跳转个人界面
         personal.setOnClickListener(new View.OnClickListener() {
@@ -91,10 +98,12 @@ public class RunningActivity extends AppCompatActivity implements IRunningView{
                 if(run_stop.isChecked()){
                     chronometer.setBase(SystemClock.elapsedRealtime()-run_time);
                     chronometer.start();
+                    mTrackPresenterImpl.startRun();
                 }
                 else {
                     run_time=SystemClock.elapsedRealtime()-chronometer.getBase();
                     chronometer.stop();//显示的计时会停止，但再点开始不会真正的停止，系统初始时间不会改变
+                    mTrackPresenterImpl.pauseRun();
                 }
             }
         });
@@ -103,9 +112,16 @@ public class RunningActivity extends AppCompatActivity implements IRunningView{
             public void onClick(View v) {
                 run_time=0;
                 chronometer.setBase(SystemClock.elapsedRealtime());
+
+                mTrackPresenterImpl.stopRun();
+
+                Intent intent = new Intent(RunningActivity.this, RunningResultActivity.class);
+                intent.putExtra("trackId",mTrackPresenterImpl.getTrackId());
+                startActivity(intent);
             }
         });
     }
+
     @Override
     public Context getMyContext(){
         return this.getApplicationContext();

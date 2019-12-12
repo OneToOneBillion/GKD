@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.content.Context;
-import android.widget.Toast;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.model.MyLocationStyle;
@@ -26,6 +25,7 @@ import com.amap.api.track.query.model.QueryTerminalResponse;
 import com.amap.api.track.query.model.QueryTrackRequest;
 import com.amap.api.track.query.model.QueryTrackResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.edu.tongji.sse.twitch.gkd.util.Constants;
@@ -33,36 +33,28 @@ import cn.edu.tongji.sse.twitch.gkd.util.GkdOnTrackLifecycleListener;
 import cn.edu.tongji.sse.twitch.gkd.util.GkdOnTrackListener;
 
 
-
 /*
  * 轨迹model实现
  */
 public class TrackModelImpl implements ITrackModel, AMap.OnMyLocationChangeListener {
-
     private static final String TAG = "TrackModel1111111111111";
-    private static final String CHANNEL_ID_SERVICE_RUNNING = "CHANNEL_ID_SERVICE_RUNNING";
-
     private AMapTrackClient aMapTrackClient;
     private long terminalId;
-    private long trackId=0;//轨迹id，初始值设为0
+    private long trackId;//轨迹id，初始值设为0
     private boolean isServiceRunning=false;
     private boolean isGatherRunning=false;
     private boolean uploadToTrack = true;
-    double dDistance;
-    List<Point> lPoints;//轨迹点的集合，用来生成路线图
 
     //Attention:传入的context应当是getApplicationContext
     private Context mContext;
     private Notification mNotification;
+
     //构造函数，初始化一个aMapTrackClient
-    public TrackModelImpl(Context mContext,Notification mNotification)
-    {
+    public TrackModelImpl(Context mContext,Notification mNotification) {
         this.mContext=mContext;
         this.mNotification=mNotification;
         aMapTrackClient = new AMapTrackClient(mContext);
         aMapTrackClient.setInterval(5, 30);
-
-
     }
 
     private OnTrackLifecycleListener onTrackListener = new GkdOnTrackLifecycleListener() {
@@ -147,6 +139,7 @@ public class TrackModelImpl implements ITrackModel, AMap.OnMyLocationChangeListe
                                             trackParam.setNotification(mNotification);
                                         }
                                         aMapTrackClient.startTrack(trackParam, onTrackListener);
+                                        Log.w(TAG,Long.toString(trackId));
                                     } else {
                                         Log.w(TAG,"网络请求失败,"+ addTrackResponse.getErrorMsg());
                                     }
@@ -180,40 +173,49 @@ public class TrackModelImpl implements ITrackModel, AMap.OnMyLocationChangeListe
                     }
                 } else {
                     Log.w(TAG,queryTerminalResponse.getErrorMsg());
-
                 }
             }
         });
     }
 
     //获取轨迹id,返回最新的
+    @Override
     public long getTrackId(){
         return trackId;
+    }
+
+    //开启服务
+    @Override
+    public void startService(){
+        startTrack();
     }
 
     //开始运动函数，是start按钮实现的函数，按下之后先启动服务
     //然后开始收集轨迹，再按下就暂停收集轨迹
     @Override
-    public void startExerise() {
+    public void startExercise() {
         //首先启动服务
         if(isServiceRunning) {
             Log.w(TAG,"服务已经启动了");
-        }else{
-            startTrack();
-        }
-        //确保服务已经启动之后，开始采集
-        //可以切换采集和停止状态
-        if(isGatherRunning){
-            aMapTrackClient.stopGather(onTrackListener);
-        }else{
+            //开始采集
             aMapTrackClient.setTrackId(trackId);
             aMapTrackClient.startGather(onTrackListener);
+            Log.w(TAG,"开始采集");
+        }else{
+            Log.w(TAG,"服务没有启动");
         }
+    }
+
+    @Override
+    public void pauseExercise(){
+        //停止采集
+        Log.w(TAG,"pause Exercise");
+        aMapTrackClient.stopGather(onTrackListener);
     }
 
     //停止运动
     @Override
-    public void stopExerise(){
+    public void stopExercise(){
         //如果之前没有停止收集轨迹，先停止收集。
         if (isGatherRunning) {
             aMapTrackClient.stopGather(onTrackListener);
@@ -221,91 +223,12 @@ public class TrackModelImpl implements ITrackModel, AMap.OnMyLocationChangeListe
             Log.w(TAG,"已经停止收集轨迹了.");
         }
         //停止服务
-        aMapTrackClient.stopTrack(new TrackParam(Constants.SERVICE_ID, terminalId), onTrackListener);
-    }
-
-    //获取距离
-    @Override
-    public double getIDistance(){
-        aMapTrackClient.queryTerminal(new QueryTerminalRequest(Constants.SERVICE_ID, Constants.TERMINAL_NAME), new GkdOnTrackListener() {
-            @Override
-            public void onQueryTerminalCallback(final QueryTerminalResponse queryTerminalResponse) {
-                if (queryTerminalResponse.isSuccess()) {
-                    if (queryTerminalResponse.isTerminalExist()) {
-                        long tid = queryTerminalResponse.getTid();
-                        // 搜索最近12小时以内上报的属于某个轨迹的轨迹点信息，散点上报不会包含在该查询结果中
-                        QueryTrackRequest queryTrackRequest = new QueryTrackRequest(
-                                Constants.SERVICE_ID,
-                                tid,
-                                trackId,     // 轨迹id，不指定，查询所有轨迹，注意分页仅在查询特定轨迹id时生效，查询所有轨迹时无法对轨迹点进行分页
-                                System.currentTimeMillis() - 12 * 60 * 60 * 1000,
-                                System.currentTimeMillis(),
-                                0,      // 不启用去噪
-                                1,   // 绑路
-                                0,      // 不进行精度过滤
-                                DriveMode.DRIVING,  // 当前仅支持驾车模式
-                                1,     // 距离补偿
-                                5000,   // 距离补偿，只有超过5km的点才启用距离补偿
-                                1,  // 结果应该包含轨迹点信息
-                                1,  // 返回第1页数据，但由于未指定轨迹，分页将失效
-                                100    // 一页不超过100条
-                        );
-                        aMapTrackClient.queryTerminalTrack(queryTrackRequest, new GkdOnTrackListener() {
-                            @Override
-                            public void onQueryTrackCallback(QueryTrackResponse queryTrackResponse) {
-                                if (queryTrackResponse.isSuccess()) {
-                                    List<Track> tracks =  queryTrackResponse.getTracks();
-                                    if (tracks != null && !tracks.isEmpty()) {
-                                        boolean allEmpty = true;
-                                        for (Track track : tracks) {
-                                            List<Point> points = track.getPoints();
-                                            if (points != null && points.size() > 0) {
-                                                allEmpty = false;
-                                                //将轨迹点记录
-                                                lPoints=points;
-                                                //本来是要在这显示轨迹
-                                            }
-                                        }
-                                        if (allEmpty) {
-                                            Log.w(TAG, "所有轨迹都无轨迹点，请尝试放宽过滤限制，如：关闭绑路模式");
-                                        } else {
-                                            StringBuilder sb = new StringBuilder();
-                                            sb.append("共查询到").append(tracks.size()).append("条轨迹，每条轨迹行驶距离分别为：");
-                                            for (Track track : tracks) {
-                                                sb.append(track.getDistance()).append("m,");
-                                            }
-                                            //此处获取当前轨迹的长度，保存在dDistance
-                                            if(tracks.size()==1){
-                                                for (Track track : tracks) {
-                                                    dDistance=track.getDistance();
-                                                }
-                                            }
-                                            sb.deleteCharAt(sb.length() - 1);
-                                            Log.w(TAG,sb.toString());
-                                        }
-                                    } else {
-                                        Log.w(TAG,"未获取到轨迹"); }
-                                } else {
-                                    Log.w(TAG,"查询历史轨迹失败，" + queryTrackResponse.getErrorMsg()); }
-                            }
-                        });
-                    } else {
-                        Log.w(TAG,"Terminal不存在");
-                    }
-                } else {
-                    Log.w(TAG,queryTerminalResponse.getErrorMsg());
-                }
-            }
-        });
-
-        //返回轨迹的长度
-        return dDistance;
-    }
-
-    //获取轨迹点的集合
-    @Override
-    public List<Point> getPoints(){
-        return lPoints;
+        if(isServiceRunning) {
+            aMapTrackClient.stopTrack(new TrackParam(Constants.SERVICE_ID, terminalId), onTrackListener);
+            Log.w(TAG,"停止服务");
+        }else{
+            Log.w(TAG,"服务已经停止");
+        }
     }
 
     @Override
