@@ -4,30 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@android:color/darker_gray"
+    tools:context=".view.initView.InitActivity">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/studioLogoImg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
+        app:layout_constraintBottom_toTopOf="@id/studioNameText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/studio_logo" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/studioNameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
         android:gravity="center|center_horizontal|center_vertical"
         android:text="@string/studio_name"
         android:textColor="@android:color/black"
         android:textSize="36sp"
         android:textStyle="bold"
         android:typeface="monospace"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@id/studioLogoImg" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,9 +2,11 @@ package cn.edu.tongji.sse.twitch.gkd.view.SocialView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +29,7 @@ import cn.edu.tongji.sse.twitch.gkd.view.RunningView.RunningActivity;
 import cn.edu.tongji.sse.twitch.gkd.view.UserLoginView.IUserLoginView;
 
 public class SocialActivity extends AppCompatActivity {
+    private TextView tMoments;
     private ImageButton personal,running,create_post,new_post;
     private RecyclerView post_list;
     private RecyclerView recyclerView;//声明RecyclerView
@@ -35,17 +38,22 @@ public class SocialActivity extends AppCompatActivity {
     private List<String> show_post_list;
     private IUserLoginView iUserLoginView;
 
+    SharedPreferences sysSettingSp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         context = this;
         setContentView(R.layout.social_ui);
 
+        sysSettingSp=this.getSharedPreferences("sysSetting",MODE_PRIVATE);
+
         personal=findViewById(R.id.personnal);
         running=findViewById(R.id.running);
         create_post=findViewById(R.id.create_post);
         new_post=findViewById(R.id.new_post);
         recyclerView=findViewById(R.id.post_list);
+        tMoments=findViewById(R.id.momentsText);
 
         show_post_list = new ArrayList<>();
         for (int i=0;i<8;i++){
@@ -104,5 +112,13 @@ public class SocialActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //语言设置
+        if(sysSettingSp.getString("language","").equals("English")) {
+            tMoments.setText(R.string.moments_en);
+        }
+        else{
+            tMoments.setText(R.string.moments_cn);
+        }
     }
 }

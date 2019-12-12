@@ -19,7 +19,6 @@ public class UserLoginPresenterImpl implements IUserLoginPresenter, IUserModel.O
 
     @Override
     public void doLogin(String un, String pwd){
-        mIUserLoginView.showLoading();
         mIUserModel.login(un, pwd,this);
     }
 
@@ -28,8 +27,7 @@ public class UserLoginPresenterImpl implements IUserLoginPresenter, IUserModel.O
         mHandler.post(new Runnable() {
             @Override
             public void run(){
-                mIUserLoginView.hideLoading();
-                mIUserLoginView.toMainActivity();
+                mIUserLoginView.toRunningActivity();
             }
         });
     }
@@ -39,21 +37,8 @@ public class UserLoginPresenterImpl implements IUserLoginPresenter, IUserModel.O
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                mIUserLoginView.hideLoading();
                 mIUserLoginView.showFailedError();
             }
         });
     }
-
-    @Override
-    public void clear(){
-        mIUserLoginView.clearUserName();
-        mIUserLoginView.clearPassword();
-    }
-
-    @Override
-    public void safeAccount(String un, String pwd){
-        ;
-    }
-
 }
