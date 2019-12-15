@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ public class AddFriendActivity extends AppCompatActivity implements IAddFriendVi
     private ImageButton searchFriend,returnPersonal;
     private EditText addFriend;
     private TextView followername;
+    private ImageView followeravater;
     private Switch isFollowed;
     private IAddFriendPresenter iAddFriendPresenter;
 
@@ -33,6 +35,7 @@ public class AddFriendActivity extends AppCompatActivity implements IAddFriendVi
         returnPersonal=findViewById(R.id.returnPersonal);
         addFriend=findViewById(R.id.addNewFriend);
         followername=findViewById(R.id.followername);
+        followeravater=findViewById(R.id.followeravater);
         isFollowed=findViewById(R.id.isFollowed);
 
         returnPersonal.setOnClickListener(new View.OnClickListener() {
@@ -48,7 +51,7 @@ public class AddFriendActivity extends AppCompatActivity implements IAddFriendVi
         searchFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                followername.setText(addFriend.getText().toString());
+                iAddFriendPresenter.searchforFriend(getUserID(),addFriend.getText().toString());
             }
         });
 
@@ -68,6 +71,26 @@ public class AddFriendActivity extends AppCompatActivity implements IAddFriendVi
     public String getUserID(){
         Intent intent=getIntent();
         return intent.getStringExtra("data");
+    }
+
+    //将关注按钮设置为已关注
+    public void changeSwitchChecked(){
+        isFollowed.setChecked(true);
+    }
+
+    //将关注按钮设置为未关注
+    public void changeSwitchUnchecked(){
+        isFollowed.setChecked(false);
+    }
+
+    //设置查询到的用户名
+    public void setFriendName(String username){
+        followername.setText(username);
+    }
+
+    //设置查询到的头像
+    public void setFriendAvater(String avater){
+        followeravater.setImageResource(R.drawable.timg);
     }
 }
 

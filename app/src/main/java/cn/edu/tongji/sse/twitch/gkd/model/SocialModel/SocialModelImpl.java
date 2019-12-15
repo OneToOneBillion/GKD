@@ -30,7 +30,7 @@ public class SocialModelImpl implements ISocialModel {
 
     public void showPostList(String userID, RecyclerView recyclerView, Context context, OnShowPostListener onShowPostListener){
         BmobQuery<Post> query=new BmobQuery<>();
-        query.addWhereEqualTo("user_id", "qwer");
+        query.addWhereEqualTo("user_id", userID);
         query.findObjects(new FindListener<Post>() {
             @Override
             public void done(List<Post> list, BmobException e) {

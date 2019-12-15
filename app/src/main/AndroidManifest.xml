@@ -68,6 +68,10 @@
         <activity android:name=".view.SignUpView.SignUpActivity"></activity>
         <activity android:name=".view.AddFriendView.AddFriendActivity"></activity>
         <activity android:name=".view.ChangeInfoView.ChangeInfoActivity"></activity>
+        <activity android:name=".view.RankingListView.RankingListActivity"></activity>
+        <activity android:name=".view.RunningDataListView.RunningDataListActivity"></activity>
+        <activity android:name=".view.FollowListView.FollowListActivity"></activity>
+        <activity android:name=".view.FollowedListView.FollowedListActivity"></activity>
         <provider
             android:name="cn.bmob.v3.util.BmobContentProvider"
             android:authorities="cn.edu.tongji.sse.twitch.gkd.BmobContentProvider">

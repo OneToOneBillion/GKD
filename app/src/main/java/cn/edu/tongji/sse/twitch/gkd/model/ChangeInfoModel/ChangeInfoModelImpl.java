@@ -2,7 +2,11 @@ package cn.edu.tongji.sse.twitch.gkd.model.ChangeInfoModel;
 
 import android.widget.Toast;
 
+import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.edu.tongji.sse.twitch.gkd.bean.User;
 import cn.edu.tongji.sse.twitch.gkd.presenter.ChangeInfoPresenter.IChangeInfoPresenter;
@@ -19,16 +23,27 @@ public class ChangeInfoModelImpl implements IChangeInfoModel {
     }
 
     public void saveChange(String userID,String neckname,String target,OnChangeListener onChangeListener){
-        User user =new User();
-        user.setUsername(neckname);
-        user.setTarget(target);
-        user.update("c23a557af4", new UpdateListener() {
+        BmobQuery<User> bmobQuery=new BmobQuery<>();
+        bmobQuery.addWhereEqualTo("username",userID);
+        bmobQuery.findObjects(new FindListener<User>() {
             @Override
-            public void done(BmobException e) {
+            public void done(List<User> list, BmobException e) {
                 if(e==null){
-                    Toast.makeText(getApplicationContext(), "更新成功：", Toast.LENGTH_SHORT).show();
+                    User user =new User();
+                    user.setUsername(neckname);
+                    user.setTarget(target);
+                    user.update(list.get(0).getObjectId(), new UpdateListener() {
+                        @Override
+                        public void done(BmobException e) {
+                            if(e==null){
+                                Toast.makeText(getApplicationContext(), "修改成功", Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(getApplicationContext(), "修改失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                 }else{
-                    Toast.makeText(getApplicationContext(), "更新失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "修改失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -24,28 +24,67 @@ public class AddFriendModelImpl implements IAddFriendModel{
         iAddFriendPresenter=IAddFriendPresenter;
     }
 
-    public void addFriend(String userID,String Followername,OnAddFriendListener onAddFriendListener){
+    //查询好友
+    public void searchFriend(String userID,String Followername,OnAddFriendListener onAddFriendListener){
+        //先查找查找的ID有没有被注册过
         BmobQuery<User> bmobQuery=new BmobQuery<>();
-        bmobQuery.addWhereEqualTo("username",userID);
+        bmobQuery.addWhereEqualTo("username",Followername);
         bmobQuery.findObjects(new FindListener<User>() {
             @Override
             public void done(List<User> list, BmobException e) {
                 if (e == null) {
-                    Toast.makeText(getApplicationContext(), "查询成功："+list.size(), Toast.LENGTH_SHORT).show();
+                    if(list.size()==0){//该用户没有被注册，返回"用户不存在"
+                        onAddFriendListener.addFriendFailed("用户不存在");
+                    }
+                    else if(list.size()==1){//用户被注册过，"用户存在"，查询原先有没有关注过
+                        String avater=list.get(0).getAvater();
+                        BmobQuery<Follow> followBmobQuery=new BmobQuery<>();
+                        followBmobQuery.addWhereEqualTo("sUsername",userID);
+                        followBmobQuery.findObjects(new FindListener<Follow>() {
+                            @Override
+                            public void done(List<Follow> querylist, BmobException e) {
+                                if(e==null){
+                                    boolean isFollowed=false;
+                                    for(int i=0;i<querylist.get(0).getaFollowername().size();i++){
+                                        if(Followername.equals(querylist.get(0).getaFollowername().get(i))){
+                                            isFollowed=true;
+                                        }
+                                    }
+                                    //用户原先就关注过，返回查询到的ID，avater，true（被关注过）
+                                    //用户原先没有关注过，返回查询到的ID，avater，false（没有被关注过）
+                                    onAddFriendListener.addFriendSuccess(Followername,avater,isFollowed);
+                                }
+                            }
+                        });
+                    }
+                } else {
+                    onAddFriendListener.addFriendFailed("查询失败");
+                }
+            }
+        });
+    }
+
+    public void addFriend(String userID,String Followername,OnAddFriendListener onAddFriendListener){
+        BmobQuery<Follow> followBmobQuery=new BmobQuery<>();
+        followBmobQuery.addWhereEqualTo("sUsername",userID);
+        followBmobQuery.findObjects(new FindListener<Follow>() {
+            @Override
+            public void done(List<Follow> querylist, BmobException e) {
+                if(e==null){
                     Follow follow=new Follow();
                     follow.addaFollowername(Followername);
-                    follow.update("93708a4772", new UpdateListener() {
+                    follow.update(querylist.get(0).getObjectId(), new UpdateListener() {
                         @Override
                         public void done(BmobException e) {
                             if(e==null){
-                                Toast.makeText(getApplicationContext(), "更新成功：", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "关注成功", Toast.LENGTH_SHORT).show();
                             }else{
-                                Toast.makeText(getApplicationContext(), "更新失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "关注失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
-                } else {
-                    Toast.makeText(getApplicationContext(), "查询失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getApplicationContext(), "关注失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -61,18 +100,18 @@ public class AddFriendModelImpl implements IAddFriendModel{
                     Toast.makeText(getApplicationContext(), "查询成功："+list.size(), Toast.LENGTH_SHORT).show();
                     Follow follow=new Follow();
                     follow.deleteFollowername(Followername);
-                    follow.update("93708a4772", new UpdateListener() {
+                    follow.update(list.get(0).getObjectId(), new UpdateListener() {
                         @Override
                         public void done(BmobException e) {
                             if(e==null){
-                                Toast.makeText(getApplicationContext(), "更新成功：", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "取消关注成功", Toast.LENGTH_SHORT).show();
                             }else{
-                                Toast.makeText(getApplicationContext(), "更新失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "取消关注失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
                 } else {
-                    Toast.makeText(getApplicationContext(), "查询失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "取消关注失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -26,7 +26,7 @@ public class RunningModelImpl implements IRunningModel{
 
     public void addRunData(String userID,long run_time,OnAddlistener onAddlistener){
         Run run=new Run();
-        run.setsUsername("qwer");
+        run.setsUsername(userID);
         run.setiRunTime(run_time);
         run.save(new SaveListener<String>() {
             @Override

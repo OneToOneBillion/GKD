@@ -28,10 +28,11 @@ import cn.edu.tongji.sse.twitch.gkd.view.UserLoginView.UserLoginActivity;
 
 public class ChangeInfoActivity extends AppCompatActivity implements IChangeInfoView{
     private ImageButton returnPersonal,save_change,cancel_change;
-    private EditText neckname,target;
+    private EditText target;
     private IChangeInfoPresenter iChangeInfoPresenter;
     private Button logout,changeAvater;
     private ImageView show_avater;
+    private TextView neckname;
     private static final String TAG = "MainActivity";
 
     protected static final int CHOOSE_PICTURE = 0;
@@ -56,6 +57,7 @@ public class ChangeInfoActivity extends AppCompatActivity implements IChangeInfo
         changeAvater=findViewById(R.id.changeAvater);
 
         show_avater.setImageDrawable(getResources().getDrawable(R.drawable.hhh));
+        neckname.setText(getUserID());
 
         //修改头像
         changeAvater.setOnClickListener(new View.OnClickListener() {

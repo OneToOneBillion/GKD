@@ -31,6 +31,11 @@
             android:layout_gravity="right"/>
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/neckname"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -47,12 +52,6 @@
             android:layout_height="wrap_content"
             android:text="修改头像" />
     </LinearLayout>
-
-    <EditText
-        android:id="@+id/neckname"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:hint="昵称" />
 
     <EditText
         android:id="@+id/target"

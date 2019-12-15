@@ -15,6 +15,10 @@ public class AddFriendPresenterImpl implements IAddFriendPresenter, IAddFriendMo
         iAddFriendModel=new AddFriendModelImpl(this);
     }
 
+    public void searchforFriend(String userID,String Followername){
+        iAddFriendModel.searchFriend(userID,Followername,this);
+    }
+
     public void addNewFriend(String userID,String Followername){
         iAddFriendModel.addFriend(userID,Followername,this);
     }
@@ -23,10 +27,17 @@ public class AddFriendPresenterImpl implements IAddFriendPresenter, IAddFriendMo
         iAddFriendModel.deleteFriend(userID,Followername,this);
     }
 
-    public void addFriendSuccess(){
-
+    public void addFriendSuccess(String username,String avater,boolean isFollowed){
+        if(isFollowed){
+            iAddFriendView.changeSwitchChecked();
+        }
+        else {
+            iAddFriendView.changeSwitchUnchecked();
+        }
+        iAddFriendView.setFriendName(username);
+        iAddFriendView.setFriendAvater(avater);
     }
-    public void addFriendFailed(){
-
+    public void addFriendFailed(String failedInfo){
+        iAddFriendView.setFriendName(failedInfo);
     }
 }

@@ -31,24 +31,26 @@
             app:srcCompat="@android:drawable/ic_menu_revert"
             android:layout_gravity="right"/>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/followeravater"/>
 
         <TextView
             android:id="@+id/followername"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView" />
+            android:layout_width="100dp"
+            android:layout_height="50dp"/>
 
         <Switch
             android:id="@+id/isFollowed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_width="75dp"
+            android:layout_height="50dp"
             android:text="关注" />
     </LinearLayout>
 

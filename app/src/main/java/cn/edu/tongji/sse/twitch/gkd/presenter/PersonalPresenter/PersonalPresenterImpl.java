@@ -19,11 +19,11 @@ public class PersonalPresenterImpl implements IPersonalPresenter, IPersonalModel
         iPersonalModel=new PersonalModelImpl(this);
     }
 
-    public void showRunningData(String userID, List<String> show_running_data_list, RecyclerView running_data, Context context){
-        iPersonalModel.ShowRunningDataList(userID,show_running_data_list,running_data,context,this);
+    public void showRunningData(String userID, RecyclerView running_data, Context context){
+        iPersonalModel.ShowRunningDataList(userID,running_data,context,this);
     }
-    public void showRanking(String userID,List<String> show_ranking_list,RecyclerView ranking_list, Context context){
-        iPersonalModel.ShowRankingList(userID,show_ranking_list,ranking_list,context,this);
+    public void showRanking(String userID,RecyclerView ranking_list, Context context){
+        iPersonalModel.ShowRankingList(userID,ranking_list,context,this);
     }
     public void ShowRunningDataSuccess(){
 

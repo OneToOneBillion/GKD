@@ -32,9 +32,9 @@ public class PersonalModelImpl implements IPersonalModel{
         iPersonalPresenter=IPersonalPresenter;
     }
 
-    public void ShowRunningDataList(String userID, List<String> show_running_data_list, RecyclerView running_data, Context context, OnShowRunningDataListener onShowRunningDataListener){
+    public void ShowRunningDataList(String userID, RecyclerView running_data, Context context, OnShowRunningDataListener onShowRunningDataListener){
         BmobQuery<Run> query=new BmobQuery<>();
-        query.addWhereEqualTo("sUsername", "qwer");
+        query.addWhereEqualTo("sUsername", userID);
         query.findObjects(new FindListener<Run>() {
             @Override
             public void done(List<Run> list, BmobException e) {
@@ -64,9 +64,9 @@ public class PersonalModelImpl implements IPersonalModel{
             }
         });
     }
-    public void ShowRankingList(String userID,List<String> show_ranking_list,RecyclerView ranking_list, Context context,OnShowRankingListener onShowRankingListener){
+    public void ShowRankingList(String userID,RecyclerView ranking_list, Context context,OnShowRankingListener onShowRankingListener){
         BmobQuery<Follow> queryRanking=new BmobQuery<>();
-        queryRanking.addWhereEqualTo("sUsername", "qwer");
+        queryRanking.addWhereEqualTo("sUsername", userID);
         queryRanking.findObjects(new FindListener<Follow>() {
             @Override
             public void done(List<Follow> list, BmobException e) {

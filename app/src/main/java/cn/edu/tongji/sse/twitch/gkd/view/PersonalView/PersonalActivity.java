@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.content.Intent;
 import android.widget.TextView;
@@ -20,17 +21,21 @@ import cn.edu.tongji.sse.twitch.gkd.presenter.PersonalPresenter.PersonalPresente
 import cn.edu.tongji.sse.twitch.gkd.view.Adapter.RecyclerViewAdapter;
 import cn.edu.tongji.sse.twitch.gkd.view.AddFriendView.AddFriendActivity;
 import cn.edu.tongji.sse.twitch.gkd.view.ChangeInfoView.ChangeInfoActivity;
+import cn.edu.tongji.sse.twitch.gkd.view.FollowListView.FollowListActivity;
+import cn.edu.tongji.sse.twitch.gkd.view.FollowedListView.FollowedListActivity;
+import cn.edu.tongji.sse.twitch.gkd.view.RankingListView.RankingListActivity;
+import cn.edu.tongji.sse.twitch.gkd.view.RunningDataListView.RunningDataListActivity;
 import cn.edu.tongji.sse.twitch.gkd.view.RunningView.RunningActivity;
 import cn.edu.tongji.sse.twitch.gkd.view.SystemSettingView.SystemSettingActivity;
 import cn.edu.tongji.sse.twitch.gkd.view.SocialView.SocialActivity;
 
 public class PersonalActivity extends AppCompatActivity implements IPersonalView{
-    private ImageButton personal,running,create_post,setting,addNewFriend,changeInfo;
+    private ImageButton personal,running,create_post,setting,addNewFriend,changeInfo,running_data_detail,ranking_detail;
     private RecyclerView running_data,ranking_list;
     private RecyclerViewAdapter running_data_adapter,ranking_list_adapter;//声明适配器
     private Context context;
-    private List<String> show_running_data_list,show_ranking_list;
-    private TextView tPerson;
+    private TextView tPerson,post_num,punchin_num;
+    private Button follow_num,followed_num;
     private IPersonalPresenter iPersonalPresenter;
 
     SharedPreferences sysSettingSp;
@@ -53,14 +58,46 @@ public class PersonalActivity extends AppCompatActivity implements IPersonalView
         running_data=findViewById(R.id.running_data);
         ranking_list=findViewById(R.id.ranking_list);
         tPerson=findViewById(R.id.personText);
+        running_data_detail=findViewById(R.id.running_data_detail);
+        ranking_detail=findViewById(R.id.ranking_detail);
+        follow_num=findViewById(R.id.follow_num);
+        followed_num=findViewById(R.id.followed_num);
+        post_num=findViewById(R.id.post_num);
+        punchin_num=findViewById(R.id.punchin_num);
 
-        show_running_data_list = new ArrayList<>();
-        show_running_data_list.add("运动记录：");
-        iPersonalPresenter.showRunningData(getUserID(),show_running_data_list,running_data,context);
+        //展示运动数据据
+        iPersonalPresenter.showRunningData(getUserID(),running_data,context);
 
-        show_ranking_list = new ArrayList<>();
-        show_ranking_list.add("用户运动排行榜：");
-        iPersonalPresenter.showRanking(getUserID(),show_ranking_list,ranking_list,context);
+        //展示运动排行榜
+        iPersonalPresenter.showRanking(getUserID(),ranking_list,context);
+
+        //展示相关个人信息，关注，粉丝，动态，打卡量
+        /*follow_num.setText(0);
+        followed_num.setText(0);
+        post_num.setText(0);
+        punchin_num.setText(0);*/
+
+        //跳转关注列表
+        follow_num.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PersonalActivity.this, FollowListActivity.class);
+                intent.putExtra("data",getUserID());
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        //跳转粉丝列表
+        followed_num.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PersonalActivity.this, FollowedListActivity.class);
+                intent.putExtra("data",getUserID());
+                startActivity(intent);
+                finish();
+            }
+        });
 
         //跳转个人界面
         personal.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +110,7 @@ public class PersonalActivity extends AppCompatActivity implements IPersonalView
             }
         });
 
+        //跳转运动界面
         running.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,6 +121,7 @@ public class PersonalActivity extends AppCompatActivity implements IPersonalView
             }
         });
 
+        //跳转动态界面
         create_post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,12 +154,35 @@ public class PersonalActivity extends AppCompatActivity implements IPersonalView
             }
         });
 
+        //跳转设置界面
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PersonalActivity.this, SystemSettingActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.in_from_right,R.anim.out_to_left);
+                finish();
+            }
+        });
+
+        //跳转运动数据详细界面
+        running_data_detail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PersonalActivity.this, RunningDataListActivity.class);
+                intent.putExtra("data",getUserID());
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        //跳转运动排行榜详细界面
+        ranking_detail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PersonalActivity.this, RankingListActivity.class);
+                intent.putExtra("data",getUserID());
+                startActivity(intent);
                 finish();
             }
         });
