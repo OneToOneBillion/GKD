@@ -15,6 +15,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -108,30 +109,8 @@ public class PersonalActivity extends AppCompatActivity implements IPersonalView
                         avater.setImageResource(R.drawable.timg);
                     }
                     else {
-                        avater.setImageResource(R.drawable.hhh);
-                        /*new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                URL imageurl = null;
-
-                                try {
-                                    imageurl = new URL(list.get(0).getAvater());
-                                } catch (MalformedURLException e) {
-                                    e.printStackTrace();
-                                }
-                                try {
-                                    HttpURLConnection conn = (HttpURLConnection)imageurl.openConnection();
-                                    conn.setDoInput(true);
-                                    conn.connect();
-                                    InputStream is = conn.getInputStream();
-                                    bitmap = BitmapFactory.decodeStream(is);
-                                    is.close();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }).start();
-                        avater.setImageBitmap(bitmap);*/
+                        bitmap = BitmapFactory.decodeFile(list.get(0).getAvater());
+                        avater.setImageBitmap(bitmap);
                     }
                 }
             }

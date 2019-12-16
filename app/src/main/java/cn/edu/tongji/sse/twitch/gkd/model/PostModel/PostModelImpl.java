@@ -3,6 +3,8 @@ package cn.edu.tongji.sse.twitch.gkd.model.PostModel;
 import android.content.Intent;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
@@ -29,9 +31,13 @@ public class PostModelImpl implements IPostModel {
     }
 
     public void createNewPostInModel(String postContent,String userID,IPostModel.OnPostListener listener){
+
+        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+        Date date = new Date(System.currentTimeMillis());
         Post p1=new Post();
         p1.setContent(postContent);
         p1.setUser_id(userID);
+        p1.setTime(formatter.format(date));
         p1.save(new SaveListener<String>() {
             @Override
             public void done(String s, BmobException e) {
@@ -51,6 +57,8 @@ public class PostModelImpl implements IPostModel {
                             user.setPunchin_num(list.get(0).getPunchin_num());
                             user.setAvater(list.get(0).getAvater());
                             user.setTarget(list.get(0).getTarget());
+                            user.setRun_times(list.get(0).getRun_times());
+                            user.setRun_distance(list.get(0).getRun_distance());
                             user.update(list.get(0).getObjectId(), new UpdateListener() {
                                 @Override
                                 public void done(BmobException e) {

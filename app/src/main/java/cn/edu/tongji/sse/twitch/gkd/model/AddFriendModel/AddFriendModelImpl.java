@@ -92,6 +92,8 @@ public class AddFriendModelImpl implements IAddFriendModel{
                                         user.setPunchin_num(list.get(0).getPunchin_num());
                                         user.setAvater(list.get(0).getAvater());
                                         user.setTarget(list.get(0).getTarget());
+                                        user.setRun_times(list.get(0).getRun_times());
+                                        user.setRun_distance(list.get(0).getRun_distance());
                                         user.update(list.get(0).getObjectId(), new UpdateListener() {
                                             @Override
                                             public void done(BmobException e) {
@@ -114,6 +116,8 @@ public class AddFriendModelImpl implements IAddFriendModel{
                                         user.setPunchin_num(list.get(0).getPunchin_num());
                                         user.setAvater(list.get(0).getAvater());
                                         user.setTarget(list.get(0).getTarget());
+                                        user.setRun_times(list.get(0).getRun_times());
+                                        user.setRun_distance(list.get(0).getRun_distance());
                                         user.update(list.get(0).getObjectId(), new UpdateListener() {
                                             @Override
                                             public void done(BmobException e) {

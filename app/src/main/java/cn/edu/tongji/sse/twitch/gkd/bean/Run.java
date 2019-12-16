@@ -3,13 +3,10 @@ package cn.edu.tongji.sse.twitch.gkd.bean;
 import cn.bmob.v3.BmobObject;
 
 public class Run extends BmobObject {
-    private String sUsername=" ";
-    private int iRunTotalDistace=0;
-    private long iRunTotalTime=0;
-    private int iRunDistance=0;
+    private String sUsername="";
+    private double sRunDistance=0;
     private long iRunTime=0;
-    private String sRunPicture=" ";
-    private int iAvarageVelocity=0;
+    private String time="";
 
     public void setsUsername(String sUsername){
         this.sUsername=sUsername;
@@ -19,28 +16,12 @@ public class Run extends BmobObject {
         return this.sUsername;
     }
 
-    public void setiRunTotalDistace(int iRunTotalDistace){
-        this.iRunTotalDistace=iRunTotalDistace;
+    public void setsRunDistance(double sRunDistance) {
+        this.sRunDistance = sRunDistance;
     }
 
-    public int getiRunTotalDistace(){
-        return this.iRunTotalDistace;
-    }
-
-    public void setiRunTotalTime(long iRunTotalTime){
-        this.iRunTotalTime=iRunTotalTime;
-    }
-
-    public long getiRunTotalTime(){
-        return this.iRunTotalTime;
-    }
-
-    public void setiRunDistance(int iRunDistance){
-        this.iRunDistance=iRunDistance;
-    }
-
-    public int getiRunDistance(){
-        return this.iRunDistance;
+    public double getsRunDistance() {
+        return sRunDistance;
     }
 
     public void setiRunTime(long iRunTime){
@@ -51,19 +32,11 @@ public class Run extends BmobObject {
         return this.iRunTime;
     }
 
-    public void setsRunPicture(String sRunPicture){
-        this.sRunPicture=sRunPicture;
+    public void setTime(String time) {
+        this.time = time;
     }
 
-    public String getsRunPicture(){
-        return this.sRunPicture;
-    }
-
-    public void setiAvarageVelocity(int iAvarageVelocity){
-        this.iAvarageVelocity=iAvarageVelocity;
-    }
-
-    public int getiAvarageVelocity(){
-        return this.iAvarageVelocity;
+    public String getTime() {
+        return time;
     }
 }

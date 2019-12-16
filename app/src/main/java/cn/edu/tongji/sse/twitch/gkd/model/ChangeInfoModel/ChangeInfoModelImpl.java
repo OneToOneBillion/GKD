@@ -38,6 +38,8 @@ public class ChangeInfoModelImpl implements IChangeInfoModel {
                     user.setPunchin_num(list.get(0).getPunchin_num());
                     user.setValue("target",starget);
                     user.setValue("avater",savater);
+                    user.setRun_times(list.get(0).getRun_times());
+                    user.setRun_distance(list.get(0).getRun_distance());
                     user.update(list.get(0).getObjectId(), new UpdateListener() {
                         @Override
                         public void done(BmobException e) {

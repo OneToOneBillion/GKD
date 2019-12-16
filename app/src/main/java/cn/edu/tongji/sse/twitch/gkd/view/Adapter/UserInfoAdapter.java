@@ -1,6 +1,8 @@
 package cn.edu.tongji.sse.twitch.gkd.view.Adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +16,11 @@ import cn.edu.tongji.sse.twitch.gkd.R;
 public class UserInfoAdapter extends RecyclerView.Adapter<UserInfoAdapter.MyViewHolder> {
     private Context context;
     private View inflater;
-    int[] avater_info;
+    String[] avater_info;
     String[] name_info;
 
     //构造方法，传入数据
-    public UserInfoAdapter(Context context,int[] avater_info,
+    public UserInfoAdapter(Context context,String[] avater_info,
                                String[] name_info){
         this.context = context;
         this.avater_info=avater_info;
@@ -36,7 +38,8 @@ public class UserInfoAdapter extends RecyclerView.Adapter<UserInfoAdapter.MyView
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         //将数据和控件绑定
-        holder.avater_info.setImageResource(avater_info[position]);
+        Bitmap bitmap = BitmapFactory.decodeFile(avater_info[position]);
+        holder.avater_info.setImageBitmap(bitmap);
         holder.name_info.setText(name_info[position]);
     }
 

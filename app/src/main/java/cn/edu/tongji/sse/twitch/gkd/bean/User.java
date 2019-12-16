@@ -4,18 +4,16 @@ import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.datatype.BmobRelation;
 
 public class User extends BmobObject {
-    private int user_id;
     private String username=" ";
     private String password=" ";
     private int follow_num=0;
     private int followed_num=0;
     private int post_num=0;
     private int punchin_num=0;
-    private int run_distance=0;
-    private int run_times=0;
+    private double run_distance=0;
+    private long run_times=0;
     private String avater=" ";
     private String target=" ";
-    private BmobRelation follow;
 
     public String getUsername(){
         return username;
@@ -81,4 +79,19 @@ public class User extends BmobObject {
         this.target=target;
     }
 
+    public double getRun_distance() {
+        return run_distance;
+    }
+
+    public void setRun_distance(double run_distance) {
+        this.run_distance = run_distance;
+    }
+
+    public long getRun_times() {
+        return run_times;
+    }
+
+    public void setRun_times(long run_times) {
+        this.run_times = run_times;
+    }
 }
