@@ -47,7 +47,7 @@ public class PersonalModelImpl implements IPersonalModel{
                         running_item_num[i]=i;
                         running_item_distance[i]=12.34;
                         running_item_timelength[i]=2500;
-                        running_item_time[i]="2019/12/12 12:"+i;
+                        running_item_time[i]=list.get(i).getTableName();
                     }
                     running_data_adapter = new RunningDataAdapter(context,running_item_num,running_item_distance,running_item_timelength,running_item_time);
                     LinearLayoutManager run_manager = new LinearLayoutManager(context);
@@ -78,7 +78,7 @@ public class PersonalModelImpl implements IPersonalModel{
                         for(int j=0;j<list.get(i).getaFollowername().size();j++){
                             ranking_item_rank[i]="第"+i+"名";
                             ranking_item_avater[i]= R.drawable.hhh;
-                            ranking_item_name[i]="张"+i+"伟";
+                            ranking_item_name[i]=list.get(i).getaFollowername().get(j);
                         }
                     }
                     ranking_list_adapter = new RankingListAdapter(context,ranking_item_rank,ranking_item_avater,ranking_item_name);

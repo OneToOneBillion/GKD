@@ -1,9 +1,12 @@
 package cn.edu.tongji.sse.twitch.gkd.view.ChangeInfoView;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -14,9 +17,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import java.io.File;
 
@@ -34,6 +41,7 @@ public class ChangeInfoActivity extends AppCompatActivity implements IChangeInfo
     private ImageView show_avater;
     private TextView neckname;
     private static final String TAG = "MainActivity";
+    private String imagePath="";
 
     protected static final int CHOOSE_PICTURE = 0;
     protected static final int TAKE_PICTURE = 1;
@@ -64,7 +72,7 @@ public class ChangeInfoActivity extends AppCompatActivity implements IChangeInfo
             @Override
             public void onClick(View v) {
                 show_avater.setImageDrawable(getResources().getDrawable(R.drawable.timg));
-                showChoosePicDialog();
+                showChoosePicDialog(v);
             }
         });
 
@@ -83,7 +91,11 @@ public class ChangeInfoActivity extends AppCompatActivity implements IChangeInfo
         save_change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iChangeInfoPresenter.saveChangeInfo(getUserID(),neckname.getText().toString(),target.getText().toString());
+                iChangeInfoPresenter.saveChangeInfo(getUserID(),imagePath,target.getText().toString());
+                Intent intent = new Intent(ChangeInfoActivity.this, PersonalActivity.class);
+                intent.putExtra("data",getUserID());
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -118,7 +130,7 @@ public class ChangeInfoActivity extends AppCompatActivity implements IChangeInfo
     /**
      * 显示修改头像的对话框
      */
-    protected void showChoosePicDialog() {
+    public void showChoosePicDialog(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("设置头像");
         String[] items = { "选择本地照片", "拍照" };
@@ -135,18 +147,39 @@ public class ChangeInfoActivity extends AppCompatActivity implements IChangeInfo
                         startActivityForResult(openAlbumIntent, CHOOSE_PICTURE);
                         break;
                     case TAKE_PICTURE: // 拍照
-                        Intent openCameraIntent = new Intent(
-                                MediaStore.ACTION_IMAGE_CAPTURE);
-                        tempUri = Uri.fromFile(new File(Environment
-                                .getExternalStorageDirectory(), "image.jpg"));
-                        // 指定照片保存路径（SD卡），image.jpg为一个临时文件，每次拍照后这个图片都会被替换
-                        openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri);
-                        startActivityForResult(openCameraIntent, TAKE_PICTURE);
+                        takePicture();
                         break;
                 }
             }
         });
         builder.create().show();
+    }
+
+    private void takePicture() {
+        String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        if (Build.VERSION.SDK_INT >= 23) {
+            // 需要申请动态权限
+            int check = ContextCompat.checkSelfPermission(this, permissions[0]);
+            // 权限是否已经 授权 GRANTED---授权  DINIED---拒绝
+            if (check != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            }
+        }
+        Intent openCameraIntent = new Intent(
+                MediaStore.ACTION_IMAGE_CAPTURE);
+        File file = new File(Environment
+                .getExternalStorageDirectory(), "image.jpg");
+        //判断是否是AndroidN以及更高的版本
+        if (Build.VERSION.SDK_INT >= 24) {
+            openCameraIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            tempUri = FileProvider.getUriForFile(ChangeInfoActivity.this, "cn.edu.tongji.sse.twitch.gkd.fileProvider", file);
+        } else {
+            tempUri = Uri.fromFile(new File(Environment
+                    .getExternalStorageDirectory(), "image.jpg"));
+        }
+        // 指定照片保存路径（SD卡），image.jpg为一个临时文件，每次拍照后这个图片都会被替换
+        openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri);
+        startActivityForResult(openCameraIntent, TAKE_PICTURE);
     }
 
     @Override
@@ -197,15 +230,15 @@ public class ChangeInfoActivity extends AppCompatActivity implements IChangeInfo
      * 保存裁剪之后的图片数据
      *
      * @param
-     *
-     * @param picdata
      */
     protected void setImageToView(Intent data) {
         Bundle extras = data.getExtras();
         if (extras != null) {
             Bitmap photo = extras.getParcelable("data");
-            photo = Utils.toRoundBitmap(photo); // 这个时候的图片已经被m处理成圆形的了
-            iv_personal_icon.setImageBitmap(photo);
+            Log.d(TAG,"setImageToView:"+photo);
+            photo = ImageUtils.toRoundBitmap(photo); // 这个时候的图片已经被处理成圆形的了
+            //iv_personal_icon.setImageBitmap(photo);
+            show_avater.setImageBitmap(photo);
             uploadPic(photo);
         }
     }
@@ -215,14 +248,26 @@ public class ChangeInfoActivity extends AppCompatActivity implements IChangeInfo
         // ... 可以在这里把Bitmap转换成file，然后得到file的url，做文件上传操作
         // 注意这里得到的图片已经是圆形图片了
         // bitmap是没有做个圆形处理的，但已经被裁剪了
-
-        String imagePath = Utils.savePhoto(bitmap, Environment
+        imagePath = ImageUtils.savePhoto(bitmap, Environment
                 .getExternalStorageDirectory().getAbsolutePath(), String
                 .valueOf(System.currentTimeMillis()));
         Log.e("imagePath", imagePath+"");
         if(imagePath != null){
             // 拿着imagePath上传了
             // ...
+            Log.d(TAG,"imagePath:"+imagePath);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+        } else {
+            // 没有获取 到权限，从新请求，或者关闭app
+            Toast.makeText(this, "需要存储权限", Toast.LENGTH_SHORT).show();
         }
     }
 }

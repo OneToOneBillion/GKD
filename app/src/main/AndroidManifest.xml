@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.edu.tongji.sse.twitch.gkd">
 
+    <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.VIBRATE" />
     <!--允许联网 -->
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -75,6 +76,16 @@
         <provider
             android:name="cn.bmob.v3.util.BmobContentProvider"
             android:authorities="cn.edu.tongji.sse.twitch.gkd.BmobContentProvider">
+        </provider>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="cn.edu.tongji.sse.twitch.gkd.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
         </provider>
         <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
         <service android:name="com.amap.api.track.AMapTrackService"/>

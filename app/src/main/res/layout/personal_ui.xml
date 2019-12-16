@@ -50,16 +50,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/topLayout">
 
-        <ImageButton
+        <ImageView
             android:id="@+id/avatar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_marginStart="30dp"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="30dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/sym_def_app_icon" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/target"
@@ -109,14 +108,14 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <TextView
+                <Button
                     android:id="@+id/follow"
                     android:layout_width="50dp"
                     android:layout_height="25dp"
                     android:layout_weight="1"
                     android:text="关注" />
 
-                <Button
+                <TextView
                     android:layout_width="50dp"
                     android:layout_height="25dp"
                     android:id="@+id/follow_num"/>
@@ -128,14 +127,14 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <TextView
+                <Button
                     android:id="@+id/followed"
                     android:layout_width="50dp"
                     android:layout_height="25dp"
                     android:layout_weight="1"
                     android:text="粉丝" />
 
-                <Button
+                <TextView
                     android:layout_width="50dp"
                     android:layout_height="25dp"
                     android:id="@+id/followed_num"/>

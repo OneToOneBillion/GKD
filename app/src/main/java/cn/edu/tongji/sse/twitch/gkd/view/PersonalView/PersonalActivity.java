@@ -2,20 +2,32 @@ package cn.edu.tongji.sse.twitch.gkd.view.PersonalView;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.content.Intent;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.edu.tongji.sse.twitch.gkd.R;
+import cn.edu.tongji.sse.twitch.gkd.bean.User;
 import cn.edu.tongji.sse.twitch.gkd.presenter.PersonalPresenter.IPersonalPresenter;
 import cn.edu.tongji.sse.twitch.gkd.presenter.PersonalPresenter.PersonalPresenterImpl;
 import cn.edu.tongji.sse.twitch.gkd.view.Adapter.RecyclerViewAdapter;
@@ -34,9 +46,11 @@ public class PersonalActivity extends AppCompatActivity implements IPersonalView
     private RecyclerView running_data,ranking_list;
     private RecyclerViewAdapter running_data_adapter,ranking_list_adapter;//声明适配器
     private Context context;
-    private TextView tPerson,post_num,punchin_num;
-    private Button follow_num,followed_num;
+    private TextView tPerson,follow_num,followed_num,post_num,punchin_num,target,neckname;
+    private Button follow,followed;
+    private ImageView avater;
     private IPersonalPresenter iPersonalPresenter;
+    private Bitmap bitmap;
 
     SharedPreferences sysSettingSp;
 
@@ -60,10 +74,15 @@ public class PersonalActivity extends AppCompatActivity implements IPersonalView
         tPerson=findViewById(R.id.personText);
         running_data_detail=findViewById(R.id.running_data_detail);
         ranking_detail=findViewById(R.id.ranking_detail);
+        follow=findViewById(R.id.follow);
+        followed=findViewById(R.id.followed);
         follow_num=findViewById(R.id.follow_num);
         followed_num=findViewById(R.id.followed_num);
         post_num=findViewById(R.id.post_num);
         punchin_num=findViewById(R.id.punchin_num);
+        neckname=findViewById(R.id.neckname);
+        target=findViewById(R.id.target);
+        avater=findViewById(R.id.avatar);
 
         //展示运动数据据
         iPersonalPresenter.showRunningData(getUserID(),running_data,context);
@@ -71,14 +90,55 @@ public class PersonalActivity extends AppCompatActivity implements IPersonalView
         //展示运动排行榜
         iPersonalPresenter.showRanking(getUserID(),ranking_list,context);
 
-        //展示相关个人信息，关注，粉丝，动态，打卡量
-        /*follow_num.setText(0);
-        followed_num.setText(0);
-        post_num.setText(0);
-        punchin_num.setText(0);*/
+        //展示相关个人信息，关注，粉丝，动态，打卡量,头像，昵称，运动目标
+        BmobQuery<User> bmobQuery=new BmobQuery<>();
+        bmobQuery.addWhereEqualTo("username",getUserID());
+        bmobQuery.findObjects(new FindListener<User>() {
+            @Override
+            public void done(List<User> list, BmobException e) {
+                if(e==null){
+                    follow_num.setText(list.get(0).getFollow_num()+"");
+                    followed_num.setText(list.get(0).getFollowed_num()+"");
+                    post_num.setText(list.get(0).getPost_num()+"");
+                    punchin_num.setText(list.get(0).getPunchin_num()+"");
+                    neckname.setText(getUserID());
+                    target.setText(list.get(0).getTarget());
+
+                    if(list.get(0).getAvater().equals(" ")){
+                        avater.setImageResource(R.drawable.timg);
+                    }
+                    else {
+                        avater.setImageResource(R.drawable.hhh);
+                        /*new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                URL imageurl = null;
+
+                                try {
+                                    imageurl = new URL(list.get(0).getAvater());
+                                } catch (MalformedURLException e) {
+                                    e.printStackTrace();
+                                }
+                                try {
+                                    HttpURLConnection conn = (HttpURLConnection)imageurl.openConnection();
+                                    conn.setDoInput(true);
+                                    conn.connect();
+                                    InputStream is = conn.getInputStream();
+                                    bitmap = BitmapFactory.decodeStream(is);
+                                    is.close();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).start();
+                        avater.setImageBitmap(bitmap);*/
+                    }
+                }
+            }
+        });
 
         //跳转关注列表
-        follow_num.setOnClickListener(new View.OnClickListener() {
+        follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PersonalActivity.this, FollowListActivity.class);
@@ -89,7 +149,7 @@ public class PersonalActivity extends AppCompatActivity implements IPersonalView
         });
 
         //跳转粉丝列表
-        followed_num.setOnClickListener(new View.OnClickListener() {
+        followed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PersonalActivity.this, FollowedListActivity.class);
@@ -200,5 +260,34 @@ public class PersonalActivity extends AppCompatActivity implements IPersonalView
     public String getUserID(){
         Intent intent=getIntent();
         return intent.getStringExtra("data");
+    }
+
+    public void setTarget(String target_text){
+        target.setText(target_text);
+    }
+    public void setAvater(String avater_resource){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                URL imageurl = null;
+
+                try {
+                    imageurl = new URL(avater_resource);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    HttpURLConnection conn = (HttpURLConnection)imageurl.openConnection();
+                    conn.setDoInput(true);
+                    conn.connect();
+                    InputStream is = conn.getInputStream();
+                    bitmap = BitmapFactory.decodeStream(is);
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+        avater.setImageBitmap(bitmap);
     }
 }

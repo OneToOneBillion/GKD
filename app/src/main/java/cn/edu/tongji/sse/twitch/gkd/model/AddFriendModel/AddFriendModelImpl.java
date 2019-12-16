@@ -78,6 +78,50 @@ public class AddFriendModelImpl implements IAddFriendModel{
                         public void done(BmobException e) {
                             if(e==null){
                                 Toast.makeText(getApplicationContext(), "关注成功", Toast.LENGTH_SHORT).show();
+                                BmobQuery<User> userBmobQuery=new BmobQuery<>();
+                                userBmobQuery.addWhereEqualTo("username",userID);
+                                userBmobQuery.findObjects(new FindListener<User>() {
+                                    @Override
+                                    public void done(List<User> list, BmobException e) {
+                                        User user=new User();
+                                        user.setUsername(userID);
+                                        user.setPassword(list.get(0).getPassword());
+                                        user.setFollow_num(list.get(0).getFollow_num()+1);
+                                        user.setFollowed_num(list.get(0).getFollowed_num());
+                                        user.setPost_num(list.get(0).getPost_num());
+                                        user.setPunchin_num(list.get(0).getPunchin_num());
+                                        user.setAvater(list.get(0).getAvater());
+                                        user.setTarget(list.get(0).getTarget());
+                                        user.update(list.get(0).getObjectId(), new UpdateListener() {
+                                            @Override
+                                            public void done(BmobException e) {
+
+                                            }
+                                        });
+                                    }
+                                });
+                                BmobQuery<User> followBmobQuery=new BmobQuery<>();
+                                followBmobQuery.addWhereEqualTo("username",Followername);
+                                followBmobQuery.findObjects(new FindListener<User>() {
+                                    @Override
+                                    public void done(List<User> list, BmobException e) {
+                                        User user=new User();
+                                        user.setUsername(Followername);
+                                        user.setPassword(list.get(0).getPassword());
+                                        user.setFollow_num(list.get(0).getFollow_num());
+                                        user.setFollowed_num(list.get(0).getFollowed_num()+1);
+                                        user.setPost_num(list.get(0).getPost_num());
+                                        user.setPunchin_num(list.get(0).getPunchin_num());
+                                        user.setAvater(list.get(0).getAvater());
+                                        user.setTarget(list.get(0).getTarget());
+                                        user.update(list.get(0).getObjectId(), new UpdateListener() {
+                                            @Override
+                                            public void done(BmobException e) {
+
+                                            }
+                                        });
+                                    }
+                                });
                             }else{
                                 Toast.makeText(getApplicationContext(), "关注失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
@@ -105,6 +149,50 @@ public class AddFriendModelImpl implements IAddFriendModel{
                         public void done(BmobException e) {
                             if(e==null){
                                 Toast.makeText(getApplicationContext(), "取消关注成功", Toast.LENGTH_SHORT).show();
+                                BmobQuery<User> userBmobQuery=new BmobQuery<>();
+                                userBmobQuery.addWhereEqualTo("username",userID);
+                                userBmobQuery.findObjects(new FindListener<User>() {
+                                    @Override
+                                    public void done(List<User> list, BmobException e) {
+                                        User user=new User();
+                                        user.setUsername(userID);
+                                        user.setPassword(list.get(0).getPassword());
+                                        user.setFollow_num(list.get(0).getFollow_num()-1);
+                                        user.setFollowed_num(list.get(0).getFollowed_num());
+                                        user.setPost_num(list.get(0).getPost_num());
+                                        user.setPunchin_num(list.get(0).getPunchin_num());
+                                        user.setAvater(list.get(0).getAvater());
+                                        user.setTarget(list.get(0).getTarget());
+                                        user.update(list.get(0).getObjectId(), new UpdateListener() {
+                                            @Override
+                                            public void done(BmobException e) {
+
+                                            }
+                                        });
+                                    }
+                                });
+                                BmobQuery<User> followBmobQuery=new BmobQuery<>();
+                                followBmobQuery.addWhereEqualTo("username",Followername);
+                                followBmobQuery.findObjects(new FindListener<User>() {
+                                    @Override
+                                    public void done(List<User> list, BmobException e) {
+                                        User user=new User();
+                                        user.setUsername(Followername);
+                                        user.setPassword(list.get(0).getPassword());
+                                        user.setFollow_num(list.get(0).getFollow_num());
+                                        user.setFollowed_num(list.get(0).getFollowed_num()-1);
+                                        user.setPost_num(list.get(0).getPost_num());
+                                        user.setPunchin_num(list.get(0).getPunchin_num());
+                                        user.setAvater(list.get(0).getAvater());
+                                        user.setTarget(list.get(0).getTarget());
+                                        user.update(list.get(0).getObjectId(), new UpdateListener() {
+                                            @Override
+                                            public void done(BmobException e) {
+
+                                            }
+                                        });
+                                    }
+                                });
                             }else{
                                 Toast.makeText(getApplicationContext(), "取消关注失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
                             }

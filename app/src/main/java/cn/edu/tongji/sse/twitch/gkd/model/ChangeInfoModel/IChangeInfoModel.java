@@ -1,10 +1,10 @@
 package cn.edu.tongji.sse.twitch.gkd.model.ChangeInfoModel;
 
 public interface IChangeInfoModel {
-    void saveChange(String userID,String neckname,String target,OnChangeListener onChangeListener);
+    void saveChange(String userID,String avater,String target,OnChangeListener onChangeListener);
 
     public interface OnChangeListener{
-        void changeSuccess();
+        void changeSuccess(String userID,String avater,String target);
         void changeFailed();
     }
 }

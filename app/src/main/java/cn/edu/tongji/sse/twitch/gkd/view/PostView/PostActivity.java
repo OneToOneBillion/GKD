@@ -24,7 +24,7 @@ public class PostActivity extends AppCompatActivity implements IPostView {
     private ImageButton cancel_post;
     private Button create_new_post;
     private TextView tCreatePost;
-    private EditText post_content,mpost_user;
+    private EditText post_content;
     private IPostPresenter iPostPresenter;
 
     SharedPreferences sysSettingSp;
@@ -40,13 +40,12 @@ public class PostActivity extends AppCompatActivity implements IPostView {
         create_new_post=findViewById(R.id.creat_new_post);
         cancel_post=findViewById(R.id.cancel_post);
         post_content=findViewById(R.id.post_content);
-        mpost_user=findViewById(R.id.post_user);
         tCreatePost=findViewById(R.id.createPostText);
 
         create_new_post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iPostPresenter.createNewPost(post_content.getText().toString(),mpost_user.getText().toString());
+                iPostPresenter.createNewPost(post_content.getText().toString(),getUserID());
                 Intent intent = new Intent(PostActivity.this, SocialActivity.class);
                 intent.putExtra("data",getUserID());
                 startActivity(intent);

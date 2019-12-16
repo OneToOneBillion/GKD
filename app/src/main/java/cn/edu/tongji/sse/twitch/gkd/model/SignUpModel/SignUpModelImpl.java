@@ -7,6 +7,7 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.edu.tongji.sse.twitch.gkd.bean.Follow;
+import cn.edu.tongji.sse.twitch.gkd.bean.Followed;
 import cn.edu.tongji.sse.twitch.gkd.bean.User;
 import cn.edu.tongji.sse.twitch.gkd.presenter.SignUpPresenter.ISignUpPresenter;
 import cn.edu.tongji.sse.twitch.gkd.view.SignUpView.ISignUpView;
@@ -39,6 +40,16 @@ public class SignUpModelImpl implements ISignUpModel{
                         @Override
                         public void done(String s, BmobException e) {
                             
+                        }
+                    });
+
+                    Followed followed=new Followed();
+                    followed.setsUsername(username);
+                    followed.addaFollowername(username);
+                    followed.save(new SaveListener<String>() {
+                        @Override
+                        public void done(String s, BmobException e) {
+
                         }
                     });
                 } else {

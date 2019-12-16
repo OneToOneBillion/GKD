@@ -44,7 +44,7 @@ public class RankingListModelImpl implements IRankingListModel {
                         for(int j=0;j<list.get(i).getaFollowername().size();j++){
                             ranking_item_rank[i]="第"+i+"名";
                             ranking_item_avater[i]= R.drawable.hhh;
-                            ranking_item_name[i]="张"+i+"伟";
+                            ranking_item_name[i]=list.get(i).getaFollowername().get(j);
                         }
                     }
                     rankingListAdapter = new RankingListAdapter(context,ranking_item_rank,ranking_item_avater,ranking_item_name);

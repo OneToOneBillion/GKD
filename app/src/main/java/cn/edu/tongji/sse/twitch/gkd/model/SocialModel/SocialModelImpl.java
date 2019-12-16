@@ -43,10 +43,10 @@ public class SocialModelImpl implements ISocialModel {
                     int[] post_likes=new int[list.size()];
                     for (int i=0;i<list.size();i++){
                         post_avater[i]= R.drawable.timg;
-                        post_name[i]="张三";
-                        post_content[i]="今天又跑了50米，踏实。";
-                        post_time[i]="2019/12/8 19:28";
-                        post_likes[i]=R.drawable.hhh;
+                        post_name[i]=list.get(i).getUser_id();
+                        post_content[i]=list.get(i).getContent();
+                        post_time[i]=list.get(i).getTableName();
+                        post_likes[i]=R.drawable.like;
                     }
                     adapterDome = new RecyclerViewAdapter(context,post_avater,post_name,post_content,post_time,post_likes);
                     LinearLayoutManager manager = new LinearLayoutManager(context);

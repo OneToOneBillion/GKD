@@ -42,7 +42,7 @@ public class FollowListModelImpl implements IFollowListModel {
                     for (int i=0;i< list.size();i++){
                         for(int j=0;j<list.get(i).getaFollowername().size();j++){
                             follow_item_avater[i]= R.drawable.hhh;
-                            follow_item_name[i]="张"+i+"伟";
+                            follow_item_name[i]=list.get(i).getaFollowername().get(j);
                         }
                     }
                     userInfoAdapter = new UserInfoAdapter(context,follow_item_avater,follow_item_name);

@@ -10,6 +10,7 @@ public class User extends BmobObject {
     private int follow_num=0;
     private int followed_num=0;
     private int post_num=0;
+    private int punchin_num=0;
     private int run_distance=0;
     private int run_times=0;
     private String avater=" ";
@@ -52,8 +53,16 @@ public class User extends BmobObject {
         return this.post_num;
     }
 
-    public void setPollow_num(int post_num){
+    public void setPost_num(int post_num){
         this.post_num=post_num;
+    }
+
+    public int getPunchin_num() {
+        return punchin_num;
+    }
+
+    public void setPunchin_num(int punchin_num) {
+        this.punchin_num = punchin_num;
     }
 
     public String getAvater(){
@@ -72,11 +81,4 @@ public class User extends BmobObject {
         this.target=target;
     }
 
-    public BmobRelation getFollow(){
-        return follow;
-    }
-
-    public void setFollow(BmobRelation follow){
-        this.follow=follow;
-    }
 }

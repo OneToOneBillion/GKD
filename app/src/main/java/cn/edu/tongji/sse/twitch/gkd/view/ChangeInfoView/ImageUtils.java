@@ -1,19 +1,22 @@
 package cn.edu.tongji.sse.twitch.gkd.view.ChangeInfoView;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class Utils {
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.net.Uri;
+
+public class ImageUtils {
+
     /**
      * Save image to the SD card
      *
@@ -100,7 +103,7 @@ public class Utils {
             dst_bottom = height;
         }
         Bitmap output = Bitmap.createBitmap(width,
-                height, Bitmap.Config.ARGB_8888);
+                height, Config.ARGB_8888);
         Canvas canvas = new Canvas(output);
         final int color = 0xff424242;
         final Paint paint = new Paint();
@@ -111,7 +114,7 @@ public class Utils {
         canvas.drawARGB(0, 0, 0, 0);
         paint.setColor(color);
         canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
         canvas.drawBitmap(bitmap, src, dst, paint);
         return output;
     }
