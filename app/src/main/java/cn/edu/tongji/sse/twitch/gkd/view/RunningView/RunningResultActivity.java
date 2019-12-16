@@ -66,11 +66,9 @@ public class RunningResultActivity extends AppCompatActivity implements IRunning
     private Button btn_punchin;
     long trackId;
     private ImageButton myPost;
-    private Button btn_punchin;
 
     private IRunningPresenter iRunningPresenter;
     private TrackSearchPresenterImpl mTrackSearchPresenter;
-    private IRunningPresenter iRunningPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -405,15 +403,5 @@ public class RunningResultActivity extends AppCompatActivity implements IRunning
     protected void onDestroy() {
         super.onDestroy();
         textureMapView.onDestroy();
-    }
-
-    public long getRunTime(){
-        Intent intent=getIntent();
-        return intent.getLongExtra("run_time",0);
-    }
-
-    public String getUserID(){
-        Intent intent=getIntent();
-        return intent.getStringExtra("data");
     }
 }
