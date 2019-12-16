@@ -24,7 +24,7 @@ public class InitActivity extends AppCompatActivity implements IInitView {
 
         //如果是第一次运行本应用，则会先创建两个应用会用到的SharedPreferences本地文件
         //accountSp用来存储记住的账号信息
-        //sysSettingSp用来存储系统设置[系统默认设置语言为English，字体大小为Middle]
+        //sysSettingSp用来存储系统设置[系统默认设置语言为English]
         accountSp=this.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         sysSettingSp=this.getSharedPreferences("sysSetting", Context.MODE_PRIVATE);
         Editor editor=sysSettingSp.edit();
@@ -32,6 +32,7 @@ public class InitActivity extends AppCompatActivity implements IInitView {
             editor.putString("language", "English");
         }
         editor.apply();
+
         Timer t=new Timer();
         TimerTask task = new TimerTask() {
             @Override
@@ -39,7 +40,7 @@ public class InitActivity extends AppCompatActivity implements IInitView {
                 toUserLoginActivity();
             }
         };
-        t.schedule(task, 3000);
+        t.schedule(task, 1000);
     }
 
     @Override
