@@ -1,6 +1,8 @@
 package cn.edu.tongji.sse.twitch.gkd.view.Adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +16,14 @@ import cn.edu.tongji.sse.twitch.gkd.R;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
     private Context context;
     private View inflater;
-    int[] post_avater;
+    String[] post_avater;
     String[] post_name;
     String[] post_content;
     String[] post_time;
     int[] post_likes;
 
     //构造方法，传入数据
-    public RecyclerViewAdapter(Context context,int[] post_avater,
+    public RecyclerViewAdapter(Context context,String[] post_avater,
                                String[] post_name,String[] post_content,
                                String[] post_time,int[] post_likes){
         this.context = context;
@@ -43,7 +45,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         //将数据和控件绑定
-        holder.post_avater.setImageResource(post_avater[position]);
+        Bitmap bitmap = BitmapFactory.decodeFile(post_avater[position]);
+        holder.post_avater.setImageBitmap(bitmap);
         holder.post_name.setText(post_name[position]);
         holder.post_content.setText(post_content[position]);
         holder.post_time.setText(post_time[position]);

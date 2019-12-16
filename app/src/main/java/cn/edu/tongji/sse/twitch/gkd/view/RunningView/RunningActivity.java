@@ -129,7 +129,7 @@ public class RunningActivity extends AppCompatActivity implements IRunningView{
         stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iRunningPresenter.addNewRunData(getUserID(),run_time);
+                long total_run_time=run_time;
                 run_time=0;
                 chronometer.setBase(SystemClock.elapsedRealtime());
 
@@ -137,6 +137,8 @@ public class RunningActivity extends AppCompatActivity implements IRunningView{
 
                 Intent intent = new Intent(RunningActivity.this, RunningResultActivity.class);
                 intent.putExtra("trackId",mTrackPresenterImpl.getTrackId());
+                intent.putExtra("run_time",total_run_time);
+                intent.putExtra("userID",getUserID());
                 startActivity(intent);
             }
         });

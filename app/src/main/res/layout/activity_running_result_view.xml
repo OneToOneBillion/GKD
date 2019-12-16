@@ -41,13 +41,13 @@
             android:id="@+id/myPost"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+      
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btn_punchin"
             android:text="打卡"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     <TextView
         android:id="@+id/distance"

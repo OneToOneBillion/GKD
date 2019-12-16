@@ -1,6 +1,8 @@
 package cn.edu.tongji.sse.twitch.gkd.view.Adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +17,11 @@ public class RankingListAdapter extends RecyclerView.Adapter<RankingListAdapter.
     private Context context;
     private View inflater;
     String[] ranking_item_rank;
-    int[] ranking_item_avater;
+    String[] ranking_item_avater;
     String[] ranking_item_name;
 
     //构造方法，传入数据
-    public RankingListAdapter(Context context,String[] ranking_item_rank, int[] ranking_item_avater,
+    public RankingListAdapter(Context context,String[] ranking_item_rank, String[] ranking_item_avater,
                            String[] ranking_item_name){
         this.context = context;
         this.ranking_item_rank=ranking_item_rank;
@@ -39,7 +41,8 @@ public class RankingListAdapter extends RecyclerView.Adapter<RankingListAdapter.
     public void onBindViewHolder(MyViewHolder holder, int position) {
         //将数据和控件绑定
         holder.ranking_item_rank.setText(ranking_item_rank[position]);
-        holder.ranking_item_avater.setImageResource(ranking_item_avater[position]);
+        Bitmap bitmap = BitmapFactory.decodeFile(ranking_item_avater[position]);
+        holder.ranking_item_avater.setImageBitmap(bitmap);
         holder.ranking_item_name.setText(ranking_item_name[position]);
     }
 

@@ -46,7 +46,7 @@ public class RunningDataListModelImpl implements IRunningDataListModel {
                         running_item_num[i]=i;
                         running_item_distance[i]=12.34;
                         running_item_timelength[i]=2500;
-                        running_item_time[i]=list.get(i).getTableName();
+                        running_item_time[i]=list.get(i).getTime();
                     }
                     running_data_adapter = new RunningDataAdapter(context,running_item_num,running_item_distance,running_item_timelength,running_item_time);
                     LinearLayoutManager run_manager = new LinearLayoutManager(context);
