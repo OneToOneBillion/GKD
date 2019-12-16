@@ -6,6 +6,7 @@ public class Post extends BmobObject {
     private String user_id=" ";
     private String content=" ";
     private int likes=0;
+    private String time="";
 
     public void setUser_id(String user_id){
         this.user_id=user_id;
@@ -29,5 +30,13 @@ public class Post extends BmobObject {
 
     public int getLikes(){
         return this.likes;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getTime() {
+        return time;
     }
 }

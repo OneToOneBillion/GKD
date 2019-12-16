@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +42,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import cn.edu.tongji.sse.twitch.gkd.R;
+import cn.edu.tongji.sse.twitch.gkd.presenter.RunningPresenter.IRunningPresenter;
+import cn.edu.tongji.sse.twitch.gkd.presenter.RunningPresenter.RunningPresenterImpl;
 import cn.edu.tongji.sse.twitch.gkd.presenter.TrackSearchPresenter.TrackSearchPresenterImpl;
 import cn.edu.tongji.sse.twitch.gkd.util.Constants;
 import cn.edu.tongji.sse.twitch.gkd.util.GkdOnTrackListener;
@@ -50,8 +53,10 @@ public class RunningResultActivity extends AppCompatActivity implements IRunning
     private List<Marker> endMarkers = new LinkedList<>();
     private List<Polyline> polylines = new LinkedList<>();
     private AMapTrackClient aMapTrackClient;
+    private Button btn_punchin;
     long trackId;
 
+    private IRunningPresenter iRunningPresenter;
     private TrackSearchPresenterImpl mTrackSearchPresenter;
 
     @Override
@@ -66,6 +71,8 @@ public class RunningResultActivity extends AppCompatActivity implements IRunning
         textureMapView.onCreate(savedInstanceState);
         Intent intent=getIntent();
         trackId=intent.getLongExtra("trackId",0);
+        btn_punchin=findViewById(R.id.btn_punchin);
+        iRunningPresenter=new RunningPresenterImpl(this);
 
         clearTracksOnMap();
         Log.w("ResultActivityTrackId", Long.toString(trackId));
@@ -73,6 +80,17 @@ public class RunningResultActivity extends AppCompatActivity implements IRunning
         //getALLDistance(distanceText);
         draw(distanceText);
 
+        //打卡按钮
+        btn_punchin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iRunningPresenter.addNewRunData(getUserID(),getRunTime(),distanceText.getText().toString());
+                Intent intent = new Intent(RunningResultActivity.this, RunningActivity.class);
+                intent.putExtra("data",getUserID());
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     @Override
@@ -294,4 +312,13 @@ public class RunningResultActivity extends AppCompatActivity implements IRunning
         textureMapView.onDestroy();
     }
 
+    public long getRunTime(){
+        Intent intent=getIntent();
+        return intent.getLongExtra("run_time",0);
+    }
+
+    public String getUserID(){
+        Intent intent=getIntent();
+        return intent.getStringExtra("data");
+    }
 }

@@ -13,8 +13,8 @@ public class RunningPresenterImpl implements IRunningPresenter,IRunningModel.OnA
         iRunningModel=new RunningModelImpl(this);
     }
 
-    public void addNewRunData(String userID,long run_time){
-        iRunningModel.addRunData(userID,run_time,this);
+    public void addNewRunData(String userID,long run_time,String run_distance){
+        iRunningModel.addRunData(userID,run_time,run_distance,this);
     }
 
     public String findUsername(String userID){

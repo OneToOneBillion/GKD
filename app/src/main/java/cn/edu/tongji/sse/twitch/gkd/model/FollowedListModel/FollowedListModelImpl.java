@@ -14,6 +14,7 @@ import cn.bmob.v3.listener.FindListener;
 import cn.edu.tongji.sse.twitch.gkd.R;
 import cn.edu.tongji.sse.twitch.gkd.bean.Follow;
 import cn.edu.tongji.sse.twitch.gkd.bean.Followed;
+import cn.edu.tongji.sse.twitch.gkd.bean.User;
 import cn.edu.tongji.sse.twitch.gkd.presenter.FollowedListPresenter.IFollowedListPresenter;
 import cn.edu.tongji.sse.twitch.gkd.view.Adapter.RankingListAdapter;
 import cn.edu.tongji.sse.twitch.gkd.view.Adapter.UserInfoAdapter;
@@ -37,21 +38,28 @@ public class FollowedListModelImpl implements IFollowedListModel {
             @Override
             public void done(List<Followed> list, BmobException e) {
                 if (e==null){
-                    int[] followed_item_avater=new int[list.size()];
-                    String[] followed_item_name=new String[list.size()];
-                    for (int i=0;i< list.size();i++){
-                        for(int j=0;j<list.get(i).getaFollowername().size();j++){
-                            followed_item_avater[i]= R.drawable.hhh;
-                            followed_item_name[i]=list.get(i).getaFollowername().get(j);
+                    BmobQuery<User> userBmobQuery=new BmobQuery<>();
+                    userBmobQuery.addWhereEqualTo("username",userID);
+                    userBmobQuery.findObjects(new FindListener<User>() {
+                        @Override
+                        public void done(List<User> userList, BmobException e) {
+                            String[] followed_item_avater=new String[list.size()];
+                            String[] followed_item_name=new String[list.size()];
+                            for (int i=0;i< list.size();i++){
+                                for(int j=0;j<list.get(i).getaFollowername().size();j++){
+                                    followed_item_avater[i]= userList.get(0).getAvater();
+                                    followed_item_name[i]=list.get(i).getaFollowername().get(j);
+                                }
+                            }
+                            userInfoAdapter = new UserInfoAdapter(context,followed_item_avater,followed_item_name);
+                            LinearLayoutManager rank_manager = new LinearLayoutManager(context);
+                            rank_manager.setOrientation(LinearLayoutManager.VERTICAL);
+                            followed_list_recyclerView.setLayoutManager(rank_manager);
+                            followed_list_recyclerView.setAdapter(userInfoAdapter);
+                            Toast.makeText(getApplicationContext(),"展示运动数据成功",Toast.LENGTH_LONG).show();
+                            onShowFollowedListener.showFollowedSuccess();
                         }
-                    }
-                    userInfoAdapter = new UserInfoAdapter(context,followed_item_avater,followed_item_name);
-                    LinearLayoutManager rank_manager = new LinearLayoutManager(context);
-                    rank_manager.setOrientation(LinearLayoutManager.VERTICAL);
-                    followed_list_recyclerView.setLayoutManager(rank_manager);
-                    followed_list_recyclerView.setAdapter(userInfoAdapter);
-                    Toast.makeText(getApplicationContext(),"展示运动数据成功",Toast.LENGTH_LONG).show();
-                    onShowFollowedListener.showFollowedSuccess();
+                    });
                 }
                 else {
                     Toast.makeText(getApplicationContext(),"展示运动数据失败："+e.getMessage(),Toast.LENGTH_LONG).show();
