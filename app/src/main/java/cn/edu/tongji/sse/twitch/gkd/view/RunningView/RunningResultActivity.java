@@ -9,11 +9,13 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,11 +48,15 @@ import cn.edu.tongji.sse.twitch.gkd.util.Constants;
 import cn.edu.tongji.sse.twitch.gkd.util.GkdOnTrackListener;
 
 public class RunningResultActivity extends AppCompatActivity implements IRunningView{
+    private TextView tSportReport;
+    private ImageButton btnRevert;
     private TextureMapView textureMapView;
     private List<Marker> endMarkers = new LinkedList<>();
     private List<Polyline> polylines = new LinkedList<>();
     private AMapTrackClient aMapTrackClient;
     long trackId;
+
+    SharedPreferences sysSettingSp;
 
     private TrackSearchPresenterImpl mTrackSearchPresenter;
 
@@ -58,6 +64,11 @@ public class RunningResultActivity extends AppCompatActivity implements IRunning
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_running_result_view);
+        sysSettingSp=this.getSharedPreferences("sysSetting",MODE_PRIVATE);
+
+        tSportReport=findViewById(R.id.sportReportText);
+        btnRevert=findViewById(R.id.revertBtn);
+
         aMapTrackClient = new AMapTrackClient(getApplicationContext());
         mTrackSearchPresenter=new TrackSearchPresenterImpl(this);
 
@@ -73,6 +84,22 @@ public class RunningResultActivity extends AppCompatActivity implements IRunning
         //getALLDistance(distanceText);
         draw(distanceText);
 
+        btnRevert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RunningResultActivity.this, RunningActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        //语言设置
+        if(sysSettingSp.getString("language","").equals("English")){
+            tSportReport.setText(R.string.sport_report_en);
+        }
+        else{
+            tSportReport.setText(R.string.sport_report_cn);
+        }
     }
 
     @Override
