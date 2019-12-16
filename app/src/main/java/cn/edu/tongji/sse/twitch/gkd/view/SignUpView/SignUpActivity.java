@@ -15,6 +15,8 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 import cn.edu.tongji.sse.twitch.gkd.R;
 import cn.edu.tongji.sse.twitch.gkd.bean.User;
+import cn.edu.tongji.sse.twitch.gkd.presenter.SignUpPresenter.ISignUpPresenter;
+import cn.edu.tongji.sse.twitch.gkd.presenter.SignUpPresenter.SignUpPresenterImpl;
 import cn.edu.tongji.sse.twitch.gkd.view.UserLoginView.UserLoginActivity;
 
 import static cn.bmob.v3.Bmob.getApplicationContext;
@@ -24,6 +26,7 @@ public class SignUpActivity extends AppCompatActivity implements ISignUpView{
     private EditText input_sign_up_username,input_sign_up_password,input_sign_up_password_again;
     private Button btn_sign_up,btn_cancel;
     private String mUserName, mPassword;
+    private ISignUpPresenter iSignUpPresenter;
 
     SharedPreferences sysSettingSp;
 
@@ -34,6 +37,7 @@ public class SignUpActivity extends AppCompatActivity implements ISignUpView{
 
         sysSettingSp=getSharedPreferences("sysSetting",MODE_PRIVATE);
 
+        iSignUpPresenter=new SignUpPresenterImpl(this);
         tSignUp=findViewById(R.id.signUpText);
         tUnExistWarning=findViewById(R.id.un_exist_warning);
         tPwdInconsistentWarning=findViewById(R.id.pwd_inconsistent_warning);
@@ -64,19 +68,7 @@ public class SignUpActivity extends AppCompatActivity implements ISignUpView{
                 //若不一致，则无法注册，显示密码不一致的警告信息
                 else {
                     if (input_sign_up_password.getText().toString().equals(input_sign_up_password_again.getText().toString())) {
-                        User u1 = new User();
-                        u1.setUsername(mUserName);
-                        u1.setPassword(mPassword);
-                        u1.save(new SaveListener<String>() {
-                            @Override
-                            public void done(String s, BmobException e) {
-                                if (e == null) {
-                                    Toast.makeText(getApplicationContext(), "添加数据成功，返回objectId为：" + s, Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "创建数据失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
+                        iSignUpPresenter.createNewUser(mUserName,mPassword);
                         Intent intent = new Intent(SignUpActivity.this, UserLoginActivity.class);
                         startActivity(intent);
                         finish();
