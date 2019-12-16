@@ -9,15 +9,19 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.TextureMapView;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
@@ -38,6 +42,12 @@ import com.amap.api.track.query.model.QueryTerminalResponse;
 import com.amap.api.track.query.model.QueryTrackRequest;
 import com.amap.api.track.query.model.QueryTrackResponse;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -48,16 +58,19 @@ import cn.edu.tongji.sse.twitch.gkd.presenter.TrackSearchPresenter.TrackSearchPr
 import cn.edu.tongji.sse.twitch.gkd.util.Constants;
 import cn.edu.tongji.sse.twitch.gkd.util.GkdOnTrackListener;
 
-public class RunningResultActivity extends AppCompatActivity implements IRunningView{
+public class RunningResultActivity extends AppCompatActivity implements IRunningView, AMap.OnMapScreenShotListener {
     private TextureMapView textureMapView;
     private List<Marker> endMarkers = new LinkedList<>();
     private List<Polyline> polylines = new LinkedList<>();
     private AMapTrackClient aMapTrackClient;
     private Button btn_punchin;
     long trackId;
+    private ImageButton myPost;
+    private Button btn_punchin;
 
     private IRunningPresenter iRunningPresenter;
     private TrackSearchPresenterImpl mTrackSearchPresenter;
+    private IRunningPresenter iRunningPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,19 +79,26 @@ public class RunningResultActivity extends AppCompatActivity implements IRunning
         aMapTrackClient = new AMapTrackClient(getApplicationContext());
         mTrackSearchPresenter=new TrackSearchPresenterImpl(this);
 
+        iRunningPresenter=new RunningPresenterImpl(this);
         TextView distanceText=(TextView)findViewById(R.id.distance);
         textureMapView = findViewById(R.id.showMap);
         textureMapView.onCreate(savedInstanceState);
         Intent intent=getIntent();
         trackId=intent.getLongExtra("trackId",0);
         btn_punchin=findViewById(R.id.btn_punchin);
-        iRunningPresenter=new RunningPresenterImpl(this);
 
         clearTracksOnMap();
         Log.w("ResultActivityTrackId", Long.toString(trackId));
         clearTracksOnMap();
         //getALLDistance(distanceText);
         draw(distanceText);
+        myPost=findViewById(R.id.myPost);
+        myPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getMapScreenShot(textureMapView);
+            }
+        });
 
         //打卡按钮
         btn_punchin.setOnClickListener(new View.OnClickListener() {
@@ -93,6 +113,17 @@ public class RunningResultActivity extends AppCompatActivity implements IRunning
         });
     }
 
+    public long getRunTime(){
+        Intent intent=getIntent();
+        return intent.getLongExtra("run_time",0);
+    }
+
+    public String getUserID(){
+        Intent intent=getIntent();
+        return intent.getStringExtra("data");
+    }
+
+
     @Override
     public Context getMyContext(){
         return this.getApplicationContext();
@@ -101,6 +132,23 @@ public class RunningResultActivity extends AppCompatActivity implements IRunning
     @Override
     public Notification getMyNotification(){
         return createNotification();
+    }
+
+    /**
+     * 对地图进行截屏
+     */
+    public void getMapScreenShot(View v) {
+        textureMapView.getMap().getMapScreenShot(this);
+    }
+
+    /**
+     * 截屏时回调的方法。
+     *
+     * @param bitmap 调用截屏接口返回的截屏对象。
+     */
+    @Override
+    public void onMapScreenShot(Bitmap bitmap) {
+
     }
 
     /**
@@ -204,7 +252,6 @@ public class RunningResultActivity extends AppCompatActivity implements IRunning
         });
     }
 
-
     private void drawTrackOnMap(List<Point> points) {
         LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
         PolylineOptions polylineOptions = new PolylineOptions();
@@ -241,6 +288,7 @@ public class RunningResultActivity extends AppCompatActivity implements IRunning
         Toast.makeText(this, "网络请求失败，错误原因: " + errorMsg, Toast.LENGTH_SHORT).show();
     }
 
+    //清空图片
     private void clearTracksOnMap() {
         for (Polyline polyline : polylines) {
             polyline.remove();
@@ -286,6 +334,53 @@ public class RunningResultActivity extends AppCompatActivity implements IRunning
                 }
             }
         });
+    }
+
+    /**
+     * 带有地图渲染状态的截屏回调方法。
+     * 根据返回的状态码，可以判断当前视图渲染是否完成。
+     *
+     * @param bitmap 调用截屏接口返回的截屏对象。
+     * @param arg1 地图渲染状态， 1：地图渲染完成，0：未绘制完成
+     */
+    @Override
+    public void onMapScreenShot(Bitmap bitmap, int arg1) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        if(null == bitmap){
+            return;
+        }
+        try {
+            FileOutputStream fos = new FileOutputStream(
+                    Environment.getExternalStorageDirectory() + "/test_"
+                            + sdf.format(new Date()) + ".png");
+            boolean b = bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            try {
+                fos.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            StringBuffer buffer = new StringBuffer();
+            if (b)
+                buffer.append("截屏成功 ");
+            else {
+                buffer.append("截屏失败 ");
+            }
+            if (arg1 != 0)
+                buffer.append("地图渲染完成，截屏无网格");
+            else {
+                buffer.append( "地图未渲染完成，截屏有网格");
+            }
+            Log.w("1111111111111111111111",Environment.getExternalStorageDirectory() + "/test_"
+                    + sdf.format(new Date()) + ".png");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 import android.widget.Toast;
 
@@ -32,6 +34,7 @@ import cn.edu.tongji.sse.twitch.gkd.view.PersonalView.PersonalActivity;
 import cn.edu.tongji.sse.twitch.gkd.view.SocialView.SocialActivity;
 
 public class RunningActivity extends AppCompatActivity implements IRunningView{
+    private TextView tSport;
     private ImageButton personal,running,create_post;
     private Chronometer chronometer;
     private ToggleButton run_stop;
@@ -41,11 +44,16 @@ public class RunningActivity extends AppCompatActivity implements IRunningView{
 
     private TrackPresenterImpl mTrackPresenterImpl;
 
+    SharedPreferences sysSettingSp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.running_ui);
 
+        sysSettingSp=this.getSharedPreferences("sysSetting",MODE_PRIVATE);
+
+        tSport=findViewById(R.id.sportText);
         iRunningPresenter=new RunningPresenterImpl(this);
         personal=findViewById(R.id.personnal);
         running=findViewById(R.id.running);
@@ -134,6 +142,17 @@ public class RunningActivity extends AppCompatActivity implements IRunningView{
                 startActivity(intent);
             }
         });
+
+        //语言设置
+        if(sysSettingSp.getString("language","").equals("English")){
+            tSport.setText(R.string.sports_en);
+            stop.setText(R.string.stop_en);
+
+        }
+        else{
+            tSport.setText(R.string.sports_cn);
+            stop.setText(R.string.stop_cn);
+        }
     }
 
     @Override

@@ -11,19 +11,19 @@
         android:id="@+id/topLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/myGray"
+        android:background="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/text_run"
+            android:id="@+id/sportText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center|center_horizontal|center_vertical"
-            android:text="跑步"
             android:textColor="@android:color/white"
             android:textSize="36sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -32,7 +32,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/musicLayout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/sportLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +45,8 @@
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/song_name">
 
             <Button
                 android:id="@+id/last"
@@ -55,6 +56,15 @@
                 android:layout_x="50dp"
                 android:layout_y="285dp"
                 android:text="上一首" />
+
+            <Button
+                android:id="@+id/next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_x="270dp"
+                android:layout_y="285dp"
+                android:text="下一首" />
 
             <ToggleButton
                 android:id="@+id/play_pause"
@@ -66,15 +76,6 @@
                 android:text="ToggleButton"
                 android:textOff="播放"
                 android:textOn="暂停" />
-
-            <Button
-                android:id="@+id/next"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_x="270dp"
-                android:layout_y="285dp"
-                android:text="下一首" />
         </LinearLayout>
 
         <TextView
@@ -82,19 +83,11 @@
             android:layout_width="150dp"
             android:layout_height="35dp"
             android:text="歌曲名"
+            app:layout_constraintBottom_toTopOf="@+id/musicBtnLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/singer_name"
-            android:layout_width="135dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="30dp"
-            android:text="歌手名"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/song_name" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -106,17 +99,45 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/musicLayout">
 
-        <Button
-            android:id="@+id/stop"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/circleBtnLayout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_x="265dp"
-            android:layout_y="430dp"
-            android:text="结束"
-            app:layout_constraintBottom_toBottomOf="@+id/run_distance"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/run_distance"
-            app:layout_constraintTop_toTopOf="@+id/run_distance" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chronometer">
+
+            <Button
+                android:id="@+id/stop"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/circle_red_button"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/run_stop"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ToggleButton
+                android:id="@+id/run_stop"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_x="70dp"
+                android:layout_y="380dp"
+                android:background="@drawable/circle_green_button"
+                android:textColor="@android:color/white"
+                android:textOff="@string/start_en"
+                android:textOn="@string/pause_en"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/stop"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Chronometer
             android:id="@+id/chronometer"
@@ -127,33 +148,11 @@
             android:format="%s"
             android:gravity="center"
             android:textSize="80px"
-            app:layout_constraintBottom_toTopOf="@+id/run_distance"
+            app:layout_constraintBottom_toTopOf="@+id/circleBtnLayout"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/run_distance"
-            android:layout_width="220dp"
-            android:layout_height="80dp"
-            android:layout_x="105dp"
-            android:layout_y="70dp"
-            android:ems="10"
-            app:layout_constraintBottom_toTopOf="@+id/run_stop"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <ToggleButton
-            android:id="@+id/run_stop"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_marginBottom="10dp"
-            android:layout_x="70dp"
-            android:layout_y="380dp"
-            android:textOff="开始跑步"
-            android:textOn="暂停跑步"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
