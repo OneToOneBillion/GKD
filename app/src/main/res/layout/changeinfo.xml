@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/change_test"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:text="修改个人信息" />
+
+        <Button
+            android:id="@+id/logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="退出登录" />
+
+        <ImageButton
+            android:id="@+id/returnPersonalView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/ic_menu_revert"
+            android:layout_gravity="right"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/neckname"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:id="@+id/show_avater" />
+
+        <Button
+            android:id="@+id/changeAvater"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="修改头像" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/target"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="运动目标" />
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/save_change"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            app:srcCompat="@android:drawable/checkbox_on_background" />
+
+        <ImageButton
+            android:id="@+id/cancel_change"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            app:srcCompat="@android:drawable/btn_dialog" />
+    </LinearLayout>
+</LinearLayout>

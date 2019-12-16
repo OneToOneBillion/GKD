@@ -24,6 +24,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.amap.api.maps.AMap;
 
 import cn.edu.tongji.sse.twitch.gkd.R;
+
+import cn.edu.tongji.sse.twitch.gkd.presenter.RunningPresenter.IRunningPresenter;
+import cn.edu.tongji.sse.twitch.gkd.presenter.RunningPresenter.RunningPresenterImpl;
 import cn.edu.tongji.sse.twitch.gkd.presenter.TrackPresenter.TrackPresenterImpl;
 import cn.edu.tongji.sse.twitch.gkd.view.PersonalView.PersonalActivity;
 import cn.edu.tongji.sse.twitch.gkd.view.SocialView.SocialActivity;
@@ -34,6 +37,7 @@ public class RunningActivity extends AppCompatActivity implements IRunningView{
     private ToggleButton run_stop;
     private Button stop;
     private long run_time=0;
+    private IRunningPresenter iRunningPresenter;
 
     private TrackPresenterImpl mTrackPresenterImpl;
 
@@ -42,6 +46,7 @@ public class RunningActivity extends AppCompatActivity implements IRunningView{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.running_ui);
 
+        iRunningPresenter=new RunningPresenterImpl(this);
         personal=findViewById(R.id.personnal);
         running=findViewById(R.id.running);
         create_post=findViewById(R.id.create_post);
@@ -57,7 +62,9 @@ public class RunningActivity extends AppCompatActivity implements IRunningView{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RunningActivity.this, PersonalActivity.class);
+                intent.putExtra("data",getUserID());
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -66,7 +73,9 @@ public class RunningActivity extends AppCompatActivity implements IRunningView{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RunningActivity.this, RunningActivity.class);
+                intent.putExtra("data",getUserID());
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -75,7 +84,9 @@ public class RunningActivity extends AppCompatActivity implements IRunningView{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RunningActivity.this, SocialActivity.class);
+                intent.putExtra("data",getUserID());
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -110,6 +121,7 @@ public class RunningActivity extends AppCompatActivity implements IRunningView{
         stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                iRunningPresenter.addNewRunData(getUserID(),run_time);
                 run_time=0;
                 chronometer.setBase(SystemClock.elapsedRealtime());
 
@@ -156,6 +168,11 @@ public class RunningActivity extends AppCompatActivity implements IRunningView{
                 .setContentText("猎鹰sdk运行中");
         Notification notification = builder.build();
         return notification;
+    }
+
+    public String getUserID(){
+        Intent intent=getIntent();
+        return intent.getStringExtra("data");
     }
 }
 

@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.edu.tongji.sse.twitch.gkd">
 
+    <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.VIBRATE" />
     <!-- 允许联网 -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -15,7 +16,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- 允许读取手机状态 用于创建BmobInstallation -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.VIBRATE" />
     <!-- 用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- 用于访问GPS定位 -->
@@ -44,6 +44,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true">
         android:theme="@style/AppTheme">
         <activity android:name=".view.RunningView.RunningResultActivity"></activity>
 
@@ -58,21 +59,37 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".view.initView.InitActivity" />
-        <activity android:name=".view.UserLoginView.UserLoginActivity" />
-        <activity android:name=".view.PersonalView.PersonalActivity" />
-        <activity android:name=".view.RunningView.RunningActivity" />
-        <activity android:name=".view.SocialView.SocialActivity" />
-        <activity android:name=".view.SettingView.SystemSettingActivity" />
-        <activity android:name=".view.PostView.PostActivity" />
-        <activity android:name=".view.SignUpView.SignUpActivity" />
-
+        <activity android:name=".view.initView.InitActivity"></activity>
+        <activity android:name=".view.UserLoginView.UserLoginActivity"></activity>
+        <activity android:name=".view.PersonalView.PersonalActivity"></activity>
+        <activity android:name=".view.RunningView.RunningActivity"></activity>
+        <activity android:name=".view.SocialView.SocialActivity"></activity>
+        <activity android:name=".view.SystemSettingView.SystemSettingActivity"></activity>
+        <activity android:name=".view.PostView.PostActivity"></activity>
+        <activity android:name=".view.SignUpView.SignUpActivity"></activity>
+        <activity android:name=".view.AddFriendView.AddFriendActivity"></activity>
+        <activity android:name=".view.ChangeInfoView.ChangeInfoActivity"></activity>
+        <activity android:name=".view.RankingListView.RankingListActivity"></activity>
+        <activity android:name=".view.RunningDataListView.RunningDataListActivity"></activity>
+        <activity android:name=".view.FollowListView.FollowListActivity"></activity>
+        <activity android:name=".view.FollowedListView.FollowedListActivity"></activity>
         <provider
             android:name="cn.bmob.v3.util.BmobContentProvider"
-            android:authorities="cn.edu.tongji.sse.twitch.gkd.BmobContentProvider"></provider> <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
-        <service android:name="com.amap.api.track.AMapTrackService" />
-        <service android:name="com.amap.api.location.APSService" />
+            android:authorities="cn.edu.tongji.sse.twitch.gkd.BmobContentProvider">
+        </provider>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="cn.edu.tongji.sse.twitch.gkd.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+        <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
+        <service android:name="com.amap.api.track.AMapTrackService"/>
+        <service android:name="com.amap.api.location.APSService"/>
     </application>
 
 </manifest>
