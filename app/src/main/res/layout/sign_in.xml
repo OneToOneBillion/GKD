@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/darker_gray"
+    android:background="@drawable/login_background"
     tools:context=".view.UserLoginView.UserLoginActivity">
 
     <!--头像框-->
@@ -16,44 +16,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/un_input_layout"
-        android:layout_width="250dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/head_portrait_img">
-        <!--账号输入框-->
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/input_account"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/input"
-            android:gravity="center|center_horizontal|center_vertical"
-            android:inputType="text" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/pwd_input_layout"
-        android:layout_width="250dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/un_input_layout">
-        <!--密码输入框-->
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/input_password"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/input"
-            android:gravity="center|center_horizontal|center_vertical"
-            android:inputType="textPassword" />
-    </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
         android:id="@+id/cbLayout"
@@ -112,5 +74,43 @@
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/un_input_layout"
         app:layout_constraintStart_toStartOf="@id/un_input_layout" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/pwd_input_layout"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/un_input_layout">
+        <!--密码输入框-->
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/input_password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/input"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:inputType="textPassword" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/un_input_layout"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/head_portrait_img">
+        <!--账号输入框-->
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/input_account"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/input"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
