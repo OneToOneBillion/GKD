@@ -9,6 +9,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
@@ -59,21 +60,28 @@ import cn.edu.tongji.sse.twitch.gkd.util.Constants;
 import cn.edu.tongji.sse.twitch.gkd.util.GkdOnTrackListener;
 
 public class RunningResultActivity extends AppCompatActivity implements IRunningView, AMap.OnMapScreenShotListener {
+    private TextView tSportReport;
     private TextureMapView textureMapView;
     private List<Marker> endMarkers = new LinkedList<>();
     private List<Polyline> polylines = new LinkedList<>();
     private AMapTrackClient aMapTrackClient;
     private Button btn_punchin;
     long trackId;
-    private ImageButton myPost;
+    private ImageButton myPost, btn_revert;
 
     private IRunningPresenter iRunningPresenter;
     private TrackSearchPresenterImpl mTrackSearchPresenter;
+
+    SharedPreferences sysSettingSp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_running_result_view);
+
+        sysSettingSp=this.getSharedPreferences("sysSetting",MODE_PRIVATE);
+
+        tSportReport=findViewById(R.id.sportReportText);
         aMapTrackClient = new AMapTrackClient(getApplicationContext());
         mTrackSearchPresenter=new TrackSearchPresenterImpl(this);
 
@@ -84,6 +92,7 @@ public class RunningResultActivity extends AppCompatActivity implements IRunning
         Intent intent=getIntent();
         trackId=intent.getLongExtra("trackId",0);
         btn_punchin=findViewById(R.id.btn_punchin);
+        btn_revert=findViewById(R.id.revertBtn);
 
         clearTracksOnMap();
         Log.w("ResultActivityTrackId", Long.toString(trackId));
@@ -109,6 +118,25 @@ public class RunningResultActivity extends AppCompatActivity implements IRunning
                 finish();
             }
         });
+
+        //返回按钮
+        btn_revert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RunningResultActivity.this,RunningActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        //语言设置
+        if(sysSettingSp.getString("language","").equals("English")){
+            tSportReport.setText(R.string.sport_report_en);
+            btn_punchin.setText(R.string.clock_in_en);
+        }
+        else{
+            tSportReport.setText(R.string.sport_report_cn);
+            btn_punchin.setText(R.string.clock_in_cn);
+        }
     }
 
     public long getRunTime(){

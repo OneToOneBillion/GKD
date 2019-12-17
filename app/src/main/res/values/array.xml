@@ -4,4 +4,13 @@
         <item>English</item>
         <item>简体中文</item>
     </string-array>
+
+    <string-array name="music">
+        <item>afterhours.mp3</item>
+        <item>fire.mp3</item>
+        <item>Iridescent.mp3</item>
+        <item>Look At Me Now.mp3</item>
+        <item>Masked Heroes.mp3</item>
+        <item>Way Back.mp3</item>
+    </string-array>
 </resources>
