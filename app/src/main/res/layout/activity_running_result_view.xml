@@ -40,15 +40,16 @@
         <ImageButton
             android:id="@+id/myPost"
             android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btn_punchin"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/btn_punchin"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="打卡"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
