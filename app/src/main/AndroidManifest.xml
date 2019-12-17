@@ -50,7 +50,7 @@
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="8e841b6d8a080ad186a03e442144b736" />
+            android:value="dca91d5b353bd618b3357b91a911f6a3" />
 
         <activity android:name=".view.BlankView.BlankActivity">
             <intent-filter>

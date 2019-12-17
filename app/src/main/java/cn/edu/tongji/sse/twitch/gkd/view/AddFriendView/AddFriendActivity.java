@@ -1,6 +1,8 @@
 package cn.edu.tongji.sse.twitch.gkd.view.AddFriendView;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -90,7 +92,8 @@ public class AddFriendActivity extends AppCompatActivity implements IAddFriendVi
 
     //设置查询到的头像
     public void setFriendAvater(String avater){
-        followeravater.setImageResource(R.drawable.timg);
+        Bitmap bitmap = BitmapFactory.decodeFile(avater);
+        followeravater.setImageBitmap(bitmap);
     }
 }
 

@@ -43,13 +43,11 @@ public class FollowedListModelImpl implements IFollowedListModel {
                     userBmobQuery.findObjects(new FindListener<User>() {
                         @Override
                         public void done(List<User> userList, BmobException e) {
-                            String[] followed_item_avater=new String[list.size()];
-                            String[] followed_item_name=new String[list.size()];
-                            for (int i=0;i< list.size();i++){
-                                for(int j=0;j<list.get(i).getaFollowername().size();j++){
-                                    followed_item_avater[i]= userList.get(0).getAvater();
-                                    followed_item_name[i]=list.get(i).getaFollowername().get(j);
-                                }
+                            String[] followed_item_avater=new String[list.get(0).getaFollowername().size()];
+                            String[] followed_item_name=new String[list.get(0).getaFollowername().size()];
+                            for(int i=0;i<list.get(0).getaFollowername().size();i++){
+                                followed_item_avater[i]= userList.get(0).getAvater();
+                                followed_item_name[i]=list.get(0).getaFollowername().get(i);
                             }
                             userInfoAdapter = new UserInfoAdapter(context,followed_item_avater,followed_item_name);
                             LinearLayoutManager rank_manager = new LinearLayoutManager(context);

@@ -7,8 +7,10 @@ import java.util.List;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.edu.tongji.sse.twitch.gkd.bean.Follow;
+import cn.edu.tongji.sse.twitch.gkd.bean.Followed;
 import cn.edu.tongji.sse.twitch.gkd.bean.User;
 import cn.edu.tongji.sse.twitch.gkd.presenter.AddFriendPresenter.AddFriendPresenterImpl;
 import cn.edu.tongji.sse.twitch.gkd.presenter.AddFriendPresenter.IAddFriendPresenter;
@@ -71,83 +73,121 @@ public class AddFriendModelImpl implements IAddFriendModel{
             @Override
             public void done(List<Follow> querylist, BmobException e) {
                 if(e==null){
-                    Follow follow=new Follow();
-                    follow.addaFollowername(Followername);
-                    follow.update(querylist.get(0).getObjectId(), new UpdateListener() {
-                        @Override
-                        public void done(BmobException e) {
-                            if(e==null){
-                                Toast.makeText(getApplicationContext(), "关注成功", Toast.LENGTH_SHORT).show();
-                                BmobQuery<User> userBmobQuery=new BmobQuery<>();
-                                userBmobQuery.addWhereEqualTo("username",userID);
-                                userBmobQuery.findObjects(new FindListener<User>() {
-                                    @Override
-                                    public void done(List<User> list, BmobException e) {
-                                        User user=new User();
-                                        user.setUsername(userID);
-                                        user.setPassword(list.get(0).getPassword());
-                                        user.setFollow_num(list.get(0).getFollow_num()+1);
-                                        user.setFollowed_num(list.get(0).getFollowed_num());
-                                        user.setPost_num(list.get(0).getPost_num());
-                                        user.setPunchin_num(list.get(0).getPunchin_num());
-                                        user.setAvater(list.get(0).getAvater());
-                                        user.setTarget(list.get(0).getTarget());
-                                        user.setRun_times(list.get(0).getRun_times());
-                                        user.setRun_distance(list.get(0).getRun_distance());
-                                        user.update(list.get(0).getObjectId(), new UpdateListener() {
-                                            @Override
-                                            public void done(BmobException e) {
-
-                                            }
-                                        });
-                                    }
-                                });
-                                BmobQuery<User> followBmobQuery=new BmobQuery<>();
-                                followBmobQuery.addWhereEqualTo("username",Followername);
-                                followBmobQuery.findObjects(new FindListener<User>() {
-                                    @Override
-                                    public void done(List<User> list, BmobException e) {
-                                        User user=new User();
-                                        user.setUsername(Followername);
-                                        user.setPassword(list.get(0).getPassword());
-                                        user.setFollow_num(list.get(0).getFollow_num());
-                                        user.setFollowed_num(list.get(0).getFollowed_num()+1);
-                                        user.setPost_num(list.get(0).getPost_num());
-                                        user.setPunchin_num(list.get(0).getPunchin_num());
-                                        user.setAvater(list.get(0).getAvater());
-                                        user.setTarget(list.get(0).getTarget());
-                                        user.setRun_times(list.get(0).getRun_times());
-                                        user.setRun_distance(list.get(0).getRun_distance());
-                                        user.update(list.get(0).getObjectId(), new UpdateListener() {
-                                            @Override
-                                            public void done(BmobException e) {
-
-                                            }
-                                        });
-                                    }
-                                });
-                            }else{
-                                Toast.makeText(getApplicationContext(), "关注失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
+                    boolean isFollowed=false;
+                    for(int i=0;i<querylist.get(0).getaFollowername().size();i++){
+                        if(Followername.equals(querylist.get(0).getaFollowername().get(i))){
+                            isFollowed=true;
                         }
-                    });
+                    }
+                    if(!isFollowed){
+                        Follow follow=new Follow();
+                        follow.setsUsername(userID);
+                        follow.setaFollowername(querylist.get(0).getaFollowername());
+                        follow.addaFollowername(querylist.get(0).getaFollowername(),Followername);
+                        follow.update(querylist.get(0).getObjectId(), new UpdateListener() {
+                            @Override
+                            public void done(BmobException e) {
+                                if(e==null){
+                                    Toast.makeText(getApplicationContext(), "关注成功", Toast.LENGTH_SHORT).show();
+                                    BmobQuery<User> userBmobQuery=new BmobQuery<>();
+                                    userBmobQuery.addWhereEqualTo("username",userID);
+                                    userBmobQuery.findObjects(new FindListener<User>() {
+                                        @Override
+                                        public void done(List<User> list, BmobException e) {
+                                            User user=new User();
+                                            user.setUsername(userID);
+                                            user.setPassword(list.get(0).getPassword());
+                                            user.setFollow_num(list.get(0).getFollow_num()+1);
+                                            user.setFollowed_num(list.get(0).getFollowed_num());
+                                            user.setPost_num(list.get(0).getPost_num());
+                                            user.setPunchin_num(list.get(0).getPunchin_num());
+                                            user.setAvater(list.get(0).getAvater());
+                                            user.setTarget(list.get(0).getTarget());
+                                            user.setRun_times(list.get(0).getRun_times());
+                                            user.setRun_distance(list.get(0).getRun_distance());
+                                            user.update(list.get(0).getObjectId(), new UpdateListener() {
+                                                @Override
+                                                public void done(BmobException e) {
+
+                                                }
+                                            });
+                                        }
+                                    });
+                                    BmobQuery<User> followBmobQuery=new BmobQuery<>();
+                                    followBmobQuery.addWhereEqualTo("username",Followername);
+                                    followBmobQuery.findObjects(new FindListener<User>() {
+                                        @Override
+                                        public void done(List<User> list, BmobException e) {
+                                            User user=new User();
+                                            user.setUsername(Followername);
+                                            user.setPassword(list.get(0).getPassword());
+                                            user.setFollow_num(list.get(0).getFollow_num());
+                                            user.setFollowed_num(list.get(0).getFollowed_num()+1);
+                                            user.setPost_num(list.get(0).getPost_num());
+                                            user.setPunchin_num(list.get(0).getPunchin_num());
+                                            user.setAvater(list.get(0).getAvater());
+                                            user.setTarget(list.get(0).getTarget());
+                                            user.setRun_times(list.get(0).getRun_times());
+                                            user.setRun_distance(list.get(0).getRun_distance());
+                                            user.update(list.get(0).getObjectId(), new UpdateListener() {
+                                                @Override
+                                                public void done(BmobException e) {
+
+                                                }
+                                            });
+                                        }
+                                    });
+                                }else{
+                                    Toast.makeText(getApplicationContext(), "关注失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
                 }else{
                     Toast.makeText(getApplicationContext(), "关注失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        BmobQuery<Followed> followedBmobQuery=new BmobQuery<>();
+        followedBmobQuery.addWhereEqualTo("sUsername",Followername);
+        followedBmobQuery.findObjects(new FindListener<Followed>() {
+            @Override
+            public void done(List<Followed> list, BmobException e) {
+                boolean isFollowed=false;
+                for(int i=0;i<list.get(0).getaFollowername().size();i++){
+                    if(Followername.equals(list.get(0).getaFollowername().get(i))){
+                        isFollowed=true;
+                    }
+                }
+                if(!isFollowed){
+                    Followed followed=new Followed();
+                    followed.setsUsername(Followername);
+                    followed.setaFollowername(list.get(0).getaFollowername());
+                    followed.addaFollowername(list.get(0).getaFollowername(),userID);
+                    followed.save(new SaveListener<String>() {
+                        @Override
+                        public void done(String s, BmobException e) {
+
+                        }
+                    });
                 }
             }
         });
     }
 
     public void deleteFriend(String userID,String Followername,OnAddFriendListener onAddFriendListener){
-        BmobQuery<User> bmobQuery=new BmobQuery<>();
+        BmobQuery<Follow> bmobQuery=new BmobQuery<>();
         bmobQuery.addWhereEqualTo("username",userID);
-        bmobQuery.findObjects(new FindListener<User>() {
+        bmobQuery.findObjects(new FindListener<Follow>() {
             @Override
-            public void done(List<User> list, BmobException e) {
+            public void done(List<Follow> list, BmobException e) {
                 if (e == null) {
                     Toast.makeText(getApplicationContext(), "查询成功："+list.size(), Toast.LENGTH_SHORT).show();
                     Follow follow=new Follow();
-                    follow.deleteFollowername(Followername);
+                    follow.setsUsername(userID);
+                    follow.setaFollowername(list.get(0).getaFollowername());
+                    follow.deleteFollowername(list.get(0).getaFollowername(),Followername);
                     follow.update(list.get(0).getObjectId(), new UpdateListener() {
                         @Override
                         public void done(BmobException e) {
@@ -205,6 +245,24 @@ public class AddFriendModelImpl implements IAddFriendModel{
                 } else {
                     Toast.makeText(getApplicationContext(), "取消关注失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        BmobQuery<Followed> followedBmobQuery=new BmobQuery<>();
+        followedBmobQuery.addWhereEqualTo("sUsername",Followername);
+        followedBmobQuery.findObjects(new FindListener<Followed>() {
+            @Override
+            public void done(List<Followed> list, BmobException e) {
+                Followed followed=new Followed();
+                followed.setsUsername(Followername);
+                followed.setaFollowername(list.get(0).getaFollowername());
+                followed.deleteFollowername(list.get(0).getaFollowername(),userID);
+                followed.save(new SaveListener<String>() {
+                    @Override
+                    public void done(String s, BmobException e) {
+
+                    }
+                });
             }
         });
     }
