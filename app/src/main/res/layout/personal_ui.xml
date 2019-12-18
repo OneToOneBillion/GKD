@@ -37,7 +37,7 @@
             android:id="@+id/addNewFriend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@android:drawable/ic_input_add"
+            app:srcCompat="@android:drawable/ic_menu_search"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/setting"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -83,10 +83,10 @@
 
         <ImageButton
             android:id="@+id/changeInfo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@android:drawable/ic_menu_edit"
-            android:layout_marginStart="30dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/btn_fix"
+            android:layout_marginStart="20dp"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="30dp"
             app:layout_constraintStart_toEndOf="@+id/neckname"
@@ -106,9 +106,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/gray_background"
                 android:orientation="vertical">
 
-                <Button
+                <TextView
                     android:id="@+id/follow"
                     android:layout_width="50dp"
                     android:layout_height="25dp"
@@ -125,14 +126,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/white_background"
                 android:orientation="vertical">
 
-                <Button
+
+                <TextView
                     android:id="@+id/followed"
                     android:layout_width="50dp"
                     android:layout_height="25dp"
                     android:layout_weight="1"
                     android:text="粉丝" />
+
 
                 <TextView
                     android:layout_width="50dp"
@@ -144,6 +148,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/gray_background"
                 android:orientation="vertical">
 
                 <TextView
@@ -163,6 +168,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/white_background"
                 android:orientation="vertical">
 
                 <TextView
@@ -210,10 +216,10 @@
 
                 <ImageButton
                     android:id="@+id/running_data_detail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
-                    app:srcCompat="@android:drawable/ic_menu_set_as" />
+                    android:background="@drawable/btn_data" />
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -242,14 +248,15 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="用户运动数据排行榜"/>
+                    android:text="用户运动数据排行榜" />
 
                 <ImageButton
                     android:id="@+id/ranking_detail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
-                    app:srcCompat="@android:drawable/ic_menu_set_as" />
+                    android:background="@drawable/btn_jiangbei" />
+
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -284,10 +291,10 @@
 
         <ImageButton
             android:id="@+id/create_post"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="40dp"
+            android:layout_height="50dp"
             android:layout_weight="1"
-            app:srcCompat="@android:drawable/ic_menu_send" />
+            android:background="@drawable/btn_social"/>
 
         <ImageButton
             android:id="@+id/personnal"
