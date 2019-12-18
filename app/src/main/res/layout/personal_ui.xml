@@ -46,6 +46,7 @@
         android:id="@+id/personInfoLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/rectangle_frame"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/topLayout">
@@ -126,7 +127,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/white_background"
+                android:background="@drawable/rectangle_frame_top"
                 android:orientation="vertical">
 
 
@@ -168,7 +169,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/white_background"
+                android:background="@drawable/rectangle_frame_top"
                 android:orientation="vertical">
 
                 <TextView
@@ -189,8 +190,10 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/list_test"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@drawable/rectangle_frame"
         app:layout_constraintBottom_toTopOf="@id/bottomBtnLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -216,8 +219,8 @@
 
                 <ImageButton
                     android:id="@+id/running_data_detail"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_weight="1"
                     android:background="@drawable/btn_data" />
             </LinearLayout>
@@ -237,6 +240,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:background="@drawable/rectangle_frame_left"
             app:layout_constraintStart_toEndOf="@+id/user_running_data_title"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -252,8 +256,8 @@
 
                 <ImageButton
                     android:id="@+id/ranking_detail"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_weight="1"
                     android:background="@drawable/btn_jiangbei" />
 
