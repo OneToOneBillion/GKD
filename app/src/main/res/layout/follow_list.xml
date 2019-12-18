@@ -14,7 +14,7 @@
             android:layout_width="200dp"
             android:layout_height="50dp"
             android:id="@+id/follow_list_text"
-            android:text="近期运动数据"/>
+            android:text="粉丝"/>
 
         <ImageButton
             android:id="@+id/follow_list_return"

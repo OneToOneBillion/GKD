@@ -48,7 +48,7 @@ public class PersonalActivity extends AppCompatActivity implements IPersonalView
     private RecyclerViewAdapter running_data_adapter,ranking_list_adapter;//声明适配器
     private Context context;
     private TextView tPerson,follow_num,followed_num,post_num,punchin_num,target,neckname;
-    private Button follow,followed;
+    private TextView follow,followed;
     private ImageView avater;
     private IPersonalPresenter iPersonalPresenter;
     private Bitmap bitmap;
