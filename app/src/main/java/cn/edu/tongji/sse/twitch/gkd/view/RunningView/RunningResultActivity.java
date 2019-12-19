@@ -60,7 +60,7 @@ import cn.edu.tongji.sse.twitch.gkd.util.Constants;
 import cn.edu.tongji.sse.twitch.gkd.util.GkdOnTrackListener;
 
 public class RunningResultActivity extends AppCompatActivity implements IRunningView, AMap.OnMapScreenShotListener {
-    private TextView tSportReport;
+    private TextView tSportReport, tMeterUnit;
     private TextureMapView textureMapView;
     private List<Marker> endMarkers = new LinkedList<>();
     private List<Polyline> polylines = new LinkedList<>();
@@ -82,6 +82,7 @@ public class RunningResultActivity extends AppCompatActivity implements IRunning
         sysSettingSp=this.getSharedPreferences("sysSetting",MODE_PRIVATE);
 
         tSportReport=findViewById(R.id.sportReportText);
+        tMeterUnit=findViewById(R.id.meterUnitText);
         aMapTrackClient = new AMapTrackClient(getApplicationContext());
         mTrackSearchPresenter=new TrackSearchPresenterImpl(this);
 
@@ -131,10 +132,12 @@ public class RunningResultActivity extends AppCompatActivity implements IRunning
         //语言设置
         if(sysSettingSp.getString("language","").equals("English")){
             tSportReport.setText(R.string.sport_report_en);
+            tMeterUnit.setText(R.string.meter_en);
             btn_punchin.setText(R.string.clock_in_en);
         }
         else{
             tSportReport.setText(R.string.sport_report_cn);
+            tMeterUnit.setText(R.string.meter_cn);
             btn_punchin.setText(R.string.clock_in_cn);
         }
     }

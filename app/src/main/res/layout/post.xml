@@ -20,7 +20,7 @@
             android:id="@+id/creat_new_post"
             android:layout_width="100dp"
             android:layout_height="0dp"
-            android:background="@drawable/button_circle_shape"
+            android:background="@drawable/oral_green_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

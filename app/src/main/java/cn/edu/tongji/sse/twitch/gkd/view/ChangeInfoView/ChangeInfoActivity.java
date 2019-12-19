@@ -1,8 +1,11 @@
 package cn.edu.tongji.sse.twitch.gkd.view.ChangeInfoView;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -49,10 +52,14 @@ public class ChangeInfoActivity extends AppCompatActivity implements IChangeInfo
     protected static Uri tempUri;
     private ImageView iv_personal_icon;
 
+    SharedPreferences cbSp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.changeinfo);
+
+        cbSp=this.getSharedPreferences("cb", Context.MODE_PRIVATE);
 
         iChangeInfoPresenter=new ChangeInfoPresenterImpl(this);
         returnPersonal=findViewById(R.id.returnPersonalView);
@@ -114,6 +121,9 @@ public class ChangeInfoActivity extends AppCompatActivity implements IChangeInfo
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Editor editor = cbSp.edit();
+                editor.putBoolean("CbAutomaticLogin",false);
+                editor.apply();
                 Intent intent = new Intent(ChangeInfoActivity.this, UserLoginActivity.class);
                 intent.putExtra("data",getUserID());
                 startActivity(intent);
