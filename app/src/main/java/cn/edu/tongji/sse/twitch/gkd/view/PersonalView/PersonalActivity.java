@@ -106,7 +106,7 @@ public class PersonalActivity extends AppCompatActivity implements IPersonalView
                     target.setText(list.get(0).getTarget());
 
                     if(list.get(0).getAvater().equals(" ")){
-                        avater.setImageResource(R.drawable.timg);
+                        avater.setImageResource(R.drawable.initavater);
                     }
                     else {
                         bitmap = BitmapFactory.decodeFile(list.get(0).getAvater());

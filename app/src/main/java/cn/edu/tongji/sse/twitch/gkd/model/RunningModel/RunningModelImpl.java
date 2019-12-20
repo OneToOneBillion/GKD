@@ -54,7 +54,12 @@ public class RunningModelImpl implements IRunningModel{
                                 user.setFollow_num(list.get(0).getFollow_num());
                                 user.setFollowed_num(list.get(0).getFollowed_num());
                                 user.setPost_num(list.get(0).getPost_num());
-                                user.setPunchin_num(list.get(0).getPunchin_num());
+                                if(run_distance>=2000){
+                                    user.setPunchin_num(list.get(0).getPunchin_num()+1);
+                                }
+                                else {
+                                    user.setPunchin_num(list.get(0).getPunchin_num());
+                                }
                                 user.setTarget(list.get(0).getTarget());
                                 user.setAvater(list.get(0).getAvater());
                                 user.setRun_distance(list.get(0).getRun_distance()+run_distance);

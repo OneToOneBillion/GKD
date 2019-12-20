@@ -39,6 +39,7 @@ public class AddFriendActivity extends AppCompatActivity implements IAddFriendVi
         followername=findViewById(R.id.followername);
         followeravater=findViewById(R.id.followeravater);
         isFollowed=findViewById(R.id.isFollowed);
+        isFollowed.setVisibility(View.INVISIBLE);
 
         returnPersonal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,6 +54,7 @@ public class AddFriendActivity extends AppCompatActivity implements IAddFriendVi
         searchFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isFollowed.setVisibility(View.VISIBLE);
                 iAddFriendPresenter.searchforFriend(getUserID(),addFriend.getText().toString());
             }
         });

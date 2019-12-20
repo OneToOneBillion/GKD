@@ -11,7 +11,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.List;
+
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.edu.tongji.sse.twitch.gkd.R;
 import cn.edu.tongji.sse.twitch.gkd.bean.User;
@@ -56,29 +61,43 @@ public class SignUpActivity extends AppCompatActivity implements ISignUpView{
                 mUserName=getUserName();
                 mPassword=getPassword();
 
-                //(!!!添加逻辑)
-                //(!!!判断用户名是否已经存在)
-                //(!!!如果存在，则无法注册，显示用户名已存在的警告信息)
-                if(1+1!=2){
-                    tUnExistWarning.setVisibility(View.VISIBLE);
-                    input_sign_up_username.setBackgroundResource(R.drawable.input_warning);
-                }
-                //如果用户名合法，则判断两次输入的密码是否一致
-                //如果一致，则注册成功,向数据库中添加数据，并跳转至登陆界面
-                //若不一致，则无法注册，显示密码不一致的警告信息
-                else {
-                    if (input_sign_up_password.getText().toString().equals(input_sign_up_password_again.getText().toString())) {
-                        iSignUpPresenter.createNewUser(mUserName,mPassword);
-                        Intent intent = new Intent(SignUpActivity.this, UserLoginActivity.class);
-                        startActivity(intent);
-                        finish();
+                BmobQuery<User> userBmobQuery=new BmobQuery<>();
+                userBmobQuery.findObjects(new FindListener<User>() {
+                    @Override
+                    public void done(List<User> list, BmobException e) {
+                        if(e==null){
+                            boolean isExists=false;
+                            for(int i=0;i<list.size();i++){
+                                if(mUserName.equals(list.get(i).getUsername())){
+                                    isExists=true;
+                                    //(!!!添加逻辑)
+                                    //(!!!判断用户名是否已经存在)
+                                    //(!!!如果存在，则无法注册，显示用户名已存在的警告信息)
+                                    if(isExists){
+                                        tUnExistWarning.setVisibility(View.VISIBLE);
+                                        input_sign_up_username.setBackgroundResource(R.drawable.input_warning);
+                                    }
+                                    //如果用户名合法，则判断两次输入的密码是否一致
+                                    //如果一致，则注册成功,向数据库中添加数据，并跳转至登陆界面
+                                    //若不一致，则无法注册，显示密码不一致的警告信息
+                                    else {
+                                        if (input_sign_up_password.getText().toString().equals(input_sign_up_password_again.getText().toString())) {
+                                            iSignUpPresenter.createNewUser(mUserName,mPassword);
+                                            Intent intent = new Intent(SignUpActivity.this, UserLoginActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                        else {
+                                            tPwdInconsistentWarning.setVisibility(View.VISIBLE);
+                                            input_sign_up_password.setBackgroundResource(R.drawable.input_warning);
+                                            input_sign_up_password_again.setBackgroundResource(R.drawable.input_warning);
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
-                    else {
-                        tPwdInconsistentWarning.setVisibility(View.VISIBLE);
-                        input_sign_up_password.setBackgroundResource(R.drawable.input_warning);
-                        input_sign_up_password_again.setBackgroundResource(R.drawable.input_warning);
-                    }
-                }
+                });
             }
         });
 
@@ -121,5 +140,10 @@ public class SignUpActivity extends AppCompatActivity implements ISignUpView{
 
     public String getPassword(){
         return input_sign_up_password.getText().toString();
+    }
+
+    public void usernameExists(){
+        tUnExistWarning.setVisibility(View.VISIBLE);
+        input_sign_up_username.setBackgroundResource(R.drawable.input_warning);
     }
 }

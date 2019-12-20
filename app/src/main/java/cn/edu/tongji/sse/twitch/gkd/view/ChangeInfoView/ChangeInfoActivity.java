@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.icu.lang.UScript;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,8 +28,13 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import java.io.File;
+import java.util.List;
 
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.edu.tongji.sse.twitch.gkd.R;
+import cn.edu.tongji.sse.twitch.gkd.bean.User;
 import cn.edu.tongji.sse.twitch.gkd.presenter.ChangeInfoPresenter.ChangeInfoPresenterImpl;
 import cn.edu.tongji.sse.twitch.gkd.presenter.ChangeInfoPresenter.IChangeInfoPresenter;
 import cn.edu.tongji.sse.twitch.gkd.view.PersonalView.PersonalActivity;
@@ -44,7 +51,6 @@ public class ChangeInfoActivity extends AppCompatActivity implements IChangeInfo
     private String imagePath="";
 
     protected static final int CHOOSE_PICTURE = 0;
-    protected static final int TAKE_PICTURE = 1;
     private static final int CROP_SMALL_PICTURE = 2;
     protected static Uri tempUri;
     private ImageView iv_personal_icon;
@@ -64,14 +70,24 @@ public class ChangeInfoActivity extends AppCompatActivity implements IChangeInfo
         logout=findViewById(R.id.logout);
         changeAvater=findViewById(R.id.changeAvater);
 
-        show_avater.setImageDrawable(getResources().getDrawable(R.drawable.hhh));
         neckname.setText(getUserID());
+        BmobQuery<User> userBmobQuery=new BmobQuery<>();
+        userBmobQuery.addWhereEqualTo("username",getUserID());
+        userBmobQuery.findObjects(new FindListener<User>() {
+            @Override
+            public void done(List<User> list, BmobException e) {
+                if(e==null){
+                    Bitmap bitmap = BitmapFactory.decodeFile(list.get(0).getAvater());
+                    show_avater.setImageBitmap(bitmap);
+                    target.setText(list.get(0).getTarget());
+                }
+            }
+        });
 
         //修改头像
         changeAvater.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                show_avater.setImageDrawable(getResources().getDrawable(R.drawable.timg));
                 showChoosePicDialog(v);
             }
         });
@@ -133,7 +149,7 @@ public class ChangeInfoActivity extends AppCompatActivity implements IChangeInfo
     public void showChoosePicDialog(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("设置头像");
-        String[] items = { "选择本地照片", "拍照" };
+        String[] items = { "选择本地照片"};
         builder.setNegativeButton("取消", null);
         builder.setItems(items, new DialogInterface.OnClickListener() {
 
@@ -146,40 +162,10 @@ public class ChangeInfoActivity extends AppCompatActivity implements IChangeInfo
                         openAlbumIntent.setType("image/*");
                         startActivityForResult(openAlbumIntent, CHOOSE_PICTURE);
                         break;
-                    case TAKE_PICTURE: // 拍照
-                        takePicture();
-                        break;
                 }
             }
         });
         builder.create().show();
-    }
-
-    private void takePicture() {
-        String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        if (Build.VERSION.SDK_INT >= 23) {
-            // 需要申请动态权限
-            int check = ContextCompat.checkSelfPermission(this, permissions[0]);
-            // 权限是否已经 授权 GRANTED---授权  DINIED---拒绝
-            if (check != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-            }
-        }
-        Intent openCameraIntent = new Intent(
-                MediaStore.ACTION_IMAGE_CAPTURE);
-        File file = new File(Environment
-                .getExternalStorageDirectory(), "image.jpg");
-        //判断是否是AndroidN以及更高的版本
-        if (Build.VERSION.SDK_INT >= 24) {
-            openCameraIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            tempUri = FileProvider.getUriForFile(ChangeInfoActivity.this, "cn.edu.tongji.sse.twitch.gkd.fileProvider", file);
-        } else {
-            tempUri = Uri.fromFile(new File(Environment
-                    .getExternalStorageDirectory(), "image.jpg"));
-        }
-        // 指定照片保存路径（SD卡），image.jpg为一个临时文件，每次拍照后这个图片都会被替换
-        openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri);
-        startActivityForResult(openCameraIntent, TAKE_PICTURE);
     }
 
     @Override
@@ -187,9 +173,6 @@ public class ChangeInfoActivity extends AppCompatActivity implements IChangeInfo
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) { // 如果返回码是可以用的
             switch (requestCode) {
-                case TAKE_PICTURE:
-                    startPhotoZoom(tempUri); // 开始对图片进行裁剪处理
-                    break;
                 case CHOOSE_PICTURE:
                     startPhotoZoom(data.getData()); // 开始对图片进行裁剪处理
                     break;
