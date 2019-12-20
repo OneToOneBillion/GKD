@@ -56,7 +56,7 @@ public class SocialModelImpl implements ISocialModel {
                             }
                             adapterDome = new RecyclerViewAdapter(context, post_avater, post_name, post_content, post_time, post_likes);
                             LinearLayoutManager manager = new LinearLayoutManager(context);
-                            manager.setOrientation(LinearLayoutManager.VERTICAL);
+                            manager.setOrientation(RecyclerView.VERTICAL);
                             recyclerView.setLayoutManager(manager);
                             recyclerView.setAdapter(adapterDome);
                         }
