@@ -49,7 +49,8 @@
     <string name="sport_report_cn">运动报告</string>
     <string name="clock_in_en">Clock In</string>
     <string name="clock_in_cn">打卡</string>
-
+    <string name="meter_en">M</string>
+    <string name="meter_cn">米</string>
 
     <!--SocialView-->
     <string name="moments_en">Moments</string>

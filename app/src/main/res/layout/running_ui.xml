@@ -92,10 +92,25 @@
         android:id="@+id/sportLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@drawable/rectangle_frame"
         app:layout_constraintBottom_toTopOf="@id/bottomBtnLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/musicLayout">
+
+        <Chronometer
+            android:id="@+id/chronometer"
+            android:layout_width="180dp"
+            android:layout_height="50dp"
+            android:layout_x="125dp"
+            android:layout_y="160dp"
+            android:format="%s"
+            android:gravity="center"
+            android:textSize="80px"
+            app:layout_constraintBottom_toTopOf="@+id/circleBtnLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/circleBtnLayout"
@@ -127,6 +142,7 @@
                 android:layout_y="380dp"
                 android:background="@drawable/circle_green_button"
                 android:textColor="@android:color/white"
+                android:textOff="开始"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -135,27 +151,13 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <Chronometer
-            android:id="@+id/chronometer"
-            android:layout_width="180dp"
-            android:layout_height="50dp"
-            android:layout_x="125dp"
-            android:layout_y="160dp"
-            android:format="%s"
-            android:gravity="center"
-            android:textSize="80px"
-            app:layout_constraintBottom_toTopOf="@+id/circleBtnLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <LinearLayout
         android:id="@+id/bottomBtnLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:background="@android:color/darker_gray"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -167,22 +169,22 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:clickable="false"
-            app:srcCompat="@android:drawable/ic_menu_myplaces" />
+            android:background="@drawable/btn_run_black"
+            android:clickable="false" />
 
         <ImageButton
             android:id="@+id/create_post"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:srcCompat="@android:drawable/ic_menu_send" />
+            android:background="@drawable/btn_social_gray" />
 
         <ImageButton
             android:id="@+id/personnal"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:srcCompat="@android:drawable/ic_menu_my_calendar" />
+            android:background="@drawable/btn_persion_gray" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

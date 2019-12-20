@@ -48,8 +48,7 @@
     <LinearLayout
         android:id="@+id/bottomBtnLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/darker_gray"
+        android:layout_height="100dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -60,21 +59,21 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:srcCompat="@android:drawable/ic_menu_myplaces" />
+            android:background="@drawable/btn_run_gray" />
 
         <ImageButton
             android:id="@+id/create_post"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:srcCompat="@android:drawable/ic_menu_send" />
+            android:background="@drawable/btn_social_black" />
 
         <ImageButton
             android:id="@+id/personnal"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:srcCompat="@android:drawable/ic_menu_my_calendar" />
+            android:background="@drawable/btn_persion_gray" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
