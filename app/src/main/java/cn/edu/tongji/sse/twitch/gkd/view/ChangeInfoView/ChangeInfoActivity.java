@@ -37,10 +37,10 @@ import cn.edu.tongji.sse.twitch.gkd.view.PersonalView.PersonalActivity;
 import cn.edu.tongji.sse.twitch.gkd.view.UserLoginView.UserLoginActivity;
 
 public class ChangeInfoActivity extends AppCompatActivity implements IChangeInfoView{
-    private ImageButton returnPersonal,save_change,cancel_change;
+    private ImageButton returnPersonal;
     private EditText target;
     private IChangeInfoPresenter iChangeInfoPresenter;
-    private Button logout,changeAvater;
+    private Button logout,changeAvater,save_change;
     private ImageView show_avater;
     private TextView neckname;
     private static final String TAG = "MainActivity";
@@ -65,7 +65,6 @@ public class ChangeInfoActivity extends AppCompatActivity implements IChangeInfo
         returnPersonal=findViewById(R.id.returnPersonalView);
         show_avater=findViewById(R.id.show_avater);
         save_change=findViewById(R.id.save_change);
-        cancel_change=findViewById(R.id.cancel_change);
         neckname=findViewById(R.id.neckname);
         target=findViewById(R.id.target);
         logout=findViewById(R.id.logout);
@@ -99,17 +98,6 @@ public class ChangeInfoActivity extends AppCompatActivity implements IChangeInfo
             @Override
             public void onClick(View v) {
                 iChangeInfoPresenter.saveChangeInfo(getUserID(),imagePath,target.getText().toString());
-                Intent intent = new Intent(ChangeInfoActivity.this, PersonalActivity.class);
-                intent.putExtra("data",getUserID());
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        //取消修改，返回个人界面
-        cancel_change.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 Intent intent = new Intent(ChangeInfoActivity.this, PersonalActivity.class);
                 intent.putExtra("data",getUserID());
                 startActivity(intent);
