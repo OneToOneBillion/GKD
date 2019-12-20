@@ -50,7 +50,7 @@ public class RunningDataListModelImpl implements IRunningDataListModel {
                     }
                     running_data_adapter = new RunningDataAdapter(context,running_item_num,running_item_distance,running_item_timelength,running_item_time);
                     LinearLayoutManager run_manager = new LinearLayoutManager(context);
-                    run_manager.setOrientation(LinearLayoutManager.VERTICAL);
+                    run_manager.setOrientation(RecyclerView.VERTICAL);
                     running_data.setLayoutManager(run_manager);
                     running_data.setAdapter(running_data_adapter);
                     Toast.makeText(getApplicationContext(),"展示运动数据成功",Toast.LENGTH_LONG).show();

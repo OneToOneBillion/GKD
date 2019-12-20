@@ -55,7 +55,7 @@ public class RankingListModelImpl implements IRankingListModel {
                             }
                             rankingListAdapter = new RankingListAdapter(context,ranking_item_rank,ranking_item_avater,ranking_item_name);
                             LinearLayoutManager rank_manager = new LinearLayoutManager(context);
-                            rank_manager.setOrientation(LinearLayoutManager.VERTICAL);
+                            rank_manager.setOrientation(RecyclerView.VERTICAL);
                             ranking_list_recyclerView.setLayoutManager(rank_manager);
                             ranking_list_recyclerView.setAdapter(rankingListAdapter);
                             Toast.makeText(getApplicationContext(),"展示运动排行榜成功",Toast.LENGTH_LONG).show();

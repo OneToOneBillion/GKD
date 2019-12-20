@@ -53,7 +53,7 @@ public class FollowListModelImpl implements IFollowListModel {
                             }
                             userInfoAdapter = new UserInfoAdapter(context, follow_item_avater, follow_item_name);
                             LinearLayoutManager rank_manager = new LinearLayoutManager(context);
-                            rank_manager.setOrientation(LinearLayoutManager.VERTICAL);
+                            rank_manager.setOrientation(RecyclerView.VERTICAL);
                             follow_list_recyclerView.setLayoutManager(rank_manager);
                             follow_list_recyclerView.setAdapter(userInfoAdapter);
                             Toast.makeText(getApplicationContext(), "展示运动数据成功", Toast.LENGTH_LONG).show();

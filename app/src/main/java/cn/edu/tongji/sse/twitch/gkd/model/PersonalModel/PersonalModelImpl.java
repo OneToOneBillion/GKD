@@ -52,7 +52,7 @@ public class PersonalModelImpl implements IPersonalModel{
                     }
                     running_data_adapter = new RunningDataAdapter(context,running_item_num,running_item_distance,running_item_timelength,running_item_time);
                     LinearLayoutManager run_manager = new LinearLayoutManager(context);
-                    run_manager.setOrientation(LinearLayoutManager.VERTICAL);
+                    run_manager.setOrientation(RecyclerView.VERTICAL);
                     running_data.setLayoutManager(run_manager);
                     running_data.setAdapter(running_data_adapter);
                     Toast.makeText(getApplicationContext(),"展示运动数据成功",Toast.LENGTH_LONG).show();
@@ -89,7 +89,7 @@ public class PersonalModelImpl implements IPersonalModel{
                             }
                             ranking_list_adapter = new RankingListAdapter(context,ranking_item_rank,ranking_item_avater,ranking_item_name);
                             LinearLayoutManager rank_manager = new LinearLayoutManager(context);
-                            rank_manager.setOrientation(LinearLayoutManager.VERTICAL);
+                            rank_manager.setOrientation(RecyclerView.VERTICAL);
                             ranking_list.setLayoutManager(rank_manager);
                             ranking_list.setAdapter(ranking_list_adapter);
                             Toast.makeText(getApplicationContext(),"展示运动排行榜成功",Toast.LENGTH_LONG).show();
