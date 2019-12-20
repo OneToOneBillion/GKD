@@ -43,7 +43,7 @@ import cn.edu.tongji.sse.twitch.gkd.view.SystemSettingView.SystemSettingActivity
 import cn.edu.tongji.sse.twitch.gkd.view.SocialView.SocialActivity;
 
 public class PersonalActivity extends AppCompatActivity implements IPersonalView{
-    private ImageButton personal,running,create_post,setting,addNewFriend,changeInfo,running_data_detail,ranking_detail;
+    private ImageButton running,create_post,setting,addNewFriend,changeInfo,running_data_detail,ranking_detail;
     private RecyclerView running_data,ranking_list;
     private RecyclerViewAdapter running_data_adapter,ranking_list_adapter;//声明适配器
     private Context context;
@@ -64,7 +64,6 @@ public class PersonalActivity extends AppCompatActivity implements IPersonalView
         sysSettingSp=this.getSharedPreferences("sysSetting",MODE_PRIVATE);
 
         iPersonalPresenter=new PersonalPresenterImpl(this);
-        personal=findViewById(R.id.personnal);
         running=findViewById(R.id.running);
         create_post=findViewById(R.id.create_post);
         setting=findViewById(R.id.setting);
@@ -132,17 +131,6 @@ public class PersonalActivity extends AppCompatActivity implements IPersonalView
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PersonalActivity.this, FollowedListActivity.class);
-                intent.putExtra("data",getUserID());
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        //跳转个人界面
-        personal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PersonalActivity.this, PersonalActivity.class);
                 intent.putExtra("data",getUserID());
                 startActivity(intent);
                 finish();

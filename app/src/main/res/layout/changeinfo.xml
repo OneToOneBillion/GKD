@@ -1,81 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".view.ChangeInfoView.ChangeInfoActivity">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/change_test"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:text="修改个人信息" />
-
-        <Button
-            android:id="@+id/logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="退出登录" />
+        android:background="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
             android:id="@+id/returnPersonalView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@android:drawable/ic_menu_revert"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@android:drawable/ic_menu_revert"
-            android:layout_gravity="right"/>
-    </LinearLayout>
+            android:text="修改个人信息"
+            android:textColor="@android:color/white"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/neckname"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/infoLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:id="@+id/show_avater" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topLayout">
 
         <Button
             android:id="@+id/changeAvater"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="修改头像"
+            app:layout_constraintEnd_toEndOf="@+id/show_avater"
+            app:layout_constraintStart_toStartOf="@+id/show_avater"
+            app:layout_constraintTop_toBottomOf="@+id/show_avater" />
+
+        <EditText
+            android:id="@+id/target"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="50dp"
+            android:hint="个性签名"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/show_avater"
+            app:layout_constraintTop_toBottomOf="@+id/neckname" />
+
+        <ImageView
+            android:id="@+id/show_avater"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/neckname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/show_avater"
+            app:layout_constraintTop_toTopOf="@+id/show_avater" />
+
+        <TextView
+            android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="修改头像" />
-    </LinearLayout>
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="个性签名:"
+            app:layout_constraintBottom_toTopOf="@+id/target"
+            app:layout_constraintStart_toEndOf="@+id/show_avater" />
 
-    <EditText
-        android:id="@+id/target"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:hint="个性签名" />
-
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="昵称："
+            app:layout_constraintBottom_toTopOf="@+id/neckname"
+            app:layout_constraintStart_toEndOf="@+id/show_avater" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/infoLayout">
 
-        <ImageButton
+        <Button
             android:id="@+id/save_change"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            app:srcCompat="@android:drawable/checkbox_on_background" />
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/oral_green_button"
+            android:text="确认修改"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
 
-        <ImageButton
-            android:id="@+id/cancel_change"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            app:srcCompat="@android:drawable/btn_dialog" />
+        <Button
+            android:id="@+id/logout"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/oral_red_button"
+            android:text="退出登录"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
     </LinearLayout>
-</LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
