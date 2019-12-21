@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 import cn.edu.tongji.sse.twitch.gkd.R;
 import cn.edu.tongji.sse.twitch.gkd.presenter.SocialPresenter.ISocialPresenter;
 import cn.edu.tongji.sse.twitch.gkd.presenter.SocialPresenter.SocialPresenterImpl;
@@ -69,19 +71,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.postLikesnum.setText(postLikesnum[position]+"");
         holder.itemView.setTag(position);
         holder.post_likes.setTag(position);
-        //为点赞功能添加点击事件
-        /*holder.post_likes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(post_likes[position]==R.drawable.like_before){
-                    iSocialPresenter.addPostLikes(post_name[position],post_time[position],username);
-                }
-                else if(post_likes[position]==R.drawable.like_after){
-                    iSocialPresenter.deletePostLikes(post_name[position],post_time[position],username);
-                }
-            }
-        });*/
     }
+
+
 
     @Override
     public int getItemCount() {
