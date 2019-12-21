@@ -55,7 +55,6 @@ public class PersonalModelImpl implements IPersonalModel{
                     run_manager.setOrientation(LinearLayoutManager.VERTICAL);
                     running_data.setLayoutManager(run_manager);
                     running_data.setAdapter(running_data_adapter);
-                    Toast.makeText(getApplicationContext(),"展示运动数据成功",Toast.LENGTH_LONG).show();
                     onShowRunningDataListener.ShowRunningDataSuccess();
                 }
                 else {
@@ -74,6 +73,7 @@ public class PersonalModelImpl implements IPersonalModel{
                 if (e==null){
                     BmobQuery<User> userBmobQuery=new BmobQuery<>();
                     userBmobQuery.addWhereEqualTo("username",userID);
+                    userBmobQuery.order("-run_distance");
                     userBmobQuery.findObjects(new FindListener<User>() {
                         @Override
                         public void done(List<User> list, BmobException e) {
@@ -81,8 +81,9 @@ public class PersonalModelImpl implements IPersonalModel{
                             String[] ranking_item_avater=new String[followList.get(0).getaFollowername().size()];
                             String[] ranking_item_name=new String[followList.get(0).getaFollowername().size()];
                             for (int i=0;i< followList.get(0).getaFollowername().size();i++){
-                                ranking_item_rank[i]="第"+(i+1)+"名";
-                                ranking_item_avater[i]= list.get(0).getAvater();
+                                int m=i+1;
+                                ranking_item_rank[i]="第"+m+"名";
+                                ranking_item_avater[i]= followList.get(0).getaFollowerIcon().get(i);
                                 ranking_item_name[i]=followList.get(0).getaFollowername().get(i);
 
                             }
@@ -91,7 +92,6 @@ public class PersonalModelImpl implements IPersonalModel{
                             rank_manager.setOrientation(LinearLayoutManager.VERTICAL);
                             ranking_list.setLayoutManager(rank_manager);
                             ranking_list.setAdapter(ranking_list_adapter);
-                            Toast.makeText(getApplicationContext(),"展示运动排行榜成功",Toast.LENGTH_LONG).show();
                             onShowRankingListener.ShowRankingSuccess();
                         }
                     });

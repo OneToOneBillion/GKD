@@ -17,7 +17,7 @@ import cn.edu.tongji.sse.twitch.gkd.R;
 import cn.edu.tongji.sse.twitch.gkd.presenter.SocialPresenter.ISocialPresenter;
 import cn.edu.tongji.sse.twitch.gkd.presenter.SocialPresenter.SocialPresenterImpl;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> implements View.OnClickListener {
     private Context context;
     private View inflater;
     private ISocialPresenter iSocialPresenter;
@@ -67,8 +67,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.post_time.setText(post_time[position]);
         holder.post_likes.setImageResource(post_likes[position]);
         holder.postLikesnum.setText(postLikesnum[position]+"");
+        holder.itemView.setTag(position);
+        holder.post_likes.setTag(position);
         //为点赞功能添加点击事件
-        holder.post_likes.setOnClickListener(new View.OnClickListener() {
+        /*holder.post_likes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(post_likes[position]==R.drawable.like_before){
@@ -78,7 +80,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     iSocialPresenter.deletePostLikes(post_name[position],post_time[position],username);
                 }
             }
-        });
+        });*/
     }
 
     @Override
@@ -100,6 +102,48 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             post_time=(TextView) itemView.findViewById(R.id.post_time);
             post_likes=(ImageView) itemView.findViewById(R.id.post_likes);
             postLikesnum=(TextView) itemView.findViewById(R.id.postLikesnum);
+
+            post_likes.setOnClickListener(RecyclerViewAdapter.this);
+        }
+    }
+
+    //item里面有多个控件可以点击（item+item内部控件）
+    public enum ViewName {
+        ITEM,
+        PRACTISE
+    }
+
+    //自定义一个回调接口来实现Click和LongClick事件
+    public interface OnItemClickListener  {
+        void onItemClick(View v, ViewName viewName, int position);
+        void onItemLongClick(View v);
+    }
+
+    private OnItemClickListener mOnItemClickListener;//声明自定义的接口
+
+    //定义方法并传给外面的使用者
+    public void setOnItemClickListener(OnItemClickListener  listener) {
+        this.mOnItemClickListener  = listener;
+    }
+
+    @Override
+    public void onClick(View v) {
+        int position = (int) v.getTag();      //getTag()获取数据
+        if (mOnItemClickListener != null) {
+            switch (v.getId()){
+                case R.id.post_likes:
+                    mOnItemClickListener.onItemClick(v, ViewName.PRACTISE, position);
+                    if(post_likes[position]==R.drawable.like_before){
+                        iSocialPresenter.addPostLikes(post_name[position],post_time[position],username);
+                    }
+                    else if(post_likes[position]==R.drawable.like_after){
+                        iSocialPresenter.deletePostLikes(post_name[position],post_time[position],username);
+                    }
+                    break;
+                default:
+                    mOnItemClickListener.onItemClick(v, ViewName.ITEM, position);
+                    break;
+            }
         }
     }
 }

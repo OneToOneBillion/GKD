@@ -46,7 +46,7 @@ public class FollowedListModelImpl implements IFollowedListModel {
                             String[] followed_item_avater=new String[list.get(0).getaFollowername().size()];
                             String[] followed_item_name=new String[list.get(0).getaFollowername().size()];
                             for(int i=0;i<list.get(0).getaFollowername().size();i++){
-                                followed_item_avater[i]= userList.get(0).getAvater();
+                                followed_item_avater[i]= list.get(0).getaFollowerIcon().get(i);
                                 followed_item_name[i]=list.get(0).getaFollowername().get(i);
                             }
                             userInfoAdapter = new UserInfoAdapter(context,followed_item_avater,followed_item_name);
@@ -54,13 +54,12 @@ public class FollowedListModelImpl implements IFollowedListModel {
                             rank_manager.setOrientation(LinearLayoutManager.VERTICAL);
                             followed_list_recyclerView.setLayoutManager(rank_manager);
                             followed_list_recyclerView.setAdapter(userInfoAdapter);
-                            Toast.makeText(getApplicationContext(),"展示运动数据成功",Toast.LENGTH_LONG).show();
                             onShowFollowedListener.showFollowedSuccess();
                         }
                     });
                 }
                 else {
-                    Toast.makeText(getApplicationContext(),"展示运动数据失败："+e.getMessage(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"展示粉丝列表失败："+e.getMessage(),Toast.LENGTH_LONG).show();
                     onShowFollowedListener.showFollowedFailed();
                 }
             }

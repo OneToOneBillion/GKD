@@ -7,6 +7,7 @@ import cn.bmob.v3.BmobObject;
 public class Followed extends BmobObject {
     private String sUsername;
     private ArrayList<String> aFollowername=new ArrayList<>();
+    private ArrayList<String> aFollowerIcon=new ArrayList<>();
 
     public Followed(){
 
@@ -14,6 +15,7 @@ public class Followed extends BmobObject {
 
     public Followed(String Username){
         aFollowername.add(Username);
+        aFollowerIcon.add("");
     }
 
     public String getsUsername() {
@@ -41,6 +43,27 @@ public class Followed extends BmobObject {
             String s=aFollowername.get(i);
             if(s.equals(sFollowername)){
                 aFollowername.remove(s);
+            }
+        }
+    }
+
+    public ArrayList<String> getaFollowerIcon() {
+        return aFollowerIcon;
+    }
+
+    public void setaFollowerIcon(ArrayList<String> aFollowerIcon) {
+        this.aFollowerIcon = aFollowerIcon;
+    }
+
+    public void addaFollowerIcon(ArrayList<String> aFollowerIcon, String sFollowerIcon) {
+        aFollowerIcon.add(sFollowerIcon);
+    }
+
+    public void deleteFollowerIcon(ArrayList<String> aFollowerIcon,String sFollowerIcon){
+        for(int i=0;i<aFollowerIcon.size();i++){
+            String s=aFollowerIcon.get(i);
+            if(s.equals(sFollowerIcon)){
+                aFollowerIcon.remove(s);
             }
         }
     }

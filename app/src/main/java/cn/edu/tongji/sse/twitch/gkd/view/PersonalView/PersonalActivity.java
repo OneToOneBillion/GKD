@@ -85,36 +85,7 @@ public class PersonalActivity extends AppCompatActivity implements IPersonalView
         target=findViewById(R.id.target);
         avater=findViewById(R.id.avatar);
 
-        //展示运动数据据
-        iPersonalPresenter.showRunningData(getUserID(),running_data,context);
-
-        //展示运动排行榜
-        iPersonalPresenter.showRanking(getUserID(),ranking_list,context);
-
-        //展示相关个人信息，关注，粉丝，动态，打卡量,头像，昵称，运动目标
-        BmobQuery<User> bmobQuery=new BmobQuery<>();
-        bmobQuery.addWhereEqualTo("username",getUserID());
-        bmobQuery.findObjects(new FindListener<User>() {
-            @Override
-            public void done(List<User> list, BmobException e) {
-                if(e==null){
-                    follow_num.setText(list.get(0).getFollow_num()+"");
-                    followed_num.setText(list.get(0).getFollowed_num()+"");
-                    post_num.setText(list.get(0).getPost_num()+"");
-                    punchin_num.setText(list.get(0).getPunchin_num()+"");
-                    neckname.setText(getUserID());
-                    target.setText(list.get(0).getTarget());
-
-                    if(list.get(0).getAvater().equals(" ")){
-                        avater.setImageResource(R.drawable.initavater);
-                    }
-                    else {
-                        bitmap = BitmapFactory.decodeFile(list.get(0).getAvater());
-                        avater.setImageBitmap(bitmap);
-                    }
-                }
-            }
-        });
+        initview();
 
         //跳转关注列表
         follow.setOnClickListener(new View.OnClickListener() {
@@ -234,6 +205,46 @@ public class PersonalActivity extends AppCompatActivity implements IPersonalView
             tPerson.setText(R.string.person_cn);
         }
 
+    }
+
+    /*@Override
+    protected void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        initview();
+    }*/
+
+    private void initview(){
+        //展示运动数据据
+        iPersonalPresenter.showRunningData(getUserID(),running_data,context);
+
+        //展示运动排行榜
+        iPersonalPresenter.showRanking(getUserID(),ranking_list,context);
+
+        //展示相关个人信息，关注，粉丝，动态，打卡量,头像，昵称，运动目标
+        BmobQuery<User> bmobQuery=new BmobQuery<>();
+        bmobQuery.addWhereEqualTo("username",getUserID());
+        bmobQuery.findObjects(new FindListener<User>() {
+            @Override
+            public void done(List<User> list, BmobException e) {
+                if(e==null){
+                    follow_num.setText(list.get(0).getFollow_num()+"");
+                    followed_num.setText(list.get(0).getFollowed_num()+"");
+                    post_num.setText(list.get(0).getPost_num()+"");
+                    punchin_num.setText(list.get(0).getPunchin_num()+"");
+                    neckname.setText(getUserID());
+                    target.setText(list.get(0).getTarget());
+
+                    if(list.get(0).getAvater().equals(" ")){
+                        avater.setImageResource(R.drawable.initavater);
+                    }
+                    else {
+                        bitmap = BitmapFactory.decodeFile(list.get(0).getAvater());
+                        avater.setImageBitmap(bitmap);
+                    }
+                }
+            }
+        });
     }
 
     public String getUserID(){

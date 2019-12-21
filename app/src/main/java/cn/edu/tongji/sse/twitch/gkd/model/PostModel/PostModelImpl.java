@@ -43,7 +43,6 @@ public class PostModelImpl implements IPostModel {
             @Override
             public void done(String s, BmobException e) {
                 if(e==null){
-                    Toast.makeText(getApplicationContext(),"发布动态成功！",Toast.LENGTH_LONG).show();
                     BmobQuery<User> userBmobQuery=new BmobQuery<>();
                     userBmobQuery.addWhereEqualTo("username",userID);
                     userBmobQuery.findObjects(new FindListener<User>() {

@@ -47,8 +47,9 @@ public class RankingListModelImpl implements IRankingListModel {
                             String[] ranking_item_avater=new String[list.get(0).getaFollowername().size()];
                             String[] ranking_item_name=new String[list.get(0).getaFollowername().size()];
                             for (int i=0;i< list.get(0).getaFollowername().size();i++){
-                                ranking_item_rank[i]="第"+i+"名";
-                                ranking_item_avater[i]= userList.get(0).getAvater();
+                                int m=i+1;
+                                ranking_item_rank[i]="第"+m+"名";
+                                ranking_item_avater[i]= list.get(0).getaFollowerIcon().get(i);
                                 ranking_item_name[i]=list.get(0).getaFollowername().get(i);
                             }
                             rankingListAdapter = new RankingListAdapter(context,ranking_item_rank,ranking_item_avater,ranking_item_name);
@@ -56,7 +57,6 @@ public class RankingListModelImpl implements IRankingListModel {
                             rank_manager.setOrientation(LinearLayoutManager.VERTICAL);
                             ranking_list_recyclerView.setLayoutManager(rank_manager);
                             ranking_list_recyclerView.setAdapter(rankingListAdapter);
-                            Toast.makeText(getApplicationContext(),"展示运动排行榜成功",Toast.LENGTH_LONG).show();
                             onShowRankingListener.showRankingSuccess();
                         }
                     });

@@ -40,7 +40,6 @@ public class RunningModelImpl implements IRunningModel{
             @Override
             public void done(String s, BmobException e) {
                 if (e == null) {
-                    Toast.makeText(getApplicationContext(), "添加数据成功，返回objectId为：" + s, Toast.LENGTH_SHORT).show();
                     onAddlistener.AddSuccess();
                     BmobQuery<User> bmobQuery=new BmobQuery<>();
                     bmobQuery.addWhereEqualTo("username",userID);

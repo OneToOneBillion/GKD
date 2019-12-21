@@ -26,8 +26,8 @@ public class SocialPresenterImpl implements ISocialPresenter, ISocialModel.OnSho
         iSocialModel=new SocialModelImpl(this);
     }
 
-    public void showPost(String userID, RecyclerView recyclerView, Context context){
-        iSocialModel.showPostList(userID,recyclerView,context,this);
+    public void showPost(String userID, RecyclerView recyclerView, RecyclerViewAdapter.OnItemClickListener MyItemClickListener,Context context){
+        iSocialModel.showPostList(userID,recyclerView,MyItemClickListener,context,this);
     }
 
     public void addPostLikes(String userID,String time,String likesname){

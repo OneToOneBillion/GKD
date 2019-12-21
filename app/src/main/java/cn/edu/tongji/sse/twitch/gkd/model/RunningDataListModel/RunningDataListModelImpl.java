@@ -53,7 +53,6 @@ public class RunningDataListModelImpl implements IRunningDataListModel {
                     run_manager.setOrientation(LinearLayoutManager.VERTICAL);
                     running_data.setLayoutManager(run_manager);
                     running_data.setAdapter(running_data_adapter);
-                    Toast.makeText(getApplicationContext(),"展示运动数据成功",Toast.LENGTH_LONG).show();
                     onShowRunningDataListener.ShowRunningDataSuccess();
                 }
                 else {
