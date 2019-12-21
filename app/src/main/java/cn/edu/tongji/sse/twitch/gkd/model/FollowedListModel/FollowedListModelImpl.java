@@ -51,7 +51,7 @@ public class FollowedListModelImpl implements IFollowedListModel {
                             }
                             userInfoAdapter = new UserInfoAdapter(context,followed_item_avater,followed_item_name);
                             LinearLayoutManager rank_manager = new LinearLayoutManager(context);
-                            rank_manager.setOrientation(LinearLayoutManager.VERTICAL);
+                            rank_manager.setOrientation(RecyclerView.VERTICAL);
                             followed_list_recyclerView.setLayoutManager(rank_manager);
                             followed_list_recyclerView.setAdapter(userInfoAdapter);
                             onShowFollowedListener.showFollowedSuccess();

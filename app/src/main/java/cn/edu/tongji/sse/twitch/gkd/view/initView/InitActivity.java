@@ -29,7 +29,7 @@ public class InitActivity extends AppCompatActivity implements IInitView {
         sysSettingSp=this.getSharedPreferences("sysSetting", Context.MODE_PRIVATE);
         Editor editor=sysSettingSp.edit();
         if(sysSettingSp.getString("language","").equals("")){
-            editor.putString("language", "English");
+            editor.putString("language", "简体中文");
         }
         editor.apply();
 

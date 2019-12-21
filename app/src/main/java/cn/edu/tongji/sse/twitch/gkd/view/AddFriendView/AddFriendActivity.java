@@ -20,7 +20,6 @@ import cn.edu.tongji.sse.twitch.gkd.presenter.AddFriendPresenter.IAddFriendPrese
 import cn.edu.tongji.sse.twitch.gkd.view.PersonalView.PersonalActivity;
 
 public class AddFriendActivity extends AppCompatActivity implements IAddFriendView{
-    private ImageButton searchFriend,returnPersonal;
     private EditText addFriend;
     private TextView followername;
     private ImageView followeravater;
@@ -33,8 +32,8 @@ public class AddFriendActivity extends AppCompatActivity implements IAddFriendVi
         setContentView(R.layout.add_friend);
 
         iAddFriendPresenter=new AddFriendPresenterImpl(this);
-        searchFriend=findViewById(R.id.searchFriend);
-        returnPersonal=findViewById(R.id.returnPersonal);
+        ImageButton searchFriend = findViewById(R.id.searchFriend);
+        ImageButton returnPersonal = findViewById(R.id.returnPersonal);
         addFriend=findViewById(R.id.addNewFriend);
         followername=findViewById(R.id.followername);
         followeravater=findViewById(R.id.followeravater);

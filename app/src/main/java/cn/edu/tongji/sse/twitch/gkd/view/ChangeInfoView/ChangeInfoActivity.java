@@ -1,8 +1,11 @@
 package cn.edu.tongji.sse.twitch.gkd.view.ChangeInfoView;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -41,10 +44,10 @@ import cn.edu.tongji.sse.twitch.gkd.view.PersonalView.PersonalActivity;
 import cn.edu.tongji.sse.twitch.gkd.view.UserLoginView.UserLoginActivity;
 
 public class ChangeInfoActivity extends AppCompatActivity implements IChangeInfoView{
-    private ImageButton returnPersonal,save_change,cancel_change;
+    private ImageButton returnPersonal;
     private EditText target;
     private IChangeInfoPresenter iChangeInfoPresenter;
-    private Button logout,changeAvater;
+    private Button logout,changeAvater,save_change;
     private ImageView show_avater;
     private TextView neckname;
     private static final String TAG = "MainActivity";
@@ -55,16 +58,19 @@ public class ChangeInfoActivity extends AppCompatActivity implements IChangeInfo
     protected static Uri tempUri;
     private ImageView iv_personal_icon;
 
+    SharedPreferences cbSp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.changeinfo);
 
+        cbSp=this.getSharedPreferences("cb", Context.MODE_PRIVATE);
+
         iChangeInfoPresenter=new ChangeInfoPresenterImpl(this);
         returnPersonal=findViewById(R.id.returnPersonalView);
         show_avater=findViewById(R.id.show_avater);
         save_change=findViewById(R.id.save_change);
-        cancel_change=findViewById(R.id.cancel_change);
         neckname=findViewById(R.id.neckname);
         target=findViewById(R.id.target);
         logout=findViewById(R.id.logout);
@@ -115,21 +121,13 @@ public class ChangeInfoActivity extends AppCompatActivity implements IChangeInfo
             }
         });
 
-        //取消修改，返回个人界面
-        cancel_change.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ChangeInfoActivity.this, PersonalActivity.class);
-                intent.putExtra("data",getUserID());
-                startActivity(intent);
-                finish();
-            }
-        });
-
         //退出登录，返回登陆界面
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Editor editor = cbSp.edit();
+                editor.putBoolean("CbAutomaticLogin",false);
+                editor.apply();
                 Intent intent = new Intent(ChangeInfoActivity.this, UserLoginActivity.class);
                 intent.putExtra("data",getUserID());
                 startActivity(intent);

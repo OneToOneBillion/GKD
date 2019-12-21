@@ -54,7 +54,7 @@
             android:layout_height="50dp"
             android:layout_marginTop="0dp"
             android:layout_marginBottom="5dp"
-            android:background="@drawable/button_circle_shape" />
+            android:background="@drawable/oral_green_button" />
 
         <Button
             android:id="@+id/btn_signup"
@@ -62,7 +62,7 @@
             android:layout_height="50dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="0dp"
-            android:background="@drawable/button_circle_shape" />
+            android:background="@drawable/oral_green_button" />
     </LinearLayout>
 
     <TextView

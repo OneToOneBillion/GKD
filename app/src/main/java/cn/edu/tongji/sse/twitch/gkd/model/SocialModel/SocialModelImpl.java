@@ -92,7 +92,7 @@ public class SocialModelImpl implements ISocialModel {
                             System.arraycopy(postLikesnum,0,spostLikesnum,0,m);
                             adapterDome = new RecyclerViewAdapter(userID,context, spost_avater, spost_name, spost_content,spost_photo, spost_time, spost_likes,spostLikesnum);
                             LinearLayoutManager manager = new LinearLayoutManager(context);
-                            manager.setOrientation(LinearLayoutManager.VERTICAL);
+                            manager.setOrientation(RecyclerView.VERTICAL);
                             recyclerView.setLayoutManager(manager);
                             recyclerView.setAdapter(adapterDome);
                             // 设置item及item中控件的点击事件
