@@ -66,10 +66,16 @@ public class UserLoginActivity extends AppCompatActivity implements IUserLoginVi
 
         mIUserLoginPresenter = new UserLoginPresenterImpl(this);
 
+        mWarning=findViewById(R.id.warningText);
+        mWarning.setVisibility(View.INVISIBLE);
+
+        mEdtUsername = findViewById(R.id.input_account);
+        mEdtPwd = findViewById(R.id.input_password);
+
         //头像框
         mHeadPortrait=findViewById(R.id.head_portrait_img);
         BmobQuery<User> userBmobQuery=new BmobQuery<>();
-        userBmobQuery.addWhereEqualTo("username",mUsername);
+        userBmobQuery.addWhereEqualTo("username",mEdtUsername.getText().toString());
         userBmobQuery.findObjects(new FindListener<User>() {
             @Override
             public void done(List<User> list, BmobException e) {
@@ -77,12 +83,6 @@ public class UserLoginActivity extends AppCompatActivity implements IUserLoginVi
                 mHeadPortrait.setImageBitmap(bitmap);
             }
         });
-
-        mWarning=findViewById(R.id.warningText);
-        mWarning.setVisibility(View.INVISIBLE);
-
-        mEdtUsername = findViewById(R.id.input_account);
-        mEdtPwd = findViewById(R.id.input_password);
 
         mCbRememberPasswords = findViewById(R.id.rememberPasswordsBox);
         mCbAutomaticLogin = findViewById(R.id.automaticLoginBox);
