@@ -1,6 +1,8 @@
 package cn.edu.tongji.sse.twitch.gkd.view.AddFriendView;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -36,6 +38,7 @@ public class AddFriendActivity extends AppCompatActivity implements IAddFriendVi
         followername=findViewById(R.id.followername);
         followeravater=findViewById(R.id.followeravater);
         isFollowed=findViewById(R.id.isFollowed);
+        isFollowed.setVisibility(View.INVISIBLE);
 
         returnPersonal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,6 +53,7 @@ public class AddFriendActivity extends AppCompatActivity implements IAddFriendVi
         searchFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isFollowed.setVisibility(View.VISIBLE);
                 iAddFriendPresenter.searchforFriend(getUserID(),addFriend.getText().toString());
             }
         });
@@ -89,7 +93,8 @@ public class AddFriendActivity extends AppCompatActivity implements IAddFriendVi
 
     //设置查询到的头像
     public void setFriendAvater(String avater){
-        followeravater.setImageResource(R.drawable.timg);
+        Bitmap bitmap = BitmapFactory.decodeFile(avater);
+        followeravater.setImageBitmap(bitmap);
     }
 }
 

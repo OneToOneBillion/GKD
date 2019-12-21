@@ -13,8 +13,8 @@ public class PostPresenterImpl implements IPostPresenter,IPostModel.OnPostListen
         iPostModel=new PostModelImpl(this);
     }
 
-    public void createNewPost(String postContent,String userID){
-        iPostModel.createNewPostInModel(postContent,userID,this);
+    public void createNewPost(String postContent,String userID,String photo){
+        iPostModel.createNewPostInModel(postContent,userID,photo,this);
     }
 
     public String getUserID(){

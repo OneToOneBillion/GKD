@@ -32,20 +32,17 @@ public class SignUpModelImpl implements ISignUpModel{
             @Override
             public void done(String s, BmobException e) {
                 if (e == null) {
-                    Toast.makeText(getApplicationContext(), "添加数据成功，返回objectId为：" + s, Toast.LENGTH_SHORT).show();
-                    Follow follow=new Follow();
+                    Follow follow=new Follow(username);
                     follow.setsUsername(username);
-                    follow.addaFollowername(username);
                     follow.save(new SaveListener<String>() {
                         @Override
                         public void done(String s, BmobException e) {
-                            
+
                         }
                     });
 
-                    Followed followed=new Followed();
+                    Followed followed=new Followed(username);
                     followed.setsUsername(username);
-                    followed.addaFollowername(username);
                     followed.save(new SaveListener<String>() {
                         @Override
                         public void done(String s, BmobException e) {

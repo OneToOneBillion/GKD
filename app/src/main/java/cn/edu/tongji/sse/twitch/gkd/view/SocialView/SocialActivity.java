@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -52,7 +53,7 @@ public class SocialActivity extends AppCompatActivity implements ISocialView{
         recyclerView=findViewById(R.id.post_list);
         tMoments=findViewById(R.id.momentsText);
 
-        iSocialPresenter.showPost(getUserID(),recyclerView,context);
+        iSocialPresenter.showPost(getUserID(),recyclerView,MyItemClickListener,context);
 
         //跳转到个人界面
         personal.setOnClickListener(new View.OnClickListener() {
@@ -112,4 +113,28 @@ public class SocialActivity extends AppCompatActivity implements ISocialView{
         Intent intent=getIntent();
         return intent.getStringExtra("data");
     }
+
+    /**
+     * item＋item里的控件点击监听事件
+     */
+    private RecyclerViewAdapter.OnItemClickListener MyItemClickListener = new RecyclerViewAdapter.OnItemClickListener() {
+
+        @Override
+        public void onItemClick(View v, RecyclerViewAdapter.ViewName viewName, int position) {
+            //viewName可区分item及item内部控件
+            switch (v.getId()){
+                case R.id.post_likes:
+                    Toast.makeText(SocialActivity.this,"你点击了点赞按钮"+(position+1),Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    Toast.makeText(SocialActivity.this,"你点击了item按钮"+(position+1), Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+
+        @Override
+        public void onItemLongClick(View v) {
+
+        }
+    };
 }

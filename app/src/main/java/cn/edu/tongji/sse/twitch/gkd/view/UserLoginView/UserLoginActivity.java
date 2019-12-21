@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,8 +18,14 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.edu.tongji.sse.twitch.gkd.R;
+import cn.edu.tongji.sse.twitch.gkd.bean.User;
 import cn.edu.tongji.sse.twitch.gkd.presenter.UserLoginPresenter.IUserLoginPresenter;
 import cn.edu.tongji.sse.twitch.gkd.presenter.UserLoginPresenter.UserLoginPresenterImpl;
 import cn.edu.tongji.sse.twitch.gkd.view.RunningView.RunningActivity;
@@ -60,7 +68,15 @@ public class UserLoginActivity extends AppCompatActivity implements IUserLoginVi
 
         //头像框
         mHeadPortrait=findViewById(R.id.head_portrait_img);
-        mHeadPortrait.setImageResource(R.drawable.default_head_portrait);
+        BmobQuery<User> userBmobQuery=new BmobQuery<>();
+        userBmobQuery.addWhereEqualTo("username",mUsername);
+        userBmobQuery.findObjects(new FindListener<User>() {
+            @Override
+            public void done(List<User> list, BmobException e) {
+                Bitmap bitmap = BitmapFactory.decodeFile(list.get(0).getAvater());
+                mHeadPortrait.setImageBitmap(bitmap);
+            }
+        });
 
         mWarning=findViewById(R.id.warningText);
         mWarning.setVisibility(View.INVISIBLE);

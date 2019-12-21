@@ -6,8 +6,8 @@ import cn.bmob.v3.datatype.BmobRelation;
 public class User extends BmobObject {
     private String username=" ";
     private String password=" ";
-    private int follow_num=0;
-    private int followed_num=0;
+    private int follow_num=1;
+    private int followed_num=1;
     private int post_num=0;
     private int punchin_num=0;
     private double run_distance=0;

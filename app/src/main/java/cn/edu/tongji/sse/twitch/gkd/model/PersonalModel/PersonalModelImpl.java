@@ -46,8 +46,8 @@ public class PersonalModelImpl implements IPersonalModel{
                     String[] running_item_time=new String[list.size()];
                     for (int i=0;i< list.size();i++){
                         running_item_num[i]=i;
-                        running_item_distance[i]=12.34;
-                        running_item_timelength[i]=2500;
+                        running_item_distance[i]=list.get(i).getsRunDistance();
+                        running_item_timelength[i]=list.get(i).getiRunTime();
                         running_item_time[i]=list.get(i).getTime();
                     }
                     running_data_adapter = new RunningDataAdapter(context,running_item_num,running_item_distance,running_item_timelength,running_item_time);
@@ -55,7 +55,6 @@ public class PersonalModelImpl implements IPersonalModel{
                     run_manager.setOrientation(RecyclerView.VERTICAL);
                     running_data.setLayoutManager(run_manager);
                     running_data.setAdapter(running_data_adapter);
-                    Toast.makeText(getApplicationContext(),"展示运动数据成功",Toast.LENGTH_LONG).show();
                     onShowRunningDataListener.ShowRunningDataSuccess();
                 }
                 else {
@@ -74,25 +73,25 @@ public class PersonalModelImpl implements IPersonalModel{
                 if (e==null){
                     BmobQuery<User> userBmobQuery=new BmobQuery<>();
                     userBmobQuery.addWhereEqualTo("username",userID);
+                    userBmobQuery.order("-run_distance");
                     userBmobQuery.findObjects(new FindListener<User>() {
                         @Override
                         public void done(List<User> list, BmobException e) {
-                            String[] ranking_item_rank=new String[followList.size()];
-                            String[] ranking_item_avater=new String[followList.size()];
-                            String[] ranking_item_name=new String[followList.size()];
-                            for (int i=0;i< followList.size();i++){
-                                for(int j=0;j<followList.get(i).getaFollowername().size();j++){
-                                    ranking_item_rank[i]="第"+i+"名";
-                                    ranking_item_avater[i]= list.get(i).getAvater();
-                                    ranking_item_name[i]=followList.get(i).getaFollowername().get(j);
-                                }
+                            String[] ranking_item_rank=new String[followList.get(0).getaFollowername().size()];
+                            String[] ranking_item_avater=new String[followList.get(0).getaFollowername().size()];
+                            String[] ranking_item_name=new String[followList.get(0).getaFollowername().size()];
+                            for (int i=0;i< followList.get(0).getaFollowername().size();i++){
+                                int m=i+1;
+                                ranking_item_rank[i]="第"+m+"名";
+                                ranking_item_avater[i]= followList.get(0).getaFollowerIcon().get(i);
+                                ranking_item_name[i]=followList.get(0).getaFollowername().get(i);
+
                             }
                             ranking_list_adapter = new RankingListAdapter(context,ranking_item_rank,ranking_item_avater,ranking_item_name);
                             LinearLayoutManager rank_manager = new LinearLayoutManager(context);
                             rank_manager.setOrientation(RecyclerView.VERTICAL);
                             ranking_list.setLayoutManager(rank_manager);
                             ranking_list.setAdapter(ranking_list_adapter);
-                            Toast.makeText(getApplicationContext(),"展示运动排行榜成功",Toast.LENGTH_LONG).show();
                             onShowRankingListener.ShowRankingSuccess();
                         }
                     });
