@@ -111,28 +111,20 @@ public class SocialModelImpl implements ISocialModel {
         postBmobQuery.findObjects(new FindListener<Post>() {
             @Override
             public void done(List<Post> list, BmobException e) {
-                boolean isLiked=false;
-                for(int m=0;m<list.get(0).getLikesList().size();m++){
-                    if(userID.equals(list.get(0).getLikesList().get(m))){
-                        isLiked=true;
-                    }
-                }
-                if(!isLiked){
-                    Post post=new Post();
-                    post.setUser_id(userID);
-                    post.setPhoto(list.get(0).getPhoto());
-                    post.setTime(time);
-                    post.setContent(list.get(0).getContent());
-                    post.setLikes(list.get(0).getLikes()+1);
-                    post.setLikesList(list.get(0).getLikesList());
-                    post.addLikesList(list.get(0).getLikesList(),likesname);
-                    post.update(list.get(0).getObjectId(), new UpdateListener() {
-                        @Override
-                        public void done(BmobException e) {
+                Post post=new Post();
+                post.setUser_id(userID);
+                post.setPhoto(list.get(0).getPhoto());
+                post.setTime(time);
+                post.setContent(list.get(0).getContent());
+                post.setLikes(list.get(0).getLikes()+1);
+                post.setLikesList(list.get(0).getLikesList());
+                post.addLikesList(list.get(0).getLikesList(),likesname);
+                post.update(list.get(0).getObjectId(), new UpdateListener() {
+                    @Override
+                    public void done(BmobException e) {
 
-                        }
-                    });
-                }
+                    }
+                });
             }
         });
     }
