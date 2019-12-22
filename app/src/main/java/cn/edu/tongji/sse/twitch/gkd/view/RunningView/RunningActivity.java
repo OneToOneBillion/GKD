@@ -48,7 +48,6 @@ public class RunningActivity extends AppCompatActivity implements IRunningView{
     private long run_time=0;
     private int musicNo=0;
 
-    private IRunningPresenter iRunningPresenter;
     private TrackPresenterImpl mTrackPresenterImpl;
 
     private MediaPlayer mp;
@@ -62,7 +61,6 @@ public class RunningActivity extends AppCompatActivity implements IRunningView{
         sysSettingSp=this.getSharedPreferences("sysSetting",MODE_PRIVATE);
 
         tSport=findViewById(R.id.sportText);
-        iRunningPresenter=new RunningPresenterImpl(this);
         personal=findViewById(R.id.personnal);
         create_post=findViewById(R.id.create_post);
         chronometer=findViewById(R.id.chronometer);
