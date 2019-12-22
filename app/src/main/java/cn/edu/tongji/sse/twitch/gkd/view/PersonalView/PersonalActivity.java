@@ -170,6 +170,7 @@ public class PersonalActivity extends AppCompatActivity implements IPersonalView
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PersonalActivity.this, SystemSettingActivity.class);
+                intent.putExtra("data",getUserID());
                 startActivity(intent);
                 overridePendingTransition(R.anim.in_from_right,R.anim.out_to_left);
                 finish();
