@@ -3,6 +3,7 @@ package cn.edu.tongji.sse.twitch.gkd.view.Adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +42,8 @@ public class RankingListAdapter extends RecyclerView.Adapter<RankingListAdapter.
     public void onBindViewHolder(MyViewHolder holder, int position) {
         //将数据和控件绑定
         holder.ranking_item_rank.setText(ranking_item_rank[position]);
-        Bitmap bitmap = BitmapFactory.decodeFile(ranking_item_avater[position]);
+        byte [] input = Base64.decode(ranking_item_avater[position], Base64.DEFAULT);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(input, 0, input.length);
         holder.ranking_item_avater.setImageBitmap(bitmap);
         holder.ranking_item_name.setText(ranking_item_name[position]);
     }

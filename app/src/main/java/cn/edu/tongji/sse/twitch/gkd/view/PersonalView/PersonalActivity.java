@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -234,7 +235,8 @@ public class PersonalActivity extends AppCompatActivity implements IPersonalView
                         avater.setImageResource(R.drawable.initavater);
                     }
                     else {
-                        bitmap = BitmapFactory.decodeFile(list.get(0).getAvater());
+                        byte [] input = Base64.decode(list.get(0).getAvater(), Base64.DEFAULT);
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(input, 0, input.length);
                         avater.setImageBitmap(bitmap);
                     }
                 }

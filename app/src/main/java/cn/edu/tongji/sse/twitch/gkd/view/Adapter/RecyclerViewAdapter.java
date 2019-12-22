@@ -25,19 +25,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private Context context;
     private View inflater;
     private ISocialPresenter iSocialPresenter;
-    String[] post_avater;
+    Bitmap[] post_avater;
     String[] post_name;
     String[] post_content;
-    String[] post_photo;
+    Bitmap[] post_photo;
     String[] post_time;
     boolean[] post_likes;
     int[] postLikesnum;
     String username;
 
     //构造方法，传入数据
-    public RecyclerViewAdapter(String username,Context context,String[] post_avater,
+    public RecyclerViewAdapter(String username,Context context,Bitmap[] post_avater,
                                String[] post_name,String[] post_content,
-                               String[] post_photo, String[] post_time,
+                               Bitmap[] post_photo, String[] post_time,
                                boolean[] post_likes,int[] postLikesnum){
         iSocialPresenter=new SocialPresenterImpl(this);
         this.username=username;
@@ -62,12 +62,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         //将数据和控件绑定
-        Bitmap bitmap = BitmapFactory.decodeFile(post_avater[position]);
-        holder.post_avater.setImageBitmap(bitmap);
+        //Bitmap bitmap = BitmapFactory.decodeFile(post_avater[position]);
+        holder.post_avater.setImageBitmap(post_avater[position]);
         holder.post_name.setText(post_name[position]);
         holder.post_content.setText(post_content[position]);
-        Bitmap photoBitmap = BitmapFactory.decodeFile(post_photo[position]);
-        holder.post_photo.setImageBitmap(photoBitmap);
+        //Bitmap photoBitmap = BitmapFactory.decodeFile(post_photo[position]);
+        holder.post_photo.setImageBitmap(post_photo[position]);
         holder.post_time.setText(post_time[position]);
         if(post_likes[position]){
             holder.post_likes.setBackgroundResource(R.drawable.like_after);
