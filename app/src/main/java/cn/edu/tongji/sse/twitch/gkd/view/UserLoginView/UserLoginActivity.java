@@ -7,6 +7,8 @@ import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -74,13 +76,28 @@ public class UserLoginActivity extends AppCompatActivity implements IUserLoginVi
 
         //头像框
         mHeadPortrait=findViewById(R.id.head_portrait_img);
-        BmobQuery<User> userBmobQuery=new BmobQuery<>();
-        userBmobQuery.addWhereEqualTo("username",mEdtUsername.getText().toString());
-        userBmobQuery.findObjects(new FindListener<User>() {
+        mEdtUsername.addTextChangedListener(new TextWatcher() {
             @Override
-            public void done(List<User> list, BmobException e) {
-                Bitmap bitmap = BitmapFactory.decodeFile(list.get(0).getAvater());
-                mHeadPortrait.setImageBitmap(bitmap);
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                mHeadPortrait.setImageResource(R.drawable.initavater);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                BmobQuery<User> userBmobQuery=new BmobQuery<>();
+                userBmobQuery.addWhereEqualTo("username",mEdtUsername.getText().toString());
+                userBmobQuery.findObjects(new FindListener<User>() {
+                    @Override
+                    public void done(List<User> list, BmobException e) {
+                        Bitmap bitmap = BitmapFactory.decodeFile(list.get(0).getAvater());
+                        mHeadPortrait.setImageBitmap(bitmap);
+                    }
+                });
             }
         });
 

@@ -36,6 +36,7 @@ public class PersonalModelImpl implements IPersonalModel{
     public void ShowRunningDataList(String userID, RecyclerView running_data, Context context, OnShowRunningDataListener onShowRunningDataListener){
         BmobQuery<Run> query=new BmobQuery<>();
         query.addWhereEqualTo("sUsername", userID);
+        query.order("-createdAt");
         query.findObjects(new FindListener<Run>() {
             @Override
             public void done(List<Run> list, BmobException e) {
@@ -46,7 +47,7 @@ public class PersonalModelImpl implements IPersonalModel{
                         long[] running_item_timelength=new long[list.size()];
                         String[] running_item_time=new String[list.size()];
                         for (int i=0;i< list.size();i++){
-                            running_item_num[i]=i;
+                            running_item_num[i]=i+1;
                             running_item_distance[i]=list.get(i).getsRunDistance();
                             running_item_timelength[i]=list.get(i).getiRunTime();
                             running_item_time[i]=list.get(i).getTime();
@@ -59,7 +60,7 @@ public class PersonalModelImpl implements IPersonalModel{
                         long[] running_item_timelength=new long[3];
                         String[] running_item_time=new String[3];
                         for (int i=0;i< 3;i++){
-                            running_item_num[i]=i;
+                            running_item_num[i]=i+1;
                             running_item_distance[i]=list.get(i).getsRunDistance();
                             running_item_timelength[i]=list.get(i).getiRunTime();
                             running_item_time[i]=list.get(i).getTime();
@@ -89,7 +90,6 @@ public class PersonalModelImpl implements IPersonalModel{
                     BmobQuery<User> userBmobQuery=new BmobQuery<>();
                     userBmobQuery.addWhereEqualTo("username",userID);
                     userBmobQuery.order("-run_distance");
-                    userBmobQuery.setLimit(3);
                     userBmobQuery.findObjects(new FindListener<User>() {
                         @Override
                         public void done(List<User> list, BmobException e) {

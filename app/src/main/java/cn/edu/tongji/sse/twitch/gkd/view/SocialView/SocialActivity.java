@@ -124,10 +124,8 @@ public class SocialActivity extends AppCompatActivity implements ISocialView{
             //viewName可区分item及item内部控件
             switch (v.getId()){
                 case R.id.post_likes:
-                    Toast.makeText(SocialActivity.this,"你点击了点赞按钮"+(position+1),Toast.LENGTH_SHORT).show();
                     break;
                 default:
-                    Toast.makeText(SocialActivity.this,"你点击了item按钮"+(position+1), Toast.LENGTH_SHORT).show();
                     break;
             }
         }

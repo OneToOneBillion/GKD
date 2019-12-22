@@ -173,8 +173,8 @@ public class PostActivity extends AppCompatActivity implements IPostView {
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
         // outputX outputY 是裁剪图片宽高
-        intent.putExtra("outputX", 150);
-        intent.putExtra("outputY", 150);
+        intent.putExtra("outputX", 300);
+        intent.putExtra("outputY", 300);
         intent.putExtra("return-data", true);
         startActivityForResult(intent, CROP_SMALL_PICTURE);
     }
@@ -189,8 +189,6 @@ public class PostActivity extends AppCompatActivity implements IPostView {
         if (extras != null) {
             Bitmap photo = extras.getParcelable("data");
             Log.d(TAG,"setImageToView:"+photo);
-            photo = ImageUtils.toRoundBitmap(photo); // 这个时候的图片已经被处理成圆形的了
-            //iv_personal_icon.setImageBitmap(photo);
             showPhoto.setImageBitmap(photo);
             uploadPic(photo);
         }

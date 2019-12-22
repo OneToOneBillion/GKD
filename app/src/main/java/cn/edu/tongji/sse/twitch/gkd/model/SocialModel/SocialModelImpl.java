@@ -49,7 +49,7 @@ public class SocialModelImpl implements ISocialModel {
                             String[] post_content = new String[list.size()];
                             String[] post_photo=new String[list.size()];
                             String[] post_time = new String[list.size()];
-                            int[] post_likes = new int[list.size()];
+                            boolean[] post_likes = new boolean[list.size()];
                             int[] postLikesnum=new int[list.size()];
                             boolean isFollowed=false;
                             for(int i=0;i<list.size();i++){
@@ -66,10 +66,10 @@ public class SocialModelImpl implements ISocialModel {
                                             }
                                         }
                                         if(isFollowed){
-                                            post_likes[m] = R.drawable.like_after;
+                                            post_likes[m] =true;
                                         }
                                         else {
-                                            post_likes[m] = R.drawable.like_before;
+                                            post_likes[m] = false;
                                         }
                                         postLikesnum[m]=list.get(i).getLikes();
                                         m=m+1;
@@ -81,7 +81,7 @@ public class SocialModelImpl implements ISocialModel {
                             String[] spost_content = new String[m];
                             String[] spost_photo=new String[m];
                             String[] spost_time = new String[m];
-                            int[] spost_likes = new int[m];
+                            boolean[] spost_likes = new boolean[m];
                             int[] spostLikesnum=new int[m];
                             System.arraycopy(post_avater,0,spost_avater,0,m);
                             System.arraycopy(post_name,0,spost_name,0,m);
@@ -111,20 +111,28 @@ public class SocialModelImpl implements ISocialModel {
         postBmobQuery.findObjects(new FindListener<Post>() {
             @Override
             public void done(List<Post> list, BmobException e) {
-                Post post=new Post();
-                post.setUser_id(userID);
-                post.setPhoto(list.get(0).getPhoto());
-                post.setTime(time);
-                post.setContent(list.get(0).getContent());
-                post.setLikes(list.get(0).getLikes()+1);
-                post.setLikesList(list.get(0).getLikesList());
-                post.addLikesList(list.get(0).getLikesList(),likesname);
-                post.update(list.get(0).getObjectId(), new UpdateListener() {
-                    @Override
-                    public void done(BmobException e) {
-
+                boolean isLiked=false;
+                for(int m=0;m<list.get(0).getLikesList().size();m++){
+                    if(userID.equals(list.get(0).getLikesList().get(m))){
+                        isLiked=true;
                     }
-                });
+                }
+                if(!isLiked){
+                    Post post=new Post();
+                    post.setUser_id(userID);
+                    post.setPhoto(list.get(0).getPhoto());
+                    post.setTime(time);
+                    post.setContent(list.get(0).getContent());
+                    post.setLikes(list.get(0).getLikes()+1);
+                    post.setLikesList(list.get(0).getLikesList());
+                    post.addLikesList(list.get(0).getLikesList(),likesname);
+                    post.update(list.get(0).getObjectId(), new UpdateListener() {
+                        @Override
+                        public void done(BmobException e) {
+
+                        }
+                    });
+                }
             }
         });
     }

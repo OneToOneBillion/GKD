@@ -7,9 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,7 +30,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     String[] post_content;
     String[] post_photo;
     String[] post_time;
-    int[] post_likes;
+    boolean[] post_likes;
     int[] postLikesnum;
     String username;
 
@@ -36,7 +38,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public RecyclerViewAdapter(String username,Context context,String[] post_avater,
                                String[] post_name,String[] post_content,
                                String[] post_photo, String[] post_time,
-                               int[] post_likes,int[] postLikesnum){
+                               boolean[] post_likes,int[] postLikesnum){
         iSocialPresenter=new SocialPresenterImpl(this);
         this.username=username;
         this.context = context;
@@ -67,13 +69,31 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Bitmap photoBitmap = BitmapFactory.decodeFile(post_photo[position]);
         holder.post_photo.setImageBitmap(photoBitmap);
         holder.post_time.setText(post_time[position]);
-        holder.post_likes.setImageResource(post_likes[position]);
+        if(post_likes[position]){
+            holder.post_likes.setBackgroundResource(R.drawable.like_after);
+            holder.post_likes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    holder.post_likes.setChecked(isChecked);
+                    holder.post_likes.setBackgroundResource(isChecked?R.drawable.like_before:R.drawable.like_after);
+                    holder.postLikesnum.setText(isChecked?postLikesnum[position]-1+"":postLikesnum[position]+"");
+                }
+            });
+        }
+        else {
+            holder.post_likes.setBackgroundResource(R.drawable.like_before);
+            holder.post_likes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    holder.post_likes.setChecked(isChecked);
+                    holder.post_likes.setBackgroundResource(isChecked?R.drawable.like_after:R.drawable.like_before);
+                    holder.postLikesnum.setText(isChecked?postLikesnum[position]+1+"":postLikesnum[position]+"");
+                }
+            });
+        }
         holder.postLikesnum.setText(postLikesnum[position]+"");
-        holder.itemView.setTag(position);
         holder.post_likes.setTag(position);
     }
-
-
 
     @Override
     public int getItemCount() {
@@ -84,7 +104,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     //内部类，绑定控件
     class MyViewHolder extends RecyclerView.ViewHolder{
         TextView post_name,post_content,post_time,postLikesnum;
-        ImageView post_avater,post_likes,post_photo;
+        ImageView post_avater,post_photo;
+        ToggleButton post_likes;
         public MyViewHolder(View itemView) {
             super(itemView);
             post_avater=(ImageView) itemView.findViewById(R.id.post_avater);
@@ -92,7 +113,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             post_content=(TextView) itemView.findViewById(R.id.post_content);
             post_photo=(ImageView) itemView.findViewById(R.id.post_photo);
             post_time=(TextView) itemView.findViewById(R.id.post_time);
-            post_likes=(ImageView) itemView.findViewById(R.id.post_likes);
+            post_likes=(ToggleButton) itemView.findViewById(R.id.post_likes);
             postLikesnum=(TextView) itemView.findViewById(R.id.postLikesnum);
 
             post_likes.setOnClickListener(RecyclerViewAdapter.this);
@@ -125,11 +146,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             switch (v.getId()){
                 case R.id.post_likes:
                     mOnItemClickListener.onItemClick(v, ViewName.PRACTISE, position);
-                    if(post_likes[position]==R.drawable.like_before){
+                    if(!post_likes[position]){
                         iSocialPresenter.addPostLikes(post_name[position],post_time[position],username);
+                        post_likes[position]=true;
                     }
-                    else if(post_likes[position]==R.drawable.like_after){
+                    else{
                         iSocialPresenter.deletePostLikes(post_name[position],post_time[position],username);
+                        post_likes[position]=false;
                     }
                     break;
                 default:

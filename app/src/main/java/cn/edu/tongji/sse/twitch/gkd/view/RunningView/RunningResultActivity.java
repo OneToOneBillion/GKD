@@ -125,6 +125,7 @@ public class RunningResultActivity extends AppCompatActivity implements IRunning
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RunningResultActivity.this,RunningActivity.class);
+                intent.putExtra("data",getUserID());
                 startActivity(intent);
                 finish();
             }
@@ -144,12 +145,23 @@ public class RunningResultActivity extends AppCompatActivity implements IRunning
 
     public long getRunTime(){
         Intent intent=getIntent();
-        return intent.getLongExtra("run_time",0);
+        Bundle b=new Bundle();
+        b=intent.getBundleExtra("data");
+        return b.getLong("run_time");
     }
 
     public String getUserID(){
         Intent intent=getIntent();
-        return intent.getStringExtra("data");
+        Bundle b=new Bundle();
+        b=intent.getBundleExtra("data");
+        return b.getString("userID");
+    }
+
+    public long getTrackId(){
+        Intent intent=getIntent();
+        Bundle b=new Bundle();
+        b=intent.getBundleExtra("data");
+        return b.getLong("trackId");
     }
 
 

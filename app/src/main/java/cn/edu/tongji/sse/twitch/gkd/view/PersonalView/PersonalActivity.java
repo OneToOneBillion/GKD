@@ -1,10 +1,12 @@
 package cn.edu.tongji.sse.twitch.gkd.view.PersonalView;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -43,9 +45,8 @@ import cn.edu.tongji.sse.twitch.gkd.view.SystemSettingView.SystemSettingActivity
 import cn.edu.tongji.sse.twitch.gkd.view.SocialView.SocialActivity;
 
 public class PersonalActivity extends AppCompatActivity implements IPersonalView{
-    private ImageButton running,create_post,setting,addNewFriend,changeInfo,running_data_detail,ranking_detail;
+    private ImageButton running,create_post,personal,setting,addNewFriend,changeInfo,running_data_detail,ranking_detail;
     private RecyclerView running_data,ranking_list;
-    private RecyclerViewAdapter running_data_adapter,ranking_list_adapter;//声明适配器
     private Context context;
     private TextView tPerson,follow_num,followed_num,post_num,punchin_num,target,neckname;
     private TextView follow,followed;
@@ -54,6 +55,25 @@ public class PersonalActivity extends AppCompatActivity implements IPersonalView
     private Bitmap bitmap;
 
     SharedPreferences sysSettingSp;
+
+    private boolean firstLanuch = false;
+    // 刚开始先设为false让其第一次成功启动，让其不会restartActivity()，后面活动返回时才会调用restartActivity()
+    public void onResume(){
+
+        Log.e("MainActivity","onResume is running");
+        //restartActivity(MainActivity.this);
+        super.onResume();
+        if(firstLanuch)
+            restartActivity(PersonalActivity.this);
+        firstLanuch = true;
+    }
+
+    public static void restartActivity(Activity activity){
+        Intent intent = new Intent();
+        intent.setClass(activity, activity.getClass());
+        activity.startActivity(intent);
+        activity.finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -66,6 +86,7 @@ public class PersonalActivity extends AppCompatActivity implements IPersonalView
         iPersonalPresenter=new PersonalPresenterImpl(this);
         running=findViewById(R.id.running);
         create_post=findViewById(R.id.create_post);
+        personal=findViewById(R.id.personnal);
         setting=findViewById(R.id.setting);
         addNewFriend=findViewById(R.id.addNewFriend);
         changeInfo=findViewById(R.id.changeInfo);
@@ -124,6 +145,17 @@ public class PersonalActivity extends AppCompatActivity implements IPersonalView
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PersonalActivity.this, SocialActivity.class);
+                intent.putExtra("data",getUserID());
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        //跳转个人界面
+        personal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PersonalActivity.this, PersonalActivity.class);
                 intent.putExtra("data",getUserID());
                 startActivity(intent);
                 finish();
@@ -194,13 +226,6 @@ public class PersonalActivity extends AppCompatActivity implements IPersonalView
         }
 
     }
-
-    /*@Override
-    protected void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-        initview();
-    }*/
 
     private void initview(){
         //展示运动数据据

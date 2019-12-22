@@ -42,8 +42,10 @@ public class RunningDataAdapter extends RecyclerView.Adapter<RunningDataAdapter.
     public void onBindViewHolder(MyViewHolder holder, int position) {
         //将数据和控件绑定
         holder.running_item_num.setText(running_item_num[position]+"");
-        holder.running_item_distance.setText(running_item_distance[position]+"");
-        holder.running_item_timelength.setText(running_item_timelength[position]+"");
+        holder.running_item_distance.setText(running_item_distance[position]+"m");
+        long run_minute=running_item_timelength[position]/60000;
+        long run_second=(running_item_timelength[position]%60000)/1000;
+        holder.running_item_timelength.setText(run_minute+"min"+run_second+"s");
         holder.running_item_time.setText(running_item_time[position]);
     }
 
