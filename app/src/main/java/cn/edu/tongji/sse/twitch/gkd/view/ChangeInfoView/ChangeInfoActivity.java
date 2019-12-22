@@ -43,6 +43,8 @@ import cn.edu.tongji.sse.twitch.gkd.presenter.ChangeInfoPresenter.IChangeInfoPre
 import cn.edu.tongji.sse.twitch.gkd.view.PersonalView.PersonalActivity;
 import cn.edu.tongji.sse.twitch.gkd.view.UserLoginView.UserLoginActivity;
 
+import static cn.bmob.v3.Bmob.getApplicationContext;
+
 public class ChangeInfoActivity extends AppCompatActivity implements IChangeInfoView{
     private ImageButton returnPersonal;
     private EditText target;
@@ -114,10 +116,7 @@ public class ChangeInfoActivity extends AppCompatActivity implements IChangeInfo
             @Override
             public void onClick(View v) {
                 iChangeInfoPresenter.saveChangeInfo(getUserID(),imagePath,target.getText().toString());
-                Intent intent = new Intent(ChangeInfoActivity.this, PersonalActivity.class);
-                intent.putExtra("data",getUserID());
-                startActivity(intent);
-                finish();
+                Toast.makeText(getApplicationContext(),"修改个人信息成功！",Toast.LENGTH_SHORT).show();
             }
         });
 

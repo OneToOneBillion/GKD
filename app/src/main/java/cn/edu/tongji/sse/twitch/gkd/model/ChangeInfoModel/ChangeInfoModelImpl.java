@@ -63,7 +63,7 @@ public class ChangeInfoModelImpl implements IChangeInfoModel {
                             follow.setaFollowername(followList.get(0).getaFollowername());
                             ArrayList<String> aFollowerIcon=new ArrayList<>();
                             aFollowerIcon=followList.get(0).getaFollowerIcon();
-                            aFollowerIcon.set(0,list.get(0).getAvater());
+                            aFollowerIcon.set(0,savater);
                             follow.setaFollowerIcon(aFollowerIcon);
                             follow.update(followList.get(0).getObjectId(), new UpdateListener() {
                                 @Override
@@ -86,7 +86,7 @@ public class ChangeInfoModelImpl implements IChangeInfoModel {
                                 aFollowerIcon=followedList.get(i).getaFollowerIcon();
                                 for(int j=0;j<followedList.size();j++){
                                     if(userID.equals(followedList.get(i).getaFollowername().get(j))){
-                                        aFollowerIcon.set(j,list.get(0).getAvater());
+                                        aFollowerIcon.set(j,savater);
                                         followed.setaFollowerIcon(aFollowerIcon);
                                     }
                                 }

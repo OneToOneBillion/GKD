@@ -211,9 +211,11 @@ public class RunningActivity extends AppCompatActivity implements IRunningView{
                 mTrackPresenterImpl.stopRun();
 
                 Intent intent = new Intent(RunningActivity.this, RunningResultActivity.class);
-                intent.putExtra("trackId",mTrackPresenterImpl.getTrackId());
-                intent.putExtra("run_time",total_run_time);
-                intent.putExtra("userID",getUserID());
+                Bundle B=new Bundle();
+                B.putLong("trackId",mTrackPresenterImpl.getTrackId());
+                B.putLong("run_time",total_run_time);
+                B.putString("userID",getUserID());
+                intent.putExtra("data",B);
                 startActivity(intent);
                 finish();
             }
