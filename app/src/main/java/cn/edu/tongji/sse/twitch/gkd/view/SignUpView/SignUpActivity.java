@@ -107,7 +107,7 @@ public class SignUpActivity extends AppCompatActivity implements ISignUpView{
             public void onClick(View v) {
                 Intent intent = new Intent(SignUpActivity.this, UserLoginActivity.class);
                 startActivity(intent);
-                onDestroy();
+                finish();
             }
         });
 
