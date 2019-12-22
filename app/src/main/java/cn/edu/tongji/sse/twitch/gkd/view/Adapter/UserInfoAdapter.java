@@ -3,6 +3,7 @@ package cn.edu.tongji.sse.twitch.gkd.view.Adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,8 @@ public class UserInfoAdapter extends RecyclerView.Adapter<UserInfoAdapter.MyView
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         //将数据和控件绑定
-        Bitmap bitmap = BitmapFactory.decodeFile(avater_info[position]);
+        byte [] input = Base64.decode(avater_info[position], Base64.DEFAULT);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(input, 0, input.length);
         holder.avater_info.setImageBitmap(bitmap);
         holder.name_info.setText(name_info[position]);
     }

@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +21,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.ByteArrayOutputStream;
 
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
@@ -39,6 +42,7 @@ public class PostActivity extends AppCompatActivity implements IPostView {
     private IPostPresenter iPostPresenter;
     private static final String TAG = "MainActivity";
     private String imagePath="";
+    private String imageBase64="";
 
     protected static final int CHOOSE_PICTURE = 0;
     private static final int CROP_SMALL_PICTURE = 2;
@@ -70,7 +74,7 @@ public class PostActivity extends AppCompatActivity implements IPostView {
         create_new_post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iPostPresenter.createNewPost(post_content.getText().toString(),getUserID(),imagePath);
+                iPostPresenter.createNewPost(post_content.getText().toString(),getUserID(),imageBase64);
                 Toast.makeText(getApplicationContext(),"发布成功！",Toast.LENGTH_LONG).show();
             }
         });
@@ -170,8 +174,8 @@ public class PostActivity extends AppCompatActivity implements IPostView {
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
         // outputX outputY 是裁剪图片宽高
-        intent.putExtra("outputX", 300);
-        intent.putExtra("outputY", 300);
+        intent.putExtra("outputX", 150);
+        intent.putExtra("outputY", 150);
         intent.putExtra("return-data", true);
         startActivityForResult(intent, CROP_SMALL_PICTURE);
     }
@@ -199,6 +203,13 @@ public class PostActivity extends AppCompatActivity implements IPostView {
         imagePath = ImageUtils.savePhoto(bitmap, Environment
                 .getExternalStorageDirectory().getAbsolutePath(), String
                 .valueOf(System.currentTimeMillis()));
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        //读取图片到ByteArrayOutputStream
+        bitmap.compress(Bitmap.CompressFormat.PNG, 40, baos); //参数如果为100那么就不压缩
+        byte[] bytes = baos.toByteArray();
+        imageBase64 = Base64.encodeToString(bytes, Base64.DEFAULT);
+
         Log.e("imagePath", imagePath+"");
         if(imagePath != null){
             // 拿着imagePath上传了
