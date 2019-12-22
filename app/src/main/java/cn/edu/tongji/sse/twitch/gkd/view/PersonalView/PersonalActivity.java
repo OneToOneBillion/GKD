@@ -56,25 +56,6 @@ public class PersonalActivity extends AppCompatActivity implements IPersonalView
 
     SharedPreferences sysSettingSp;
 
-    private boolean firstLanuch = false;
-    // 刚开始先设为false让其第一次成功启动，让其不会restartActivity()，后面活动返回时才会调用restartActivity()
-    public void onResume(){
-
-        Log.e("MainActivity","onResume is running");
-        //restartActivity(MainActivity.this);
-        super.onResume();
-        if(firstLanuch)
-            restartActivity(PersonalActivity.this);
-        firstLanuch = true;
-    }
-
-    public static void restartActivity(Activity activity){
-        Intent intent = new Intent();
-        intent.setClass(activity, activity.getClass());
-        activity.startActivity(intent);
-        activity.finish();
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);

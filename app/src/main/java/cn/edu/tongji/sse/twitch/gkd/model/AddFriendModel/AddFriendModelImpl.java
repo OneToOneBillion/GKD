@@ -162,7 +162,7 @@ public class AddFriendModelImpl implements IAddFriendModel{
                     public void done(List<User> userList, BmobException e) {
                         boolean isFollowed = false;
                         for (int i = 0; i < list.get(0).getaFollowername().size(); i++) {
-                            if (Followername.equals(list.get(0).getaFollowername().get(i))) {
+                            if (userID.equals(list.get(0).getaFollowername().get(i))) {
                                 isFollowed = true;
                             }
                         }
@@ -172,10 +172,10 @@ public class AddFriendModelImpl implements IAddFriendModel{
                             followed.setaFollowername(list.get(0).getaFollowername());
                             followed.addaFollowername(list.get(0).getaFollowername(), userID);
                             followed.setaFollowerIcon(list.get(0).getaFollowerIcon());
-                            followed.addaFollowerIcon(list.get(0).getaFollowerIcon(),userList.get(0).getAvater() );
-                            followed.save(new SaveListener<String>() {
+                            followed.addaFollowerIcon(list.get(0).getaFollowerIcon(),userList.get(0).getAvater());
+                            followed.update(list.get(0).getObjectId(),new UpdateListener() {
                                 @Override
-                                public void done(String s, BmobException e) {
+                                public void done(BmobException e) {
 
                                 }
                             });

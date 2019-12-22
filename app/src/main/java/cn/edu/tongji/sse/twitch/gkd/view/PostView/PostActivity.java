@@ -71,10 +71,7 @@ public class PostActivity extends AppCompatActivity implements IPostView {
             @Override
             public void onClick(View v) {
                 iPostPresenter.createNewPost(post_content.getText().toString(),getUserID(),imagePath);
-                Intent intent = new Intent(PostActivity.this, SocialActivity.class);
-                intent.putExtra("data",getUserID());
-                startActivity(intent);
-                finish();
+                Toast.makeText(getApplicationContext(),"发布成功！",Toast.LENGTH_LONG).show();
             }
         });
 

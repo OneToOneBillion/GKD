@@ -94,8 +94,13 @@ public class UserLoginActivity extends AppCompatActivity implements IUserLoginVi
                 userBmobQuery.findObjects(new FindListener<User>() {
                     @Override
                     public void done(List<User> list, BmobException e) {
-                        Bitmap bitmap = BitmapFactory.decodeFile(list.get(0).getAvater());
-                        mHeadPortrait.setImageBitmap(bitmap);
+                        if(list.size()==0){
+                            mHeadPortrait.setImageResource(R.drawable.initavater);
+                        }
+                        else {
+                            Bitmap bitmap = BitmapFactory.decodeFile(list.get(0).getAvater());
+                            mHeadPortrait.setImageBitmap(bitmap);
+                        }
                     }
                 });
             }
