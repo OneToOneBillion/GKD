@@ -37,7 +37,6 @@ public class UserModelImpl implements IUserModel {
                     @Override
                     public void done(List<User> list, BmobException e) {
                         if(e==null){
-                            Toast.makeText(getApplicationContext(),"查询成功："+list.size(),Toast.LENGTH_SHORT).show();
                             User user=new User();
                             user.setUsername(username);
                             user.setPassword(password);

@@ -43,22 +43,20 @@ public class RankingListModelImpl implements IRankingListModel {
                     userBmobQuery.findObjects(new FindListener<User>() {
                         @Override
                         public void done(List<User> userList, BmobException e) {
-                            String[] ranking_item_rank=new String[list.size()];
-                            String[] ranking_item_avater=new String[list.size()];
-                            String[] ranking_item_name=new String[list.size()];
-                            for (int i=0;i< list.size();i++){
-                                for(int j=0;j<list.get(i).getaFollowername().size();j++){
-                                    ranking_item_rank[i]="第"+i+"名";
-                                    ranking_item_avater[i]= userList.get(0).getAvater();
-                                    ranking_item_name[i]=list.get(i).getaFollowername().get(j);
-                                }
+                            String[] ranking_item_rank=new String[list.get(0).getaFollowername().size()];
+                            String[] ranking_item_avater=new String[list.get(0).getaFollowername().size()];
+                            String[] ranking_item_name=new String[list.get(0).getaFollowername().size()];
+                            for (int i=0;i< list.get(0).getaFollowername().size();i++){
+                                int m=i+1;
+                                ranking_item_rank[i]="第"+m+"名";
+                                ranking_item_avater[i]= list.get(0).getaFollowerIcon().get(i);
+                                ranking_item_name[i]=list.get(0).getaFollowername().get(i);
                             }
                             rankingListAdapter = new RankingListAdapter(context,ranking_item_rank,ranking_item_avater,ranking_item_name);
                             LinearLayoutManager rank_manager = new LinearLayoutManager(context);
                             rank_manager.setOrientation(RecyclerView.VERTICAL);
                             ranking_list_recyclerView.setLayoutManager(rank_manager);
                             ranking_list_recyclerView.setAdapter(rankingListAdapter);
-                            Toast.makeText(getApplicationContext(),"展示运动排行榜成功",Toast.LENGTH_LONG).show();
                             onShowRankingListener.showRankingSuccess();
                         }
                     });

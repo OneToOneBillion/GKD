@@ -30,7 +30,7 @@ public class PostModelImpl implements IPostModel {
         iPostPresenter=IPostPresenter;
     }
 
-    public void createNewPostInModel(String postContent,String userID,IPostModel.OnPostListener listener){
+    public void createNewPostInModel(String postContent,String userID,String photo,IPostModel.OnPostListener listener){
 
         SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
         Date date = new Date(System.currentTimeMillis());
@@ -38,11 +38,11 @@ public class PostModelImpl implements IPostModel {
         p1.setContent(postContent);
         p1.setUser_id(userID);
         p1.setTime(formatter.format(date));
+        p1.setPhoto(photo);
         p1.save(new SaveListener<String>() {
             @Override
             public void done(String s, BmobException e) {
                 if(e==null){
-                    Toast.makeText(getApplicationContext(),"发布动态成功！",Toast.LENGTH_LONG).show();
                     BmobQuery<User> userBmobQuery=new BmobQuery<>();
                     userBmobQuery.addWhereEqualTo("username",userID);
                     userBmobQuery.findObjects(new FindListener<User>() {

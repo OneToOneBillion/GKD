@@ -4,7 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -16,8 +20,14 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.edu.tongji.sse.twitch.gkd.R;
+import cn.edu.tongji.sse.twitch.gkd.bean.User;
 import cn.edu.tongji.sse.twitch.gkd.presenter.UserLoginPresenter.IUserLoginPresenter;
 import cn.edu.tongji.sse.twitch.gkd.presenter.UserLoginPresenter.UserLoginPresenterImpl;
 import cn.edu.tongji.sse.twitch.gkd.view.RunningView.RunningActivity;
@@ -58,15 +68,38 @@ public class UserLoginActivity extends AppCompatActivity implements IUserLoginVi
 
         mIUserLoginPresenter = new UserLoginPresenterImpl(this);
 
-        //头像框
-        mHeadPortrait=findViewById(R.id.head_portrait_img);
-        mHeadPortrait.setImageResource(R.drawable.default_head_portrait);
-
         mWarning=findViewById(R.id.warningText);
         mWarning.setVisibility(View.INVISIBLE);
 
         mEdtUsername = findViewById(R.id.input_account);
         mEdtPwd = findViewById(R.id.input_password);
+
+        //头像框
+        mHeadPortrait=findViewById(R.id.head_portrait_img);
+        mEdtUsername.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                mHeadPortrait.setImageResource(R.drawable.initavater);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                BmobQuery<User> userBmobQuery=new BmobQuery<>();
+                userBmobQuery.addWhereEqualTo("username",mEdtUsername.getText().toString());
+                userBmobQuery.findObjects(new FindListener<User>() {
+                    @Override
+                    public void done(List<User> list, BmobException e) {
+                        Bitmap bitmap = BitmapFactory.decodeFile(list.get(0).getAvater());
+                        mHeadPortrait.setImageBitmap(bitmap);
+                    }
+                });
+            }
+        });
 
         mCbRememberPasswords = findViewById(R.id.rememberPasswordsBox);
         mCbAutomaticLogin = findViewById(R.id.automaticLoginBox);
