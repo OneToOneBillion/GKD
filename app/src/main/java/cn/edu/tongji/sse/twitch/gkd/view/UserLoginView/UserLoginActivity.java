@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -98,7 +99,8 @@ public class UserLoginActivity extends AppCompatActivity implements IUserLoginVi
                             mHeadPortrait.setImageResource(R.drawable.initavater);
                         }
                         else {
-                            Bitmap bitmap = BitmapFactory.decodeFile(list.get(0).getAvater());
+                            byte [] input = Base64.decode(list.get(0).getAvater(), Base64.DEFAULT);
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(input, 0, input.length);
                             mHeadPortrait.setImageBitmap(bitmap);
                         }
                     }

@@ -1,6 +1,9 @@
 package cn.edu.tongji.sse.twitch.gkd.model.SocialModel;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -44,10 +47,10 @@ public class SocialModelImpl implements ISocialModel {
                         @Override
                         public void done(List<Follow> followList, BmobException e) {
                             int m=0;
-                            String[] post_avater = new String[list.size()];
+                            Bitmap[] post_avater = new Bitmap[list.size()];
                             String[] post_name = new String[list.size()];
                             String[] post_content = new String[list.size()];
-                            String[] post_photo=new String[list.size()];
+                            Bitmap[] post_photo=new Bitmap[list.size()];
                             String[] post_time = new String[list.size()];
                             boolean[] post_likes = new boolean[list.size()];
                             int[] postLikesnum=new int[list.size()];
@@ -55,10 +58,14 @@ public class SocialModelImpl implements ISocialModel {
                             for(int i=0;i<list.size();i++){
                                 for(int j=0;j<followList.get(0).getaFollowername().size();j++){
                                     if(list.get(i).getUser_id().equals(followList.get(0).getaFollowername().get(j))){
-                                        post_avater[m] = followList.get(0).getaFollowerIcon().get(j);
+                                        byte [] inputBase64 = Base64.decode(followList.get(0).getaFollowerIcon().get(j), Base64.DEFAULT);
+                                        Bitmap bitmapBase64 = BitmapFactory.decodeByteArray(inputBase64, 0, inputBase64.length);
+                                        post_avater[m] = bitmapBase64;
                                         post_name[m] = list.get(i).getUser_id();
                                         post_content[m] = list.get(i).getContent();
-                                        post_photo[m]=list.get(i).getPhoto();
+                                        byte [] input = Base64.decode(list.get(i).getPhoto(), Base64.DEFAULT);
+                                        Bitmap bitmap = BitmapFactory.decodeByteArray(input, 0, input.length);
+                                        post_photo[m]=bitmap;
                                         post_time[m] = list.get(i).getTime();
                                         for(int n=0;n<list.get(i).getLikesList().size();n++){
                                             if(userID.equals(list.get(i).getLikesList().get(n))){
@@ -76,10 +83,10 @@ public class SocialModelImpl implements ISocialModel {
                                     }
                                 }
                             }
-                            String[] spost_avater = new String[m];
+                            Bitmap[] spost_avater = new Bitmap[m];
                             String[] spost_name = new String[m];
                             String[] spost_content = new String[m];
-                            String[] spost_photo=new String[m];
+                            Bitmap[] spost_photo=new Bitmap[m];
                             String[] spost_time = new String[m];
                             boolean[] spost_likes = new boolean[m];
                             int[] spostLikesnum=new int[m];

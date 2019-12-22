@@ -88,6 +88,7 @@ public class SystemSettingActivity extends AppCompatActivity implements ISystemS
     @Override
     public void toPersonalView(){
         Intent intent = new Intent(SystemSettingActivity.this, PersonalActivity.class);
+        intent.putExtra("data",getUserID());
         startActivity(intent);
         overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
         finish();
@@ -97,6 +98,13 @@ public class SystemSettingActivity extends AppCompatActivity implements ISystemS
     public void refreshSysSettingView(){
         finish();
         Intent intent = new Intent(SystemSettingActivity.this,SystemSettingActivity.class);
+        intent.putExtra("data",getUserID());
         startActivity(intent);
+        finish();
+    }
+
+    public String getUserID(){
+        Intent intent=getIntent();
+        return intent.getStringExtra("data");
     }
 }

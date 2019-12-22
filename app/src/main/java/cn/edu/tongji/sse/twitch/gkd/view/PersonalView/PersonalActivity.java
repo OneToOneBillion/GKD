@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -170,6 +171,7 @@ public class PersonalActivity extends AppCompatActivity implements IPersonalView
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PersonalActivity.this, SystemSettingActivity.class);
+                intent.putExtra("data",getUserID());
                 startActivity(intent);
                 overridePendingTransition(R.anim.in_from_right,R.anim.out_to_left);
                 finish();
@@ -233,7 +235,8 @@ public class PersonalActivity extends AppCompatActivity implements IPersonalView
                         avater.setImageResource(R.drawable.initavater);
                     }
                     else {
-                        bitmap = BitmapFactory.decodeFile(list.get(0).getAvater());
+                        byte [] input = Base64.decode(list.get(0).getAvater(), Base64.DEFAULT);
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(input, 0, input.length);
                         avater.setImageBitmap(bitmap);
                     }
                 }

@@ -12,6 +12,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +28,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.List;
 
@@ -50,6 +53,7 @@ public class ChangeInfoActivity extends AppCompatActivity implements IChangeInfo
     private TextView neckname;
     private static final String TAG = "MainActivity";
     private String imagePath="";
+    private String imageBase64="";
 
     protected static final int CHOOSE_PICTURE = 0;
     private static final int CROP_SMALL_PICTURE = 2;
@@ -81,7 +85,8 @@ public class ChangeInfoActivity extends AppCompatActivity implements IChangeInfo
             @Override
             public void done(List<User> list, BmobException e) {
                 if(e==null){
-                    Bitmap bitmap = BitmapFactory.decodeFile(list.get(0).getAvater());
+                    byte [] input = Base64.decode(list.get(0).getAvater(), Base64.DEFAULT);
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(input, 0, input.length);
                     show_avater.setImageBitmap(bitmap);
                     target.setText(list.get(0).getTarget());
                 }
@@ -111,7 +116,7 @@ public class ChangeInfoActivity extends AppCompatActivity implements IChangeInfo
         save_change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iChangeInfoPresenter.saveChangeInfo(getUserID(),imagePath,target.getText().toString());
+                iChangeInfoPresenter.saveChangeInfo(getUserID(),imageBase64,target.getText().toString());
                 Toast.makeText(getApplicationContext(),"修改个人信息成功！",Toast.LENGTH_SHORT).show();
             }
         });
@@ -227,6 +232,13 @@ public class ChangeInfoActivity extends AppCompatActivity implements IChangeInfo
         imagePath = ImageUtils.savePhoto(bitmap, Environment
                 .getExternalStorageDirectory().getAbsolutePath(), String
                 .valueOf(System.currentTimeMillis()));
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        //读取图片到ByteArrayOutputStream
+        bitmap.compress(Bitmap.CompressFormat.PNG, 40, baos); //参数如果为100那么就不压缩
+        byte[] bytes = baos.toByteArray();
+        imageBase64 = Base64.encodeToString(bytes,Base64.DEFAULT);
+
         Log.e("imagePath", imagePath+"");
         if(imagePath != null){
             // 拿着imagePath上传了
