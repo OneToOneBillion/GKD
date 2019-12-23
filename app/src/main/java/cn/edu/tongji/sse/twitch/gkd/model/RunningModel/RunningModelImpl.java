@@ -29,7 +29,7 @@ public class RunningModelImpl implements IRunningModel{
 
     public void addRunData(String userID,long run_time,String rundistance,OnAddlistener onAddlistener){
         double run_distance = Double.valueOf(rundistance);
-        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss");
         Date date = new Date(System.currentTimeMillis());
         Run run=new Run();
         run.setsUsername(userID);
