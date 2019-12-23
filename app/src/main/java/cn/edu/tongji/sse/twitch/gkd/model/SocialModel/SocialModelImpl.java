@@ -52,7 +52,7 @@ public class SocialModelImpl implements ISocialModel {
                             String[] post_content = new String[list.size()];
                             Bitmap[] post_photo=new Bitmap[list.size()];
                             String[] post_time = new String[list.size()];
-                            boolean[] post_likes = new boolean[list.size()];
+                            int[] post_likes = new int[list.size()];
                             int[] postLikesnum=new int[list.size()];
                             boolean isFollowed=false;
                             for(int i=0;i<list.size();i++){
@@ -73,13 +73,14 @@ public class SocialModelImpl implements ISocialModel {
                                             }
                                         }
                                         if(isFollowed){
-                                            post_likes[m] =true;
+                                            post_likes[m] =R.drawable.like_after;
                                         }
                                         else {
-                                            post_likes[m] = false;
+                                            post_likes[m] = R.drawable.like_before;
                                         }
                                         postLikesnum[m]=list.get(i).getLikes();
                                         m=m+1;
+                                        isFollowed=false;
                                     }
                                 }
                             }
@@ -88,7 +89,7 @@ public class SocialModelImpl implements ISocialModel {
                             String[] spost_content = new String[m];
                             Bitmap[] spost_photo=new Bitmap[m];
                             String[] spost_time = new String[m];
-                            boolean[] spost_likes = new boolean[m];
+                            int[] spost_likes = new int[m];
                             int[] spostLikesnum=new int[m];
                             System.arraycopy(post_avater,0,spost_avater,0,m);
                             System.arraycopy(post_name,0,spost_name,0,m);
