@@ -32,7 +32,7 @@ public class PostModelImpl implements IPostModel {
 
     public void createNewPostInModel(String postContent,String userID,String photo,IPostModel.OnPostListener listener){
 
-        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss");
         Date date = new Date(System.currentTimeMillis());
         Post p1=new Post();
         p1.setContent(postContent);

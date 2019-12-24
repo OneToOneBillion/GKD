@@ -1,9 +1,5 @@
 package cn.edu.tongji.sse.twitch.gkd.presenter.TrackPresenter;
 
-import com.amap.api.track.query.entity.Point;
-
-import java.util.List;
-
 import cn.edu.tongji.sse.twitch.gkd.model.TrackModel.ITrackModel;
 import cn.edu.tongji.sse.twitch.gkd.model.TrackModel.TrackModelImpl;
 import cn.edu.tongji.sse.twitch.gkd.view.RunningView.IRunningView;

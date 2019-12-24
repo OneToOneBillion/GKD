@@ -58,7 +58,7 @@
 
     <!--PersonalView-->
     <string name="person_en">Personal Information</string>
-    <string name="person_cn">我</string>
+    <string name="person_cn">个人信息</string>
 
     <!--PostView-->
     <string name="create_post_en">Create Post</string>

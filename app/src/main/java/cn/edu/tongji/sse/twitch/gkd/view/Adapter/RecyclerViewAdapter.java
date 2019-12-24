@@ -30,7 +30,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     String[] post_content;
     Bitmap[] post_photo;
     String[] post_time;
-    boolean[] post_likes;
+    int[] post_likes;
     int[] postLikesnum;
     String username;
 
@@ -38,7 +38,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public RecyclerViewAdapter(String username,Context context,Bitmap[] post_avater,
                                String[] post_name,String[] post_content,
                                Bitmap[] post_photo, String[] post_time,
-                               boolean[] post_likes,int[] postLikesnum){
+                               int[] post_likes,int[] postLikesnum){
         iSocialPresenter=new SocialPresenterImpl(this);
         this.username=username;
         this.context = context;
@@ -69,8 +69,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         //Bitmap photoBitmap = BitmapFactory.decodeFile(post_photo[position]);
         holder.post_photo.setImageBitmap(post_photo[position]);
         holder.post_time.setText(post_time[position]);
-        if(post_likes[position]){
-            holder.post_likes.setBackgroundResource(R.drawable.like_after);
+        holder.post_likes.setBackgroundResource(post_likes[position]);
+        if(post_likes[position]==R.drawable.like_after){
             holder.post_likes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -81,7 +81,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             });
         }
         else {
-            holder.post_likes.setBackgroundResource(R.drawable.like_before);
             holder.post_likes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -146,13 +145,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             switch (v.getId()){
                 case R.id.post_likes:
                     mOnItemClickListener.onItemClick(v, ViewName.PRACTISE, position);
-                    if(!post_likes[position]){
+                    if(post_likes[position]==R.drawable.like_before){
                         iSocialPresenter.addPostLikes(post_name[position],post_time[position],username);
-                        post_likes[position]=true;
+                        post_likes[position]=R.drawable.like_after;
                     }
                     else{
                         iSocialPresenter.deletePostLikes(post_name[position],post_time[position],username);
-                        post_likes[position]=false;
+                        post_likes[position]=R.drawable.like_before;
                     }
                     break;
                 default:

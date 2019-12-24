@@ -50,7 +50,7 @@
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="dca91d5b353bd618b3357b91a911f6a3" />
+            android:value="8e841b6d8a080ad186a03e442144b736" />
 
         <activity android:name=".view.BlankView.BlankActivity">
             <intent-filter>
@@ -90,6 +90,7 @@
         <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
         <service android:name="com.amap.api.track.AMapTrackService"/>
         <service android:name="com.amap.api.location.APSService"/>
+
     </application>
 
 </manifest>

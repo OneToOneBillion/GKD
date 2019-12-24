@@ -90,8 +90,10 @@ public class RunningResultActivity extends AppCompatActivity implements IRunning
         TextView distanceText=(TextView)findViewById(R.id.distance);
         textureMapView = findViewById(R.id.showMap);
         textureMapView.onCreate(savedInstanceState);
-        Intent intent=getIntent();
-        trackId=intent.getLongExtra("trackId",0);
+
+        trackId=getTrackId();
+        Log.w("111111111111111",Long.toString(trackId));
+
         btn_punchin=findViewById(R.id.btn_punchin);
         btn_revert=findViewById(R.id.revertBtn);
 
@@ -226,12 +228,12 @@ public class RunningResultActivity extends AppCompatActivity implements IRunning
                 if (queryTerminalResponse.isSuccess()) {
                     if (queryTerminalResponse.isTerminalExist()) {
                         long tid = queryTerminalResponse.getTid();
-                        // 搜索最近12小时以内上报的属于某个轨迹的轨迹点信息，散点上报不会包含在该查询结果中
+                        // 搜索最近24小时以内上报的属于某个轨迹的轨迹点信息，散点上报不会包含在该查询结果中
                         QueryTrackRequest queryTrackRequest = new QueryTrackRequest(
                                 Constants.SERVICE_ID,
                                 tid,
                                 trackId,     // 轨迹id，不指定，查询所有轨迹，注意分页仅在查询特定轨迹id时生效，查询所有轨迹时无法对轨迹点进行分页
-                                System.currentTimeMillis() - 12 * 60 * 60 * 1000,
+                                System.currentTimeMillis() - 24 * 60 * 60 * 1000,
                                 System.currentTimeMillis(),
                                 0,      // 不启用去噪
                                 0,   // 绑路
@@ -352,7 +354,7 @@ public class RunningResultActivity extends AppCompatActivity implements IRunning
                         DistanceRequest distanceRequest = new DistanceRequest(
                                 Constants.SERVICE_ID,
                                 terminalId,
-                                curr - 12 * 60 * 60 * 1000, // 开始时间
+                                curr - 24 * 60 * 60 * 1000, // 开始时间
                                 curr,   // 结束时间
                                 trackId  // 轨迹id
                         );

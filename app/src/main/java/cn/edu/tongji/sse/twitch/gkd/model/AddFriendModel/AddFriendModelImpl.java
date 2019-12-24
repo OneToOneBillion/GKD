@@ -209,7 +209,7 @@ public class AddFriendModelImpl implements IAddFriendModel{
                                             isFollowed = true;
                                         }
                                     }
-                                    if (!isFollowed) {
+                                    if (isFollowed) {
                                         Follow follow = new Follow();
                                         follow.setsUsername(userID);
                                         follow.setaFollowername(querylist.get(0).getaFollowername());
@@ -286,7 +286,7 @@ public class AddFriendModelImpl implements IAddFriendModel{
                                 isFollowed = true;
                             }
                         }
-                        if (!isFollowed) {
+                        if (isFollowed) {
                             Followed followed = new Followed();
                             followed.setsUsername(Followername);
                             followed.setaFollowername(list.get(0).getaFollowername());
