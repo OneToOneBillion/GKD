@@ -8,6 +8,11 @@ JDK：1.8
 开发框架：Mvp  
 插件：Lint  
 
+注意事项：寻迹服务和轨迹生成功能采用高德sdk，若需使用，需要前往高德官网申请Key，详情请看  
+https://lbs.amap.com/api/android-sdk/guide/create-project/get-key  
+（注意获取的sha1值是android studio路径下的）  
+获取key后，使用新获取的key修改AndroidManifest文件中的meta-data的value值即可。  
+
 主要实现用例：  
 注册与登录、设置个人信息、生成运动路线、生成运动数据、运动时播放BGM、运动提醒助手、发布个人动态、粉丝与关注、展示好友运动排行榜、运动完成后打卡、查看朋友圈、中英文切换。  
 
