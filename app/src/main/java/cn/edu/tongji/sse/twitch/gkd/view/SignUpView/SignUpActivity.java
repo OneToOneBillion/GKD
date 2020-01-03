@@ -62,15 +62,19 @@ public class SignUpActivity extends AppCompatActivity implements ISignUpView{
                 mPassword=getPassword();
 
                 BmobQuery<User> userBmobQuery=new BmobQuery<>();
+                userBmobQuery.addWhereEqualTo("username",mUserName);
                 userBmobQuery.findObjects(new FindListener<User>() {
                     @Override
                     public void done(List<User> list, BmobException e) {
                         if(e==null){
                             boolean isExists=false;
-                            for(int i=0;i<list.size();i++) {
-                                if (mUserName.equals(list.get(i).getUsername())) {
-                                    isExists = true;
-                                }
+//                            for(int i=0;i<list.size();i++) {
+//                                if (mUserName.equals(list.get(i).getUsername())) {
+//                                    isExists = true;
+//                                }
+//                            }
+                            if(list.size()==1){
+                                isExists=true;
                             }
                             //(!!!添加逻辑)
                             //(!!!判断用户名是否已经存在)
@@ -95,6 +99,9 @@ public class SignUpActivity extends AppCompatActivity implements ISignUpView{
                                     input_sign_up_password_again.setBackgroundResource(R.drawable.input_warning);
                                 }
                             }
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(),"查找用户失败："+e.getMessage(),Toast.LENGTH_LONG).show();
                         }
                     }
                 });
